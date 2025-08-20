@@ -9,6 +9,7 @@
     repeating-linear-gradient(0deg, rgba(0,0,0,1) 0 1px, transparent 1px 3px),
     repeating-linear-gradient(90deg, rgba(0,0,0,1) 0 1px, transparent 1px 3px);
   mix-blend-mode: multiply;
+  opacity: 0.9;
 }
 
 /* Light theme pixel overlay */
@@ -16,7 +17,14 @@
   background:
     repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0 1px, transparent 1px 3px),
     repeating-linear-gradient(90deg, rgba(0,0,0,0.1) 0 1px, transparent 1px 3px);
-  mix-blend-mode: normal;
+  mix-blend-mode: multiply;
+}
+
+/* Mobile dark mode pixel overlay - lighter opacity */
+@media (max-width: 768px) {
+  .dark .pixel-overlay {
+    opacity: 0.4;
+  }
 }
 @import "tailwindcss";
 @import "tw-animate-css";
