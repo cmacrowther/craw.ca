@@ -8,15 +8,18 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-space-grotesk",
+  preload: false, // Don't preload to reduce initial load
 })
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-dm-sans",
+  preload: false, // Don't preload to reduce initial load
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://cmacrowther.com'),
   title: "Colin Crowther - Developer Portfolio",
   description:
     "Full-stack developer and software engineer portfolio showcasing modern web applications and innovative projects.",

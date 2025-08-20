@@ -24,18 +24,33 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
     const element = ref.current;
     if (!element || typeof window === 'undefined') return;
 
-    // Dynamically import Splitting only on client side
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      element.style.opacity = '1';
+      element.style.transform = 'none';
+      return;
+    }
+
+    // Lazy load Splitting.js only when needed and supported
     let Splitting: any = null;
-    import('splitting').then((module) => {
-      Splitting = module.default;
-      
-      // Initialize Splitting.js on text elements
-      const textElements = element.querySelectorAll('[data-splitting]');
-      if (textElements.length > 0 && Splitting) {
-        Splitting({ target: textElements });
+    const loadSplitting = async () => {
+      try {
+        const module = await import('splitting');
+        Splitting = module.default;
+        
+        // Initialize Splitting.js on text elements
+        const textElements = element.querySelectorAll('[data-splitting]');
+        if (textElements.length > 0 && Splitting) {
+          Splitting({ target: textElements });
+        }
+      } catch (error) {
+        // Fallback if splitting fails to load - just show content
+        element.style.opacity = '1';
+        element.style.transform = 'none';
+        return;
       }
-    }).catch(() => {
-      // Fallback if splitting fails to load
+    }
       console.warn('Splitting.js failed to load');
     });
 

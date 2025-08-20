@@ -1,0 +1,11 @@
+{
+  "extends": "./package.json",
+  "scripts": {
+    "build": "next build",
+    "build:analyze": "ANALYZE=true next build",
+    "dev": "next dev",
+    "lint": "next lint",
+    "start": "next start",
+    "optimize-images": "next-optimized-images"
+  }
+}

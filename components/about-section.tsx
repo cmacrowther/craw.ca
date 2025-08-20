@@ -2,9 +2,18 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { GLBViewer } from "./glb-viewer"
 import { ParticleBackground } from "./particle-background"
-import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/use-scroll-animation"
+import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/use-scroll-animation-optimized"
+import { LazyLoadWrapper } from "./lazy-load-wrapper"
+import { lazyComponent } from "./lazy-load-wrapper"
+
+// Lazy load 3D viewer to reduce initial bundle
+const GLBViewer = lazyComponent(
+  () => import('./glb-viewer').then(m => ({ default: m.GLBViewer })),
+  <div className="w-full h-80 bg-muted animate-pulse rounded-xl flex items-center justify-center">
+    <span className="text-muted-foreground">Loading 3D model...</span>
+  </div>
+)
 
 const skills = [
   "Java",
@@ -69,7 +78,9 @@ export function AboutSection() {
           {/* GLB viewer for mobile - positioned above header */}
           <div data-animate className="md:hidden flex justify-center mb-8">
             <div className="w-64 h-48 animate-scale-in" style={{ overflow: 'visible' }}>
-              <GLBViewer modelUrl="/model.glb" className="rounded-lg" />
+              <LazyLoadWrapper minHeight="192px">
+                <GLBViewer modelUrl="/model.glb" className="rounded-lg" />
+              </LazyLoadWrapper>
             </div>
           </div>
           
@@ -115,7 +126,9 @@ export function AboutSection() {
 
           <div data-animate className="hidden md:flex justify-center animate-slide-right">
             <div className="w-full h-96" style={{ overflow: 'visible' }}>
-              <GLBViewer modelUrl="/model.glb" className="rounded-lg" />
+              <LazyLoadWrapper minHeight="384px">
+                <GLBViewer modelUrl="/model.glb" className="rounded-lg" />
+              </LazyLoadWrapper>
             </div>
           </div>
         </div>

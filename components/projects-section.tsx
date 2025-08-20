@@ -4,7 +4,9 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Github, X } from "lucide-react";
-import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/use-scroll-animation";
+import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/use-scroll-animation-optimized";
+import { OptimizedImage } from "./optimized-image";
+import { OptimizedVideo } from "./optimized-video";
 
 interface Project {
   id: number;
@@ -27,7 +29,7 @@ const projects: Project[] = [
     description: "Real-time multiplayer music quiz with live leaderboard",
     longDescription:
       "TuneIQ is a real-time, multiplayer music quiz built with Next.js + TypeScript + Socket.IO. Players join rooms, answer music trivia together, and watch the live leaderboard and chat update in sync.",
-    image: "/tuneiq-video.gif",
+    image: "/tuneiq.png",
     video: "/tuneiq-video.mp4",
     technologies: ["Next.js", "TypeScript", "Socket.IO"],
     githubUrl: "https://gitlab.com/cmacrowther/tuneiq",
@@ -54,7 +56,7 @@ const projects: Project[] = [
     description: "Static website for indie band with modern design",
     longDescription:
       "A beautifully crafted static website created for my band, Heather. Features a clean, modern design that perfectly captures the band's aesthetic.",
-    image: "/heather-video.gif",
+    image: "/songwriter.png",
     video: "/heather-video.mp4",
     technologies: ["Gatsby", "React"],
     liveUrl: "https://heatherband.ca/",
@@ -147,19 +149,27 @@ export function ProjectsSection() {
                   {/* Background Image/Video */}
                   <div className="absolute inset-0">
                     {project.video ? (
-                      <video
+                      <OptimizedVideo
                         src={project.video}
+                        poster={project.image}
+                        alt={project.title}
                         autoPlay
                         loop
                         muted
-                        playsInline
+                        preload="metadata"
                         className="w-full h-full object-cover"
+                        quality="medium"
                       />
                     ) : (
-                      <img
+                      <OptimizedImage
                         src={project.image || "/placeholder.svg"}
                         alt={project.title}
+                        width={800}
+                        height={600}
                         className="w-full h-full object-cover"
+                        quality={75}
+                        loading="lazy"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                     )}
                   </div>
@@ -283,19 +293,26 @@ export function ProjectsSection() {
                       </div>
                     </div>
                   ) : selectedProject.video ? (
-                    <video
+                    <OptimizedVideo
                       src={selectedProject.video}
+                      poster={selectedProject.image}
+                      alt={selectedProject.title}
                       autoPlay
                       loop
                       muted
-                      playsInline
+                      preload="metadata"
                       className="w-full h-full object-cover"
+                      quality="high"
                     />
                   ) : (
-                    <img
+                    <OptimizedImage
                       src={selectedProject.image || "/placeholder.svg"}
                       alt={selectedProject.title}
+                      width={1200}
+                      height={800}
                       className="w-full h-full object-cover"
+                      quality={85}
+                      priority
                     />
                   )}
                   

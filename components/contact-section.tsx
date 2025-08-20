@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Mail, MapPin, Phone } from "lucide-react"
-import { useScrollAnimation } from "@/hooks/use-scroll-animation"
+import { useScrollAnimation } from "@/hooks/use-scroll-animation-optimized"
 import { PaperAirplaneBackground } from "./paper-airplane-background"
 
 export function ContactSection() {
