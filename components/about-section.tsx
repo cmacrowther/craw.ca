@@ -44,11 +44,16 @@ export function AboutSection() {
       
       <div className="container mx-auto max-w-6xl relative z-10">
         <div className="text-center mb-16">
-          <span className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-full mb-4 text-white animate-gradient-badge dark:animate-gradient-badge light:animate-gradient-badge-light">
-            <svg className="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-            Meet the Developer
+          <span 
+            className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-full mb-4 text-white relative overflow-hidden"
+            style={{
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%)',
+              backgroundSize: '300% 300%',
+              animation: 'gradient-xy 4s ease-in-out infinite',
+            }}
+          >
+            <div className="w-4 h-4 mr-2 flex items-center justify-center text-sm animate-wave">👋</div>
+            About the Human
           </span>
           
           {/* GLB viewer for mobile - positioned above header */}

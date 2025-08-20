@@ -35,9 +35,16 @@ export function ContactSection() {
     <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-16">
-          <span className="inline-flex items-center px-3 py-1 text-sm font-medium text-white rounded-full mb-4 animate-gradient-badge">
+          <span 
+            className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-full mb-4 text-white relative overflow-hidden"
+            style={{
+              background: 'linear-gradient(45deg, #ff6b6b, #ee5a24, #ff9ff3, #54a0ff, #5f27cd)',
+              backgroundSize: '400% 400%',
+              animation: 'gradient-pulse 3s ease-in-out infinite',
+            }}
+          >
             <svg 
-              className="w-4 h-4 mr-1 animate-phone-shake" 
+              className="w-4 h-4 mr-2 animate-pulse" 
               xmlns="http://www.w3.org/2000/svg" 
               fill="none" 
               viewBox="0 0 24 24" 
@@ -47,10 +54,10 @@ export function ContactSection() {
                 strokeLinecap="round" 
                 strokeLinejoin="round" 
                 strokeWidth={2} 
-                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" 
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" 
               />
             </svg>
-            Call Me Maybe?
+            Let's Connect
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4">Get In Touch</h2>
           <p className="text-lg text-muted-foreground font-body max-w-2xl mx-auto">
