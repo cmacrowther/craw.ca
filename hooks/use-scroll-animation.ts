@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from 'react';
-import Splitting from 'splitting';
 
 interface UseScrollAnimationOptions {
   threshold?: number;
@@ -23,13 +22,22 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
 
   useEffect(() => {
     const element = ref.current;
-    if (!element) return;
+    if (!element || typeof window === 'undefined') return;
 
-    // Initialize Splitting.js on text elements
-    const textElements = element.querySelectorAll('[data-splitting]');
-    if (textElements.length > 0) {
-      Splitting({ target: textElements });
-    }
+    // Dynamically import Splitting only on client side
+    let Splitting: any = null;
+    import('splitting').then((module) => {
+      Splitting = module.default;
+      
+      // Initialize Splitting.js on text elements
+      const textElements = element.querySelectorAll('[data-splitting]');
+      if (textElements.length > 0 && Splitting) {
+        Splitting({ target: textElements });
+      }
+    }).catch(() => {
+      // Fallback if splitting fails to load
+      console.warn('Splitting.js failed to load');
+    });
 
     // Set initial states for animations - hide elements that should be animated
     const animateElements = element.querySelectorAll('[data-animate]');

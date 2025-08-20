@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Menu, X, Github, Linkedin, Mail, GitMerge, Container } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
-import Splitting from "splitting"
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -27,80 +26,106 @@ export function Header() {
   useEffect(() => {
     // Initialize splitting.js animations
     const timer = setTimeout(() => {
-      // Animate header text first
-      if (headerTextRef.current && headerText) {
-        headerTextRef.current.classList.remove('header-logo-hidden')
-        headerTextRef.current.classList.add('header-logo-visible')
+      // Dynamically import Splitting only on client side
+      import('splitting').then((module) => {
+        const Splitting = module.default;
         
-        // Target only the text span for splitting.js
-        const textSpan = headerTextRef.current.querySelector('.header-text-only')
-        if (textSpan) {
-          Splitting({
-            target: textSpan,
-            by: 'chars'
-          })
+        // Animate header text first
+        if (headerTextRef.current && headerText) {
+          headerTextRef.current.classList.remove('header-logo-hidden')
+          headerTextRef.current.classList.add('header-logo-visible')
           
-          requestAnimationFrame(() => {
-            textSpan.classList.add('splitting-animation')
-          })
-        }
-
-        // Ensure maple leaf animation completes properly
-        const mapleLeaf = headerTextRef.current.querySelector('.maple-leaf-animate')
-        if (mapleLeaf) {
-          setTimeout(() => {
-            mapleLeaf.classList.add('animation-complete')
-          }, 2500) // After entrance animation is complete
-        }
-      }
-
-      // Animate navigation links after a delay
-      setTimeout(() => {
-        if (navRef.current) {
-          navRef.current.classList.remove('nav-hidden')
-          navRef.current.classList.add('nav-visible')
-          
-          const navLinks = navRef.current.querySelectorAll('a')
-          navLinks.forEach((link, index) => {
-            link.classList.remove('nav-item-hidden')
-            link.classList.add('nav-item-visible')
-            
+          // Target only the text span for splitting.js
+          const textSpan = headerTextRef.current.querySelector('.header-text-only')
+          if (textSpan) {
             Splitting({
-              target: link,
+              target: textSpan,
               by: 'chars'
             })
             
             requestAnimationFrame(() => {
-              link.classList.add('splitting-animation-nav')
-              link.style.setProperty('--nav-delay', `${index * 0.15}s`)
+              textSpan.classList.add('splitting-animation')
             })
-          })
-        }
-      }, 500) // Start nav animation after 500ms
+          }
 
-      // Animate action buttons last
-      setTimeout(() => {
+          // Ensure maple leaf animation completes properly
+          const mapleLeaf = headerTextRef.current.querySelector('.maple-leaf-animate')
+          if (mapleLeaf) {
+            setTimeout(() => {
+              mapleLeaf.classList.add('animation-complete')
+            }, 2500) // After entrance animation is complete
+          }
+        }
+
+        // Animate navigation links after a delay
+        setTimeout(() => {
+          if (navRef.current) {
+            navRef.current.classList.remove('nav-hidden')
+            navRef.current.classList.add('nav-visible')
+            
+            const navLinks = navRef.current.querySelectorAll('a')
+            navLinks.forEach((link, index) => {
+              link.classList.remove('nav-item-hidden')
+              link.classList.add('nav-item-visible')
+              
+              Splitting({
+                target: link,
+                by: 'chars'
+              })
+              
+              requestAnimationFrame(() => {
+                link.classList.add('splitting-animation-nav')
+                link.style.setProperty('--nav-delay', `${index * 0.15}s`)
+              })
+            })
+          }
+        }, 500) // Start nav animation after 500ms
+
+        // Animate action buttons last
+        setTimeout(() => {
+          if (actionsRef.current) {
+            actionsRef.current.classList.remove('actions-hidden')
+            actionsRef.current.classList.add('actions-visible')
+            
+            // Don't use splitting.js on icons - just animate them directly
+            const actionIcons = actionsRef.current.querySelectorAll('.action-icon')
+            actionIcons.forEach((icon, index) => {
+              if (icon instanceof HTMLElement) {
+                icon.classList.add('action-icon-animate')
+                icon.style.setProperty('--action-delay', `${index * 0.1}s`)
+              }
+            })
+          }
+
+          // Animate mobile controls at the same time as desktop actions
+          if (typeof document !== 'undefined') {
+            const mobileControls = document.querySelector('.mobile-controls-hidden')
+            if (mobileControls instanceof HTMLElement) {
+              mobileControls.classList.remove('mobile-controls-hidden')
+              mobileControls.classList.add('mobile-controls-visible')
+            }
+          }
+        }, 1000) // Start action buttons after 1000ms
+      }).catch(() => {
+        // Fallback animation without splitting.js if it fails to load
+        console.warn('Splitting.js failed to load - using fallback animations');
+        
+        // Still run basic animations even if splitting fails
+        if (headerTextRef.current && headerText) {
+          headerTextRef.current.classList.remove('header-logo-hidden')
+          headerTextRef.current.classList.add('header-logo-visible')
+        }
+        
+        if (navRef.current) {
+          navRef.current.classList.remove('nav-hidden')
+          navRef.current.classList.add('nav-visible')
+        }
+        
         if (actionsRef.current) {
           actionsRef.current.classList.remove('actions-hidden')
           actionsRef.current.classList.add('actions-visible')
-          
-          // Don't use splitting.js on icons - just animate them directly
-          const actionIcons = actionsRef.current.querySelectorAll('.action-icon')
-          actionIcons.forEach((icon, index) => {
-            if (icon instanceof HTMLElement) {
-              icon.classList.add('action-icon-animate')
-              icon.style.setProperty('--action-delay', `${index * 0.1}s`)
-            }
-          })
         }
-
-        // Animate mobile controls at the same time as desktop actions
-        const mobileControls = document.querySelector('.mobile-controls-hidden')
-        if (mobileControls instanceof HTMLElement) {
-          mobileControls.classList.remove('mobile-controls-hidden')
-          mobileControls.classList.add('mobile-controls-visible')
-        }
-      }, 1000) // Start action buttons after 1000ms
+      })
     }, 300) // Initial delay to ensure everything is rendered
 
     return () => clearTimeout(timer)
