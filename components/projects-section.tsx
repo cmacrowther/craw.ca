@@ -131,25 +131,17 @@ export function ProjectsSection() {
         </div>
 
         <div ref={gridRef} className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-12 gap-4 auto-rows-[200px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProjects.map((project, index) => {
-              const layouts = [
-                "col-span-12 md:col-span-6 row-span-2",
-                "col-span-12 md:col-span-4 row-span-2", 
-                "col-span-12 md:col-span-8 row-span-1",
-                "col-span-12 md:col-span-4 row-span-3",
-                "col-span-12 md:col-span-6 row-span-2",
-                "col-span-12 md:col-span-8 row-span-2",
-              ];
-
-              const layout = layouts[index % layouts.length];
-              const isLarge = layout.includes("row-span-3") || layout.includes("col-span-8");
+              // All cards now use the same layout as the first card
+              const layout = "col-span-1";
+              const isLarge = false; // All cards are now uniform size
 
               return (
                 <div
                   key={project.id}
                   data-stagger
-                  className={`${layout} group cursor-pointer relative overflow-hidden rounded-3xl transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl`}
+                  className={`${layout} group cursor-pointer relative overflow-hidden rounded-3xl transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl h-[400px]`}
                   onClick={() => setSelectedProject(project)}
                 >
                   {/* Background Image/Video */}
@@ -176,7 +168,7 @@ export function ProjectsSection() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/90 group-hover:via-black/30 transition-all duration-500" />
 
                   {/* Content Overlay */}
-                  <div className="relative h-full p-6 flex flex-col justify-between">
+                  <div className="relative h-full p-6">
                     <div className="flex items-center gap-2">
                       <div className="text-xs font-medium text-white/90 bg-white/20 backdrop-blur-sm px-2 py-1 rounded-full border border-white/20">
                         {project.year}
@@ -186,28 +178,45 @@ export function ProjectsSection() {
                       </Badge>
                     </div>
 
-                    <div className="mt-auto">
-                      <h3
-                        className={`font-bold text-white mb-3 transition-colors ${
-                          isLarge ? "text-2xl md:text-3xl" : "text-xl md:text-2xl"
-                        }`}
-                      >
-                        {project.title}
-                      </h3>
+                    {/* Bottom content positioned absolutely to ensure consistent alignment */}
+                    <div className="absolute bottom-6 left-6 right-6">
+                      <div className="mb-4">
+                        <h3 
+                          className="font-bold text-white transition-colors text-xl md:text-2xl"
+                          style={{
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden',
+                            lineHeight: '1.2'
+                          }}
+                        >
+                          {project.title}
+                        </h3>
 
-                      <p className={`text-white/80 leading-relaxed mb-4 ${isLarge ? "text-base" : "text-sm"}`}>
-                        {project.description}
-                      </p>
+                        <p 
+                          className="text-white/80 leading-relaxed text-sm"
+                          style={{
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden',
+                            lineHeight: '1.25rem'
+                          }}
+                        >
+                          {project.description}
+                        </p>
+                      </div>
 
-                      <div className="flex flex-wrap gap-1 mb-4">
-                        {project.technologies.slice(0, isLarge ? 5 : 3).map((tech) => (
+                      <div className="flex flex-wrap gap-1 mb-3">
+                        {project.technologies.slice(0, 3).map((tech) => (
                           <Badge key={tech} variant="secondary" className="text-xs bg-white/20 backdrop-blur-sm text-white/90 border border-white/20">
                             {tech}
                           </Badge>
                         ))}
-                        {project.technologies.length > (isLarge ? 5 : 3) && (
+                        {project.technologies.length > 3 && (
                           <Badge variant="outline" className="text-xs bg-white/10 backdrop-blur-sm border-white/30 text-white/80">
-                            +{project.technologies.length - (isLarge ? 5 : 3)}
+                            +{project.technologies.length - 3}
                           </Badge>
                         )}
                       </div>
