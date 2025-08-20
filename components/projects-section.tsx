@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { BaffleText } from "@/components/ui/baffle-text";
 import { ExternalLink, Github, X } from "lucide-react";
 
 interface Project {
@@ -97,7 +98,14 @@ export function ProjectsSection() {
             Portfolio Showcase
           </span>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4">Featured Work</h2>
+          <BaffleText 
+            text="Featured Work"
+            className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4"
+            speed={100}
+            revealDelay={600}
+            characters="█▓▒░<.?/#!@&*"
+            variant="title"
+          />
           <p className="text-lg text-muted-foreground font-body max-w-2xl mx-auto">
             A collection of projects that showcase my passion for creating meaningful digital experiences
           </p>

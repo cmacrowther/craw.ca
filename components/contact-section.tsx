@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { BaffleText } from "@/components/ui/baffle-text"
 import { Mail, MapPin, Phone } from "lucide-react"
 
 export function ContactSection() {
@@ -59,7 +60,14 @@ export function ContactSection() {
             </svg>
             Let's Connect
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4">Get In Touch</h2>
+          <BaffleText 
+            text="Get In Touch"
+            className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4"
+            speed={100}
+            revealDelay={600}
+            characters="█▓▒░<.?/#!@&*"
+            variant="title"
+          />
           <p className="text-lg text-muted-foreground font-body max-w-2xl mx-auto">
             Have a project in mind or want to collaborate? I'd love to hear from you.
           </p>
@@ -71,8 +79,7 @@ export function ContactSection() {
             <div>
               <h3 className="text-2xl font-heading font-semibold mb-6">Let's Connect</h3>
               <p className="font-body text-base leading-relaxed text-muted-foreground mb-8">
-                I'm always interested in new opportunities and exciting projects. Whether you have a question or just
-                want to say hi, feel free to reach out!
+                I'm always interested in new opportunities and exciting projects. Whether you have a question or just want to say hi, feel free to reach out!
               </p>
             </div>
 

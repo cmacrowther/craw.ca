@@ -2,6 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { BaffleText } from "@/components/ui/baffle-text"
 import { GLBViewer } from "./glb-viewer"
 import { ParticleBackground } from "./particle-background"
 
@@ -63,7 +64,14 @@ export function AboutSection() {
             </div>
           </div>
           
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4">About Me</h2>
+          <BaffleText 
+            text="About Me"
+            className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4"
+            speed={100}
+            revealDelay={600}
+            characters="█▓▒░<.?/#!@&*"
+            variant="title"
+          />
           <p className="text-lg text-muted-foreground font-body max-w-2xl mx-auto">
             Passionate about creating digital experiences that make a difference
           </p>
@@ -76,7 +84,7 @@ export function AboutSection() {
                 I am a full-stack developer with a creative edge, combining technical expertise with an eye for design. I believe the best software is not only functional but also intuitive, accessible, and guided by core UX principles.
               </p>
               <br />
-              <p>
+              <p className="font-body text-base leading-relaxed text-foreground">
                 During the day, I work as a Java developer on enterprise-level systems. In the evenings, I focus on bleeding-edge technology, exploring modern frameworks, experimenting with ideas, and bringing new concepts to life.
               </p>
               <br />
@@ -86,7 +94,13 @@ export function AboutSection() {
             </div>
 
             <div>
-              <h3 className="text-xl font-heading font-semibold mb-4">Technologies I have experience with:</h3>
+              <BaffleText 
+                text="Technologies I have experience with:"
+                className="text-xl font-heading font-semibold mb-4"
+                speed={35}
+                revealDelay={2400}
+                characters="▒▓"
+              />
               <div className="flex flex-wrap gap-2">
                 {skills.map((skill, index) => (
                   <Badge key={index} variant="outline" className="text-sm">
