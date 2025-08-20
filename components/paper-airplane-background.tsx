@@ -114,11 +114,8 @@ export function PaperAirplaneBackground() {
     const animate = () => {
       const currentTime = Date.now()
       
-      // Fill background with theme-aware color
-      const rootStyle = getComputedStyle(document.documentElement)
-      const backgroundColor = rootStyle.getPropertyValue('--background').trim()
-      ctx.fillStyle = backgroundColor ? `hsl(${backgroundColor})` : '#ffffff'
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      // Clear the canvas with transparency (no background fill)
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       airplanesRef.current.forEach((airplane) => {
         // Check if airplane should start moving based on delay
