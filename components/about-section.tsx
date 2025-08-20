@@ -50,6 +50,14 @@ export function AboutSection() {
             </svg>
             Meet the Developer
           </span>
+          
+          {/* GLB viewer for mobile - positioned above header */}
+          <div className="md:hidden flex justify-center mb-8">
+            <div className="w-64 h-48" style={{ overflow: 'visible' }}>
+              <GLBViewer modelUrl="/model.glb" className="rounded-lg" />
+            </div>
+          </div>
+          
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4">About Me</h2>
           <p className="text-lg text-muted-foreground font-body max-w-2xl mx-auto">
             Passionate about creating digital experiences that make a difference
@@ -84,7 +92,7 @@ export function AboutSection() {
             </div>
           </div>
 
-          <div className="flex justify-center">
+          <div className="hidden md:flex justify-center">
             <div className="w-full h-96" style={{ overflow: 'visible' }}>
               <GLBViewer modelUrl="/model.glb" className="rounded-lg" />
             </div>
