@@ -281,7 +281,7 @@ function Model({ url }: { url: string }) {
     }
   })
 
-  return <primitive ref={meshRef} object={scene} scale={[8, 8, 8]} rotation={[0, -Math.PI/1.7, 0]} />
+  return <primitive ref={meshRef} object={scene} scale={[9, 9, 9]} rotation={[0, -Math.PI/1.7, 0]} />
 }
 
 interface GLBViewerProps {
@@ -294,7 +294,7 @@ export function GLBViewer({ modelUrl, className = "" }: GLBViewerProps) {
   
   return (
     <div className={`w-full h-full ${className}`}>
-      <Canvas camera={{ position: [0, 0, 8], fov: 65 }}>
+      <Canvas camera={{ position: [0, 0, 10], fov: 65 }}>
         <Suspense fallback={null}>
           <Model url={modelUrl} />
           <SparkleEffect />

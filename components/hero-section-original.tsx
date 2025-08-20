@@ -245,7 +245,7 @@ export function HeroSection() {
             }}
           >
             Colin
-          </span>
+          </span>.
         </h1>
         <div
           className="text-4xl sm:text-4xl lg:text-4xl max-w-2xl mx-auto leading-relaxed mt-4"

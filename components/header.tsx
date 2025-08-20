@@ -131,9 +131,9 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/20 bg-white/10 dark:bg-black/10 backdrop-blur-md supports-[backdrop-filter]:bg-white/10 dark:supports-[backdrop-filter]:bg-black/10 shadow-lg shadow-black/5 header-entrance">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
-          <div className="flex-shrink-0">
+        <div className="flex h-16 items-center justify-between md:grid md:grid-cols-3 md:justify-items-stretch">
+          {/* Logo - Shared between mobile and desktop */}
+          <div className="flex justify-start">
             <a
               ref={headerTextRef}
               href="#home"
@@ -143,22 +143,26 @@ export function Header() {
             </a>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav ref={navRef} className="hidden md:flex items-center space-x-8 nav-hidden">
-            {navigation.map((item, index) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="text-sm font-body font-medium text-muted-foreground hover:text-foreground transition-colors nav-item-hidden"
-                style={{ '--nav-index': index } as React.CSSProperties}
-              >
-                {item.name}
-              </a>
-            ))}
+          {/* Desktop Navigation - Center Column (hidden on mobile) */}
+          <nav ref={navRef} className="hidden md:flex items-center justify-center nav-hidden">
+            <div className="flex items-center space-x-8">
+              {navigation.map((item, index) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="text-sm font-body font-medium text-muted-foreground hover:text-foreground transition-colors nav-item-hidden"
+                  style={{ '--nav-index': index } as React.CSSProperties}
+                >
+                  {item.name}
+                </a>
+              ))}
+            </div>
           </nav>
 
-          {/* Desktop Actions */}
-          <div ref={actionsRef} className="hidden md:flex items-center space-x-4 actions-hidden">
+          {/* Actions and Mobile Menu */}
+          <div className="flex items-center justify-end">
+            {/* Desktop Actions */}
+            <div ref={actionsRef} className="hidden md:flex items-center space-x-4 actions-hidden">
             <a href="https://github.com/cmacrowther" target="_blank" rel="noopener noreferrer" className="action-icon">
               <Button variant="ghost" size="sm">
                 <Github className="h-4 w-4" />
@@ -187,14 +191,15 @@ export function Header() {
             <div className="action-icon">
               <ThemeToggle />
             </div>
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center space-x-2 mobile-controls-hidden">
-            <ThemeToggle />
-            <Button variant="ghost" size="sm" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </Button>
+            </div>
+            
+            {/* Mobile menu button */}
+            <div className="md:hidden flex items-center space-x-2 mobile-controls-hidden">
+              <ThemeToggle />
+              <Button variant="ghost" size="sm" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+                {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </Button>
+            </div>
           </div>
         </div>
 

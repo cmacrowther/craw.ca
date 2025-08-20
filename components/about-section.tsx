@@ -94,8 +94,8 @@ export function AboutSection() {
 
         <div ref={contentRef} className="space-y-6 md:space-y-12">
           {/* Main content grid - paragraphs and GLB model */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8 animate-slide-left">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
+            <div className="lg:col-span-2 space-y-8 animate-slide-left">
               <div data-animate className="prose prose-lg dark:prose-invert max-w-none space-y-8">
                 {/* Enhanced paragraph 1 with visual accent */}
                 <div className="relative">
@@ -146,9 +146,9 @@ export function AboutSection() {
               </div>
             </div>
 
-            <div data-animate className="hidden md:flex justify-center items-center animate-slide-right">
-              <div className="w-full h-96 flex items-center justify-center" style={{ overflow: 'visible' }}>
-                <LazyLoadWrapper minHeight="384px">
+            <div data-animate className="lg:col-span-3 hidden md:flex justify-center items-center animate-slide-right">
+              <div className="w-full h-[450px] lg:h-[500px] xl:h-[550px] flex items-center justify-center" style={{ overflow: 'visible' }}>
+                <LazyLoadWrapper minHeight="450px">
                   <GLBViewer modelUrl="/model.glb" className="rounded-lg" />
                 </LazyLoadWrapper>
               </div>

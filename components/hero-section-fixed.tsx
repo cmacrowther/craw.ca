@@ -250,7 +250,7 @@ export function HeroSection() {
                 animation: 'gradientMove 4s ease-in-out infinite'
               }}>
                 Colin
-              </span>
+              </span>.
             </h1>
             <div className="text-xl sm:text-2xl lg:text-3xl text-muted-foreground font-dm-sans">
               <ReactTyped
