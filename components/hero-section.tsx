@@ -235,8 +235,8 @@ export function HeroSection() {
       {/* Three.js background */}
   <div ref={threeRef} className="absolute inset-0 z-0" />
       {/* Hero Headings Under Pixel Overlay */}
-  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[75%] w-full max-w-4xl text-center pointer-events-none select-none">
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-heading font-bold tracking-tight">
+  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[75%] w-full max-w-4xl text-left sm:text-center pointer-events-none select-none px-4 sm:px-0">
+        <h1 className="text-6xl sm:text-6xl lg:text-7xl font-heading font-bold tracking-tight leading-tight sm:leading-none lg:leading-none">
           Hi, my name is <span
             className="animated-gradient-text"
             style={{
@@ -254,7 +254,7 @@ export function HeroSection() {
           </span>
         </h1>
         <div
-          className="text-2xl sm:text-3xl lg:text-4xl max-w-2xl mx-auto leading-relaxed mt-4"
+          className="text-4xl sm:text-4xl lg:text-4xl max-w-2xl mx-auto leading-relaxed mt-4"
           style={{
             fontFamily: 'JetBrains Mono, monospace',
             fontWeight: 300,
