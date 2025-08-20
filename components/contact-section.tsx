@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Mail, MapPin, Phone } from "lucide-react"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
+import { PaperAirplaneBackground } from "./paper-airplane-background"
 
 export function ContactSection() {
   const [formData, setFormData] = useState({
@@ -37,8 +38,11 @@ export function ContactSection() {
   }
 
   return (
-    <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8">
-      <div className="container mx-auto max-w-6xl">
+    <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/20 relative overflow-hidden">
+      {/* Paper airplane background spanning the entire section */}
+      <PaperAirplaneBackground />
+      
+      <div className="container mx-auto max-w-6xl relative z-10">
         <div ref={headerRef} className="text-center mb-16">
           <span 
             className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-full mb-4 text-white relative overflow-hidden animate-fade-down"
