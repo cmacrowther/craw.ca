@@ -2,7 +2,6 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { BaffleText } from "@/components/ui/baffle-text"
 import { GLBViewer } from "./glb-viewer"
 import { ParticleBackground } from "./particle-background"
 import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/use-scroll-animation"
@@ -75,14 +74,9 @@ export function AboutSection() {
           </div>
           
           <div data-splitting>
-            <BaffleText 
-              text="About Me"
-              className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4"
-              speed={100}
-              revealDelay={600}
-              characters="█▓▒░<.?/#!@&*"
-              variant="title"
-            />
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4">
+              About Me
+            </h2>
           </div>
           <p data-animate className="text-lg text-muted-foreground font-body max-w-2xl mx-auto">
             Passionate about creating digital experiences that make a difference
@@ -107,13 +101,9 @@ export function AboutSection() {
 
             <div data-animate>
               <div data-splitting>
-                <BaffleText 
-                  text="Technologies I have experience with:"
-                  className="text-xl font-heading font-semibold mb-4"
-                  speed={35}
-                  revealDelay={2400}
-                  characters="▒▓"
-                />
+                <p className="text-xl font-heading font-semibold mb-4">
+                  Technologies I have experience with:
+                </p>
               </div>
               <div ref={skillsRef} className="flex flex-wrap gap-2">
                 {skills.map((skill, index) => (
