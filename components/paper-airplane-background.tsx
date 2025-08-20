@@ -99,7 +99,7 @@ export function PaperAirplaneBackground() {
           y: canvas.height + Math.random() * 100, // Start slightly below the bottom edge
           speed: 0.5 + Math.random() * 1.5, // Speed for diagonal movement
           size: 15 + Math.random() * 25, // Varied sizes
-          opacity: 0.9, // 100% opacity
+          opacity: 1, // 100% opacity
           rotation: Math.PI / 8, // Rotate tip to face top-right direction
           delay: Math.random() * 5000, // Stagger start times
         })
