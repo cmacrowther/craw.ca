@@ -164,9 +164,8 @@ export function ProjectsSection() {
                       <OptimizedImage
                         src={project.image || "/placeholder.svg"}
                         alt={project.title}
-                        width={800}
-                        height={600}
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
                         quality={75}
                         loading="lazy"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -308,9 +307,8 @@ export function ProjectsSection() {
                     <OptimizedImage
                       src={selectedProject.image || "/placeholder.svg"}
                       alt={selectedProject.title}
-                      width={1200}
-                      height={800}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                       quality={85}
                       priority
                     />

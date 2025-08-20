@@ -51,8 +51,12 @@ export function OptimizedImage({
   const imageWidth = fill ? undefined : (width || 800)
   const imageHeight = fill ? undefined : (height || 600)
 
+  // Extract object-fit related classes from className to apply to Image
+  const objectFitClasses = className.match(/object-\w+/g)?.join(' ') || ''
+  const wrapperClasses = className.replace(/object-\w+/g, '').trim()
+
   return (
-    <div className={`relative ${isLoading ? 'animate-pulse bg-muted' : ''} ${className}`}>
+    <div className={`relative ${isLoading ? 'animate-pulse bg-muted' : ''} ${fill ? 'w-full h-full' : wrapperClasses}`}>
       <Image
         src={src}
         alt={alt}
@@ -65,7 +69,7 @@ export function OptimizedImage({
         blurDataURL={blurDataURL}
         quality={quality}
         loading={loading}
-        className={`transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+        className={`transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'} ${objectFitClasses}`}
         onLoad={() => setIsLoading(false)}
         onError={() => {
           setHasError(true)

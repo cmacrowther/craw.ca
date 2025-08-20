@@ -8,7 +8,6 @@ import { ThemeToggle } from "@/components/theme-toggle"
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [headerText, setHeaderText] = useState("craw.ca")
-  const [showMapleLeaf, setShowMapleLeaf] = useState(true)
   const headerTextRef = useRef<HTMLAnchorElement>(null)
   const navRef = useRef<HTMLElement>(null)
   const actionsRef = useRef<HTMLDivElement>(null)
@@ -19,7 +18,6 @@ export function Header() {
       const hostname = window.location.hostname
       const isCmacrowther = hostname === "cmacrowther.com"
       setHeaderText(isCmacrowther ? "Colin Crowther" : "craw.ca")
-      setShowMapleLeaf(!isCmacrowther)
     }
   }, [])
 
@@ -46,14 +44,6 @@ export function Header() {
             requestAnimationFrame(() => {
               textSpan.classList.add('splitting-animation')
             })
-          }
-
-          // Ensure maple leaf animation completes properly
-          const mapleLeaf = headerTextRef.current.querySelector('.maple-leaf-animate')
-          if (mapleLeaf) {
-            setTimeout(() => {
-              mapleLeaf.classList.add('animation-complete')
-            }, 2500) // After entrance animation is complete
           }
         }
 
@@ -150,16 +140,6 @@ export function Header() {
               className="text-xl font-heading font-bold text-foreground hover:text-foreground transition-colors flex items-center gap-2 header-logo-hidden"
             >
               <span className="header-text-only">{headerText}</span>
-              {showMapleLeaf && (
-                <span 
-                  className="text-xl inline-block maple-leaf-animate"
-                  style={{
-                    filter: 'hue-rotate(0deg) saturate(0) brightness(0) invert(18%) sepia(100%) saturate(7482%) hue-rotate(3deg) brightness(97%) contrast(118%)'
-                  }}
-                >
-                  🍁
-                </span>
-              )}
             </a>
           </div>
 
