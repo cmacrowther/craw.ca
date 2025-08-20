@@ -95,11 +95,11 @@ export function PaperAirplaneBackground() {
       for (let i = 0; i < numAirplanes; i++) {
         airplanesRef.current.push({
           id: i,
-          x: -Math.random() * canvas.width * 0.5, // Start from wider left area
-          y: canvas.height + Math.random() * canvas.width * 0.5, // Start from wider bottom area
+          x: Math.random() * canvas.width, // Spawn anywhere along the bottom width
+          y: canvas.height + Math.random() * 100, // Start slightly below the bottom edge
           speed: 0.5 + Math.random() * 1.5, // Speed for diagonal movement
           size: 15 + Math.random() * 25, // Varied sizes
-          opacity: 1.0, // 100% opacity
+          opacity: 0.9, // 100% opacity
           rotation: Math.PI / 8, // Rotate tip to face top-right direction
           delay: Math.random() * 5000, // Stagger start times
         })
@@ -127,8 +127,8 @@ export function PaperAirplaneBackground() {
 
         // Reset airplane when it goes off screen (top or right side)
         if (airplane.x > canvas.width + 100 || airplane.y < -100) {
-          airplane.x = -Math.random() * canvas.width * 0.5
-          airplane.y = canvas.height + Math.random() * canvas.width * 0.5
+          airplane.x = Math.random() * canvas.width
+          airplane.y = canvas.height + Math.random() * 100
         }
 
         // Draw airplane using the exact SVG path
