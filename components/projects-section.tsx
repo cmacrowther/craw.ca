@@ -134,7 +134,7 @@ export function ProjectsSection() {
               return (
                 <div
                   key={project.id}
-                  className={`${layout} group cursor-pointer relative overflow-hidden rounded-3xl transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl dark:shadow-gray-900/20`}
+                  className={`${layout} group cursor-pointer relative overflow-hidden rounded-3xl transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl`}
                   onClick={() => setSelectedProject(project)}
                 >
                   {/* Background Image/Video */}
@@ -173,7 +173,7 @@ export function ProjectsSection() {
 
                     <div className="mt-auto">
                       <h3
-                        className={`font-bold text-white mb-3 group-hover:text-blue-300 transition-colors ${
+                        className={`font-bold text-white mb-3 transition-colors ${
                           isLarge ? "text-2xl md:text-3xl" : "text-xl md:text-2xl"
                         }`}
                       >
