@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Space_Grotesk, DM_Sans } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -91,6 +92,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           {children}
         </ThemeProvider>
+        <SpeedInsights />
       </body>
     </html>
   )
