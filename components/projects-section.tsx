@@ -107,11 +107,9 @@ export function ProjectsSection() {
             Portfolio Showcase
           </span>
 
-          <div data-splitting>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4">
-              Featured Work
-            </h2>
-          </div>
+          <h2 data-animate className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4">
+            Featured Work
+          </h2>
           <p data-animate className="text-lg text-muted-foreground font-body max-w-2xl mx-auto">
             A collection of projects that showcase my passion for creating meaningful digital experiences
           </p>

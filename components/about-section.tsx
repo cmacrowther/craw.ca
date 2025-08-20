@@ -73,11 +73,9 @@ export function AboutSection() {
             </div>
           </div>
           
-          <div data-splitting>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4">
-              About Me
-            </h2>
-          </div>
+          <h2 data-animate className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4">
+            About Me
+          </h2>
           <p data-animate className="text-lg text-muted-foreground font-body max-w-2xl mx-auto">
             Passionate about creating digital experiences that make a difference
           </p>

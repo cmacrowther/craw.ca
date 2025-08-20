@@ -68,11 +68,9 @@ export function ContactSection() {
             </svg>
             Let's Connect
           </span>
-          <div data-splitting>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4">
-              Get In Touch
-            </h2>
-          </div>
+          <h2 data-animate className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4">
+            Get In Touch
+          </h2>
           <p data-animate className="text-lg text-muted-foreground font-body max-w-2xl mx-auto">
             Have a project in mind or want to collaborate? I'd love to hear from you.
           </p>
