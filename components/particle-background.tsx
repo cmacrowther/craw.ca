@@ -51,10 +51,10 @@ function FloatingParticles() {
     <Points ref={meshRef} positions={particlesPosition} stride={3} frustumCulled={false}>
       <PointMaterial
         transparent
-        color={theme === 'light' ? "#1a1a1a" : "#64FFDA"}
+        color={theme === 'light' ? "#0a0a0a" : "#64FFDA"}
         size={0.04}
         sizeAttenuation={true}
-        opacity={theme === 'light' ? 0.6 : 0.7}
+        opacity={theme === 'light' ? 0.85 : 0.7}
       />
     </Points>
   )
@@ -90,10 +90,10 @@ function BackgroundParticles() {
     <Points ref={meshRef} positions={particlesPosition} stride={3} frustumCulled={false}>
       <PointMaterial
         transparent
-        color={theme === 'light' ? "#2a2a2a" : "#A78BFA"}
+        color={theme === 'light' ? "#1a1a1a" : "#A78BFA"}
         size={0.035}
         sizeAttenuation={true}
-        opacity={theme === 'light' ? 0.4 : 0.5}
+        opacity={theme === 'light' ? 0.65 : 0.5}
       />
     </Points>
   )
@@ -116,11 +116,11 @@ export function ParticleBackground({ className = "" }: ParticleBackgroundProps) 
         <FloatingParticles />
         
         {/* Theme-appropriate ambient lighting for particles */}
-        <ambientLight intensity={theme === 'light' ? 0.8 : 0.4} />
+        <ambientLight intensity={theme === 'light' ? 1.1 : 0.4} />
         {theme === 'light' ? (
           <>
-            <pointLight position={[10, 10, 10]} intensity={0.3} color="#333333" />
-            <pointLight position={[-10, -10, 5]} intensity={0.2} color="#555555" />
+            <pointLight position={[10, 10, 10]} intensity={0.5} color="#222222" />
+            <pointLight position={[-10, -10, 5]} intensity={0.4} color="#333333" />
           </>
         ) : (
           <>

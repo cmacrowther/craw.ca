@@ -3,6 +3,7 @@
 import { Suspense, useRef, useState, useEffect, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { useGLTF, Environment } from '@react-three/drei'
+import { useTheme } from 'next-themes'
 import * as THREE from 'three'
 
 interface Sparkle {
@@ -31,6 +32,7 @@ function SparkleEffect() {
   const particleRefs = useRef<(THREE.Mesh | null)[]>([])
   const sparkleIdCounter = useRef(0)
   const particleIdCounter = useRef(0)
+  const { theme } = useTheme()
 
   // Create a sparkle geometry that looks like fa-sparkle
   const sparkleGeometry = useMemo(() => {
@@ -235,7 +237,7 @@ function SparkleEffect() {
           geometry={sparkleGeometry}
         >
           <meshBasicMaterial 
-            color="#ffffff" 
+            color={theme === 'light' ? "#2a2a2a" : "#ffffff"} 
             transparent 
             opacity={1}
             side={THREE.DoubleSide}
@@ -252,7 +254,7 @@ function SparkleEffect() {
         >
           <cylinderGeometry args={[1, 1, 1, 4]} />
           <meshBasicMaterial 
-            color="#ffffff" 
+            color={theme === 'light' ? "#2a2a2a" : "#ffffff"} 
             transparent 
             opacity={1}
           />
@@ -288,6 +290,8 @@ interface GLBViewerProps {
 }
 
 export function GLBViewer({ modelUrl, className = "" }: GLBViewerProps) {
+  const { theme } = useTheme()
+  
   return (
     <div className={`w-full h-full ${className}`}>
       <Canvas camera={{ position: [0, 0, 8], fov: 65 }}>
@@ -296,8 +300,20 @@ export function GLBViewer({ modelUrl, className = "" }: GLBViewerProps) {
           <SparkleEffect />
           <Environment preset="studio" />
         </Suspense>
-        <ambientLight intensity={0.5} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+        <ambientLight intensity={theme === 'light' ? 0.7 : 0.5} />
+        <spotLight 
+          position={[10, 10, 10]} 
+          angle={0.15} 
+          penumbra={1}
+          intensity={theme === 'light' ? 1.2 : 1.0}
+        />
+        {theme === 'light' && (
+          <pointLight 
+            position={[-5, 5, 5]} 
+            intensity={0.6} 
+            color="#333333"
+          />
+        )}
       </Canvas>
     </div>
   )
