@@ -32,16 +32,26 @@ export function Header() {
         headerTextRef.current.classList.remove('header-logo-hidden')
         headerTextRef.current.classList.add('header-logo-visible')
         
-        Splitting({
-          target: headerTextRef.current,
-          by: 'chars'
-        })
-        
-        requestAnimationFrame(() => {
-          if (headerTextRef.current) {
-            headerTextRef.current.classList.add('splitting-animation')
-          }
-        })
+        // Target only the text span for splitting.js
+        const textSpan = headerTextRef.current.querySelector('.header-text-only')
+        if (textSpan) {
+          Splitting({
+            target: textSpan,
+            by: 'chars'
+          })
+          
+          requestAnimationFrame(() => {
+            textSpan.classList.add('splitting-animation')
+          })
+        }
+
+        // Ensure maple leaf animation completes properly
+        const mapleLeaf = headerTextRef.current.querySelector('.maple-leaf-animate')
+        if (mapleLeaf) {
+          setTimeout(() => {
+            mapleLeaf.classList.add('animation-complete')
+          }, 2500) // After entrance animation is complete
+        }
       }
 
       // Animate navigation links after a delay
@@ -114,7 +124,7 @@ export function Header() {
               href="#home"
               className="text-xl font-heading font-bold text-foreground hover:text-foreground transition-colors flex items-center gap-2 header-logo-hidden"
             >
-              {headerText}
+              <span className="header-text-only">{headerText}</span>
               {showMapleLeaf && (
                 <span 
                   className="text-xl inline-block maple-leaf-animate"
