@@ -1,12 +1,24 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Menu, X, Github, Linkedin, Mail, GitMerge, Container } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [headerText, setHeaderText] = useState("craw.ca")
+  const [showMapleLeaf, setShowMapleLeaf] = useState(true)
+
+  useEffect(() => {
+    // Check if we're in the browser
+    if (typeof window !== "undefined") {
+      const hostname = window.location.hostname
+      const isCmacrowther = hostname === "cmacrowther.com"
+      setHeaderText(isCmacrowther ? "Colin Crowther" : "craw.ca")
+      setShowMapleLeaf(!isCmacrowther)
+    }
+  }, [])
 
   const navigation = [
     { name: "Home", href: "#home" },
@@ -23,9 +35,19 @@ export function Header() {
           <div className="flex-shrink-0">
             <a
               href="#home"
-              className="text-xl font-heading font-bold text-foreground hover:text-primary transition-colors"
+              className="text-xl font-heading font-bold text-foreground hover:text-primary transition-colors flex items-center gap-2"
             >
-              Colin Crowther
+              {headerText}
+              {showMapleLeaf && (
+                <span 
+                  className="text-xl inline-block"
+                  style={{
+                    filter: 'hue-rotate(0deg) saturate(0) brightness(0) invert(18%) sepia(100%) saturate(7482%) hue-rotate(3deg) brightness(97%) contrast(118%)'
+                  }}
+                >
+                  🍁
+                </span>
+              )}
             </a>
           </div>
 
