@@ -231,7 +231,34 @@ export function ProjectsSection() {
 
                 {/* Hero Image/Video Section */}
                 <div className="relative aspect-video bg-gradient-to-br from-gray-900 to-gray-800 overflow-hidden">
-                  {selectedProject.video ? (
+                  {selectedProject.liveUrl && !selectedProject.liveUrl.includes('#') ? (
+                    <div className="relative w-full h-full overflow-hidden">
+                      <iframe
+                        src={selectedProject.liveUrl}
+                        className="w-full h-full border-0"
+                        style={{
+                          width: '1920px',
+                          height: '1080px',
+                          transform: 'scale(0.5)',
+                          transformOrigin: 'top left'
+                        }}
+                        title={`Preview of ${selectedProject.title}`}
+                        loading="lazy"
+                        sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                      />
+                      {/* Overlay for interaction (optional - remove if you want full interaction) */}
+                      <div className="absolute inset-0 bg-transparent hover:bg-black/5 transition-colors duration-200 cursor-pointer"
+                           onClick={() => window.open(selectedProject.liveUrl, '_blank')}
+                           title="Click to open in new tab"
+                      />
+                      {/* Desktop-like chrome effect */}
+                      <div className="absolute top-2 left-2 flex items-center gap-1.5 z-10">
+                        <div className="w-2.5 h-2.5 bg-red-500 rounded-full"></div>
+                        <div className="w-2.5 h-2.5 bg-yellow-500 rounded-full"></div>
+                        <div className="w-2.5 h-2.5 bg-green-500 rounded-full"></div>
+                      </div>
+                    </div>
+                  ) : selectedProject.video ? (
                     <video
                       src={selectedProject.video}
                       autoPlay
@@ -248,8 +275,10 @@ export function ProjectsSection() {
                     />
                   )}
                   
-                  {/* Gradient overlay for better text contrast */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  {/* Gradient overlay for better text contrast (only for non-iframe content) */}
+                  {(!selectedProject.liveUrl || selectedProject.liveUrl.includes('#')) && (
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  )}
                   
                   {/* Floating metadata on image */}
                   <div className="absolute bottom-4 left-4 flex items-center gap-2">
@@ -260,6 +289,15 @@ export function ProjectsSection() {
                       {selectedProject.category}
                     </Badge>
                   </div>
+                  
+                  {/* Live Preview badge - right aligned */}
+                  {selectedProject.liveUrl && !selectedProject.liveUrl.includes('#') && (
+                    <div className="absolute bottom-4 right-4">
+                      <div className="px-2 py-1 bg-blue-500/80 backdrop-blur-md rounded-full border border-blue-400/50">
+                        <span className="text-white text-xs font-medium">Live Preview</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Content Section */}
