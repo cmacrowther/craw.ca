@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+@import "splitting/dist/splitting.css";
+@import "splitting/dist/splitting-cells.css";
 /* Pixel Screen Overlay Effect - Theme aware */
 .pixel-overlay {
   position: absolute;
@@ -258,4 +260,298 @@
 .animate-wave {
   animation: wave 2s ease-in-out infinite;
   transform-origin: 70% 70%;
+}
+
+/* Initial hidden states for navbar elements */
+.header-logo-hidden {
+  opacity: 0;
+  transform: translateY(-20px) scale(0.9);
+}
+
+.header-logo-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.nav-hidden {
+  opacity: 0;
+  transform: translateY(-15px);
+}
+
+.nav-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.nav-item-hidden {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.9);
+}
+
+.nav-item-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: calc(var(--nav-index, 0) * 0.1s);
+}
+
+.actions-hidden {
+  opacity: 0;
+  transform: translateY(-15px) scale(0.95);
+}
+
+.actions-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.mobile-controls-hidden {
+  opacity: 0;
+  transform: translateY(-15px) scale(0.95);
+}
+
+.mobile-controls-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Maple leaf animation */
+.maple-leaf-animate {
+  opacity: 0;
+  transform: scale(0) rotate(-180deg);
+  animation: mapleLeafEntrance 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  animation-delay: 1.5s;
+}
+
+@keyframes mapleLeafEntrance {
+  from {
+    opacity: 0;
+    transform: scale(0) rotate(-180deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.maple-leaf-animate:hover {
+  animation: mapleLeafSway 0.6s ease-in-out;
+}
+
+@keyframes mapleLeafSway {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.1) rotate(5deg);
+  }
+  75% {
+    transform: scale(1.1) rotate(-5deg);
+  }
+}
+
+/* Header entrance animation */
+.header-entrance {
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: headerSlideIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes headerSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Splitting.js animation styles */
+.splitting-animation .char {
+  opacity: 0;
+  transform: translateY(20px) rotateX(90deg);
+  animation: charSlideIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  display: inline-block;
+}
+
+@keyframes charSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) rotateX(90deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+  }
+}
+
+/* Navigation text splitting animation */
+.splitting-animation-nav .char {
+  opacity: 0;
+  transform: translateY(15px) scale(0.8);
+  animation: navCharSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: calc(var(--nav-delay, 0s) + 0.2s);
+  display: inline-block;
+}
+
+@keyframes navCharSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Action buttons animation - Updated for icons */
+.action-icon {
+  opacity: 0;
+  transform: translateY(20px) scale(0.8);
+}
+
+.action-icon-animate {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: var(--action-delay, 0s);
+}
+
+.action-icon-animate:hover {
+  transform: translateY(-3px) scale(1.1);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Override button hover colors for social icons */
+.action-icon button:hover,
+.mobile-action-icon button:hover {
+  background-color: hsl(var(--muted)) !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+/* Dark mode override for social icon buttons */
+.dark .action-icon button:hover,
+.dark .mobile-action-icon button:hover {
+  background-color: hsl(var(--muted)) !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+/* Remove the old action-button-animate since we're using action-icon-animate now */
+
+/* Stagger the animation for each character */
+.splitting-animation .char:nth-child(1) { animation-delay: 0.1s; }
+.splitting-animation .char:nth-child(2) { animation-delay: 0.15s; }
+.splitting-animation .char:nth-child(3) { animation-delay: 0.2s; }
+.splitting-animation .char:nth-child(4) { animation-delay: 0.25s; }
+.splitting-animation .char:nth-child(5) { animation-delay: 0.3s; }
+.splitting-animation .char:nth-child(6) { animation-delay: 0.35s; }
+.splitting-animation .char:nth-child(7) { animation-delay: 0.4s; }
+.splitting-animation .char:nth-child(8) { animation-delay: 0.45s; }
+.splitting-animation .char:nth-child(9) { animation-delay: 0.5s; }
+.splitting-animation .char:nth-child(10) { animation-delay: 0.55s; }
+.splitting-animation .char:nth-child(11) { animation-delay: 0.6s; }
+.splitting-animation .char:nth-child(12) { animation-delay: 0.65s; }
+.splitting-animation .char:nth-child(13) { animation-delay: 0.7s; }
+.splitting-animation .char:nth-child(14) { animation-delay: 0.75s; }
+.splitting-animation .char:nth-child(15) { animation-delay: 0.8s; }
+
+/* Navigation character staggering */
+.splitting-animation-nav .char:nth-child(1) { animation-delay: calc(var(--nav-delay, 0s) + 0.05s); }
+.splitting-animation-nav .char:nth-child(2) { animation-delay: calc(var(--nav-delay, 0s) + 0.1s); }
+.splitting-animation-nav .char:nth-child(3) { animation-delay: calc(var(--nav-delay, 0s) + 0.15s); }
+.splitting-animation-nav .char:nth-child(4) { animation-delay: calc(var(--nav-delay, 0s) + 0.2s); }
+.splitting-animation-nav .char:nth-child(5) { animation-delay: calc(var(--nav-delay, 0s) + 0.25s); }
+.splitting-animation-nav .char:nth-child(6) { animation-delay: calc(var(--nav-delay, 0s) + 0.3s); }
+.splitting-animation-nav .char:nth-child(7) { animation-delay: calc(var(--nav-delay, 0s) + 0.35s); }
+.splitting-animation-nav .char:nth-child(8) { animation-delay: calc(var(--nav-delay, 0s) + 0.4s); }
+
+/* Mobile menu animations */
+.mobile-menu-animate {
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: mobileMenuSlideIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes mobileMenuSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobile-nav-item {
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: mobileNavItemSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: var(--mobile-delay, 0s);
+}
+
+@keyframes mobileNavItemSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.mobile-actions {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: mobileActionsSlideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-delay: 0.4s;
+}
+
+.mobile-action-icon {
+  display: inline-block;
+  opacity: 0;
+  transform: scale(0.8);
+  animation: mobileIconSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: calc(0.6s + var(--mobile-icon-delay, 0s));
+}
+
+@keyframes mobileIconSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes mobileActionsSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .splitting-animation .char {
+    animation-duration: 0.5s;
+  }
+  
+  .action-button-animate {
+    animation-duration: 0.5s;
+  }
 }
