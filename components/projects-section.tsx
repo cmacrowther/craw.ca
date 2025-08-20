@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BaffleText } from "@/components/ui/baffle-text";
 import { ExternalLink, Github, X } from "lucide-react";
+import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/use-scroll-animation";
 
 interface Project {
   id: number;
@@ -74,6 +75,15 @@ const categories = [
 export function ProjectsSection() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  
+  // Animation refs
+  const headerRef = useScrollAnimation({ delay: 100, stagger: 30 });
+  const filtersRef = useScrollAnimation({ delay: 200, stagger: 50 });
+  const gridRef = useStaggeredAnimation({ 
+    delay: 300, 
+    stagger: 150, 
+    childSelector: '[data-stagger]' 
+  });
 
   const filteredProjects =
     selectedCategory === "all" 
@@ -83,9 +93,9 @@ export function ProjectsSection() {
   return (
     <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="container mx-auto max-w-7xl">
-        <div className="text-center mb-16">
+        <div ref={headerRef} className="text-center mb-16">
           <span 
-            className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-full mb-4 text-white relative overflow-hidden"
+            className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-full mb-4 text-white relative overflow-hidden animate-fade-down"
             style={{
               background: 'linear-gradient(135deg, #a78bfa 0%, #ec4899 25%, #8b5cf6 50%, #06b6d4 75%, #10b981 100%)',
               backgroundSize: '300% 300%',
@@ -98,33 +108,37 @@ export function ProjectsSection() {
             Portfolio Showcase
           </span>
 
-          <BaffleText 
-            text="Featured Work"
-            className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4"
-            speed={100}
-            revealDelay={600}
-            characters="█▓▒░<.?/#!@&*"
-            variant="title"
-          />
-          <p className="text-lg text-muted-foreground font-body max-w-2xl mx-auto">
+          <div data-splitting>
+            <BaffleText 
+              text="Featured Work"
+              className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4"
+              speed={100}
+              revealDelay={600}
+              characters="█▓▒░<.?/#!@&*"
+              variant="title"
+            />
+          </div>
+          <p data-animate className="text-lg text-muted-foreground font-body max-w-2xl mx-auto">
             A collection of projects that showcase my passion for creating meaningful digital experiences
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-2 mb-16">
-          {categories.map((category) => (
+        <div ref={filtersRef} className="flex flex-wrap justify-center gap-2 mb-16">
+          {categories.map((category, index) => (
             <Button
               key={category.id}
+              data-animate
               variant={selectedCategory === category.id ? "default" : "outline"}
               onClick={() => setSelectedCategory(category.id)}
               className="rounded-full px-6 py-2 transition-all duration-200"
+              style={{ animationDelay: `${index * 50}ms` }}
             >
               {category.label}
             </Button>
           ))}
         </div>
 
-        <div className="max-w-7xl mx-auto">
+        <div ref={gridRef} className="max-w-7xl mx-auto">
           <div className="grid grid-cols-12 gap-4 auto-rows-[200px]">
             {filteredProjects.map((project, index) => {
               const layouts = [
@@ -142,6 +156,7 @@ export function ProjectsSection() {
               return (
                 <div
                   key={project.id}
+                  data-stagger
                   className={`${layout} group cursor-pointer relative overflow-hidden rounded-3xl transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl`}
                   onClick={() => setSelectedProject(project)}
                 >

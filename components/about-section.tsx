@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { BaffleText } from "@/components/ui/baffle-text"
 import { GLBViewer } from "./glb-viewer"
 import { ParticleBackground } from "./particle-background"
+import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/use-scroll-animation"
 
 const skills = [
   "Java",
@@ -38,15 +39,24 @@ const skills = [
 ]
 
 export function AboutSection() {
+  // Animation refs
+  const headerRef = useScrollAnimation({ delay: 100, stagger: 40 });
+  const contentRef = useScrollAnimation({ delay: 200, stagger: 60 });
+  const skillsRef = useStaggeredAnimation({ 
+    delay: 300, 
+    stagger: 30, 
+    childSelector: '[data-stagger]' 
+  });
+
   return (
     <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30 relative overflow-hidden">
       {/* Particle background spanning the entire section */}
       <ParticleBackground />
       
       <div className="container mx-auto max-w-6xl relative z-10">
-        <div className="text-center mb-16">
+        <div ref={headerRef} className="text-center mb-16">
           <span 
-            className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-full mb-4 text-white relative overflow-hidden"
+            className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-full mb-4 text-white relative overflow-hidden animate-fade-down"
             style={{
               background: 'linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%)',
               backgroundSize: '300% 300%',
@@ -58,28 +68,30 @@ export function AboutSection() {
           </span>
           
           {/* GLB viewer for mobile - positioned above header */}
-          <div className="md:hidden flex justify-center mb-8">
-            <div className="w-64 h-48" style={{ overflow: 'visible' }}>
+          <div data-animate className="md:hidden flex justify-center mb-8">
+            <div className="w-64 h-48 animate-scale-in" style={{ overflow: 'visible' }}>
               <GLBViewer modelUrl="/model.glb" className="rounded-lg" />
             </div>
           </div>
           
-          <BaffleText 
-            text="About Me"
-            className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4"
-            speed={100}
-            revealDelay={600}
-            characters="█▓▒░<.?/#!@&*"
-            variant="title"
-          />
-          <p className="text-lg text-muted-foreground font-body max-w-2xl mx-auto">
+          <div data-splitting>
+            <BaffleText 
+              text="About Me"
+              className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4"
+              speed={100}
+              revealDelay={600}
+              characters="█▓▒░<.?/#!@&*"
+              variant="title"
+            />
+          </div>
+          <p data-animate className="text-lg text-muted-foreground font-body max-w-2xl mx-auto">
             Passionate about creating digital experiences that make a difference
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <div className="prose prose-lg dark:prose-invert max-w-none">
+        <div ref={contentRef} className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="space-y-6 animate-slide-left">
+            <div data-animate className="prose prose-lg dark:prose-invert max-w-none">
               <p className="font-body text-base leading-relaxed text-foreground">
                 I am a full-stack developer with a creative edge, combining technical expertise with an eye for design. I believe the best software is not only functional but also intuitive, accessible, and guided by core UX principles.
               </p>
@@ -93,17 +105,19 @@ export function AboutSection() {
               </p>
             </div>
 
-            <div>
-              <BaffleText 
-                text="Technologies I have experience with:"
-                className="text-xl font-heading font-semibold mb-4"
-                speed={35}
-                revealDelay={2400}
-                characters="▒▓"
-              />
-              <div className="flex flex-wrap gap-2">
+            <div data-animate>
+              <div data-splitting>
+                <BaffleText 
+                  text="Technologies I have experience with:"
+                  className="text-xl font-heading font-semibold mb-4"
+                  speed={35}
+                  revealDelay={2400}
+                  characters="▒▓"
+                />
+              </div>
+              <div ref={skillsRef} className="flex flex-wrap gap-2">
                 {skills.map((skill, index) => (
-                  <Badge key={index} variant="outline" className="text-sm">
+                  <Badge key={index} data-stagger variant="outline" className="text-sm">
                     {skill}
                   </Badge>
                 ))}
@@ -111,7 +125,7 @@ export function AboutSection() {
             </div>
           </div>
 
-          <div className="hidden md:flex justify-center">
+          <div data-animate className="hidden md:flex justify-center animate-slide-right">
             <div className="w-full h-96" style={{ overflow: 'visible' }}>
               <GLBViewer modelUrl="/model.glb" className="rounded-lg" />
             </div>

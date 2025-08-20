@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { BaffleText } from "@/components/ui/baffle-text"
 import { Mail, MapPin, Phone } from "lucide-react"
+import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 export function ContactSection() {
   const [formData, setFormData] = useState({
@@ -18,6 +19,10 @@ export function ContactSection() {
     subject: "",
     message: "",
   })
+
+  // Animation refs
+  const headerRef = useScrollAnimation({ delay: 100, stagger: 40 });
+  const contentRef = useScrollAnimation({ delay: 200, stagger: 80 });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -35,9 +40,9 @@ export function ContactSection() {
   return (
     <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-16">
+        <div ref={headerRef} className="text-center mb-16">
           <span 
-            className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-full mb-4 text-white relative overflow-hidden"
+            className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-full mb-4 text-white relative overflow-hidden animate-fade-down"
             style={{
               background: 'linear-gradient(45deg, #ff6b6b, #ee5a24, #ff9ff3, #54a0ff, #5f27cd)',
               backgroundSize: '400% 400%',
@@ -60,30 +65,32 @@ export function ContactSection() {
             </svg>
             Let's Connect
           </span>
-          <BaffleText 
-            text="Get In Touch"
-            className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4"
-            speed={100}
-            revealDelay={600}
-            characters="█▓▒░<.?/#!@&*"
-            variant="title"
-          />
-          <p className="text-lg text-muted-foreground font-body max-w-2xl mx-auto">
+          <div data-splitting>
+            <BaffleText 
+              text="Get In Touch"
+              className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4"
+              speed={100}
+              revealDelay={600}
+              characters="█▓▒░<.?/#!@&*"
+              variant="title"
+            />
+          </div>
+          <p data-animate className="text-lg text-muted-foreground font-body max-w-2xl mx-auto">
             Have a project in mind or want to collaborate? I'd love to hear from you.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div ref={contentRef} className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Information */}
-          <div className="space-y-8">
-            <div>
+          <div className="space-y-8 animate-slide-left">
+            <div data-animate>
               <h3 className="text-2xl font-heading font-semibold mb-6">Let's Connect</h3>
               <p className="font-body text-base leading-relaxed text-muted-foreground mb-8">
                 I'm always interested in new opportunities and exciting projects. Whether you have a question or just want to say hi, feel free to reach out!
               </p>
             </div>
 
-            <div className="space-y-4">
+            <div data-animate className="space-y-4">
               <div className="flex items-center space-x-3">
                 <div className="flex-shrink-0">
                   <Mail className="h-5 w-5 text-primary" />
@@ -127,7 +134,7 @@ export function ContactSection() {
           </div>
 
           {/* Contact Form */}
-          <Card>
+          <Card data-animate className="animate-slide-right">
             <CardHeader>
               <CardTitle className="font-heading">Send a Message</CardTitle>
               <CardDescription className="font-body">
