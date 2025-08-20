@@ -92,43 +92,87 @@ export function AboutSection() {
           </p>
         </div>
 
-        <div ref={contentRef} className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6 animate-slide-left">
-            <div data-animate className="prose prose-lg dark:prose-invert max-w-none">
-              <p className="font-body text-base leading-relaxed text-foreground">
-                I am a full-stack developer with a creative edge, combining technical expertise with an eye for design. I believe the best software is not only functional but also intuitive, accessible, and guided by core UX principles.
-              </p>
-              <br />
-              <p className="font-body text-base leading-relaxed text-foreground">
-                During the day, I work as a Java developer on enterprise-level systems. In the evenings, I focus on bleeding-edge technology, exploring modern frameworks, experimenting with ideas, and bringing new concepts to life.
-              </p>
-              <br />
-              <p className="font-body text-base leading-relaxed text-foreground">
-                I’ve had the chance to work with a wide mix of languages and technologies, and I’m always eager to learn more. If you’d like a copy of my resume, shoot me a message!
-              </p>
+        <div ref={contentRef} className="space-y-6 md:space-y-12">
+          {/* Main content grid - paragraphs and GLB model */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-8 animate-slide-left">
+              <div data-animate className="prose prose-lg dark:prose-invert max-w-none space-y-8">
+                {/* Enhanced paragraph 1 with visual accent */}
+                <div className="relative">
+                  <div className="absolute -left-6 top-0 w-1 h-full bg-gradient-to-b from-blue-500 to-purple-600 rounded-full opacity-60 hidden md:block"></div>
+                  <div className="pl-0 md:pl-8">
+                    <p className="font-body text-lg leading-relaxed text-foreground">
+                      I am a <span className="relative inline-block">
+                        <span className="relative z-10 px-2 py-1 bg-gradient-to-r from-blue-500/15 to-purple-600/15 rounded-md font-medium">
+                          full-stack developer
+                        </span>
+                      </span> with a creative edge, combining technical expertise with an eye for design. I believe the best software is not only functional but also 
+                      <span className="font-medium text-blue-600 dark:text-blue-400"> intuitive</span>, 
+                      <span className="font-medium text-purple-600 dark:text-purple-400"> accessible</span>, and guided by core UX principles.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Enhanced paragraph 2 with different styling */}
+                <div className="relative">
+                  <div className="absolute -left-6 top-0 w-1 h-full bg-gradient-to-b from-purple-500 to-pink-600 rounded-full opacity-60 hidden md:block"></div>
+                  <div className="pl-0 md:pl-8">
+                    <p className="font-body text-lg leading-relaxed text-foreground">
+                      During the day, I work as a Java developer on 
+                      <span className="relative inline-block mx-1">
+                        <span className="relative z-10 px-2 py-1 bg-gradient-to-r from-orange-500/15 to-red-500/15 rounded-md font-medium">
+                          enterprise-level systems
+                        </span>
+                      </span>. 
+                      In the evenings, I focus on bleeding-edge technology, exploring modern frameworks, experimenting with ideas, and bringing new concepts to life.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Enhanced paragraph 3 with call-to-action styling */}
+                <div className="relative">
+                  <div className="absolute -left-6 top-0 w-1 h-full bg-gradient-to-b from-pink-500 to-rose-600 rounded-full opacity-60 hidden md:block"></div>
+                  <div className="pl-0 md:pl-8">
+                    <p className="font-body text-lg leading-relaxed text-foreground">
+                      I've had the chance to work with a wide mix of languages and technologies, and I'm always eager to learn more. If you'd like a copy of my resume, 
+                      <a href="#contact" className="relative inline font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors duration-300 group ml-1">
+                        <span className="relative z-10">shoot me a message!</span>
+                        <span className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                        <span className="absolute bottom-0 left-0 w-full h-1 bg-emerald-500/20 animate-pulse"></span>
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div data-animate>
-              <div data-splitting>
-                <p className="text-xl font-heading font-semibold mb-4">
-                  Technologies I have experience with:
-                </p>
-              </div>
-              <div ref={skillsRef} className="flex flex-wrap gap-2">
-                {skills.map((skill, index) => (
-                  <Badge key={index} data-stagger variant="outline" className="text-sm">
-                    {skill}
-                  </Badge>
-                ))}
+            <div data-animate className="hidden md:flex justify-center items-center animate-slide-right">
+              <div className="w-full h-96 flex items-center justify-center" style={{ overflow: 'visible' }}>
+                <LazyLoadWrapper minHeight="384px">
+                  <GLBViewer modelUrl="/model.glb" className="rounded-lg" />
+                </LazyLoadWrapper>
               </div>
             </div>
           </div>
 
-          <div data-animate className="hidden md:flex justify-center animate-slide-right">
-            <div className="w-full h-96" style={{ overflow: 'visible' }}>
-              <LazyLoadWrapper minHeight="384px">
-                <GLBViewer modelUrl="/model.glb" className="rounded-lg" />
-              </LazyLoadWrapper>
+          {/* Technology list section - separate from the main grid */}
+          <div className="space-y-8 animate-slide-left">
+            <div data-animate className="w-full md:w-1/2">
+              <p data-animate className="text-xl font-heading font-semibold mb-4 mt-12 md:mt-6">
+                Technologies I have experience with:
+              </p>
+              <div ref={skillsRef} className="flex flex-wrap gap-2">
+                {skills.map((skill, index) => (
+                  <Badge 
+                    key={index} 
+                    data-stagger 
+                    variant="outline" 
+                    className="text-sm"
+                  >
+                    {skill}
+                  </Badge>
+                ))}
+              </div>
             </div>
           </div>
         </div>
