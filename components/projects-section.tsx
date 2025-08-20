@@ -252,7 +252,7 @@ export function ProjectsSection() {
                            title="Click to open in new tab"
                       />
                       {/* Desktop-like chrome effect */}
-                      <div className="absolute top-2 left-2 flex items-center gap-1.5 z-10">
+                      <div className="absolute top-4 left-4 flex items-center gap-1.5 z-10">
                         <div className="w-2.5 h-2.5 bg-red-500 rounded-full"></div>
                         <div className="w-2.5 h-2.5 bg-yellow-500 rounded-full"></div>
                         <div className="w-2.5 h-2.5 bg-green-500 rounded-full"></div>
