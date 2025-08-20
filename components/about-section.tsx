@@ -57,7 +57,7 @@ export function AboutSection() {
   });
 
   return (
-    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30 relative overflow-hidden">
+    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/90 dark:md:bg-muted/30 dark:bg-muted/60 relative overflow-hidden">
       {/* Particle background spanning the entire section */}
       <ParticleBackground />
       

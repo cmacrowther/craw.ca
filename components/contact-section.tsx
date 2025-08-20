@@ -192,7 +192,7 @@ export function ContactSection() {
                     value={formData.message}
                     onChange={handleChange}
                     required
-                    className="font-body resize-none"
+                    className="font-body"
                   />
                 </div>
                 <Button type="submit" className="w-full">
