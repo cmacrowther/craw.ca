@@ -24,7 +24,7 @@ const projects: Project[] = [
   {
     id: 1,
     title: "TuneIQ",
-    description: "Real-time multiplayer music quiz with live leaderboard and chat",
+    description: "Real-time multiplayer music quiz with live leaderboard",
     longDescription:
       "TuneIQ is a real-time, multiplayer music quiz built with Next.js + TypeScript + Socket.IO. Players join rooms, answer music trivia together, and watch the live leaderboard and chat update in sync.",
     image: "/tuneiq-video.gif",
@@ -38,7 +38,7 @@ const projects: Project[] = [
   {
     id: 2,
     title: "SongwriterJS",
-    description: "Gatsby template for artist songwriter pages with Spotify integration",
+    description: "Gatsby template based on Spotify's Songwriter pages",
     longDescription:
       "SongwriterJS is a Gatsby + Netlify CMS template for artists to publish a polished songwriter page. Modeled after Spotify's Songwriter Pages, it showcases credits, collaborators, and track previews via Spotify links or MP3s.",
     image: "/songwriter.png",
