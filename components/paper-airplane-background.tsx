@@ -142,8 +142,9 @@ export function PaperAirplaneBackground() {
 
         // Create and draw the paper airplane path
         const airplanePath = createAirplanePath(airplane.size)
-        ctx.fillStyle = 'currentColor'
-        ctx.fill(airplanePath)
+        ctx.strokeStyle = 'currentColor'
+        ctx.lineWidth = 1
+        ctx.stroke(airplanePath)
 
         ctx.restore()
       })
