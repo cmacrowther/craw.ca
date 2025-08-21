@@ -40,7 +40,13 @@ export function ContactSection() {
   return (
     <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 lg:py-16 relative overflow-hidden min-h-screen lg:min-h-0">
       {/* Paper airplane background spanning the entire section */}
-      <div className="absolute inset-0 w-full h-full z-0">
+      <div 
+        className="absolute inset-0 w-full h-full z-0"
+        style={{
+          transform: 'translateZ(0)', // Force hardware acceleration
+          willChange: 'auto', // Prevent unnecessary composition layers
+        }}
+      >
         <PaperAirplaneBackground />
       </div>
       

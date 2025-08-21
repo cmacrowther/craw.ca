@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, memo } from 'react'
 import { useTheme } from 'next-themes'
 
 interface PaperAirplane {
@@ -14,11 +14,13 @@ interface PaperAirplane {
   delay: number
 }
 
-export function PaperAirplaneBackground() {
+const PaperAirplaneBackgroundComponent = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationFrameRef = useRef<number | null>(null)
   const airplanesRef = useRef<PaperAirplane[]>([])
   const lastFrameTimeRef = useRef<number>(0)
+  const startTimeRef = useRef<number>(Date.now())
+  const isInitializedRef = useRef<boolean>(false)
   const { resolvedTheme } = useTheme()
 
   useEffect(() => {
@@ -28,7 +30,10 @@ export function PaperAirplaneBackground() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    let isInitialized = false
+    // Only set start time once to prevent restarting on re-renders
+    if (!startTimeRef.current) {
+      startTimeRef.current = Date.now()
+    }
 
     // Set canvas size
     const resizeCanvas = () => {
@@ -46,28 +51,58 @@ export function PaperAirplaneBackground() {
       canvas.style.width = `${rect.width}px`
       canvas.style.height = `${rect.height}px`
       
-      // Re-initialize airplanes after resize
-      if (isInitialized) {
+      // Re-initialize airplanes after resize only if not already initialized
+      if (isInitializedRef.current) {
         initAirplanes()
       }
     }
 
     resizeCanvas()
-    window.addEventListener('resize', resizeCanvas)
+    
+    // Use passive event listeners for better mobile performance
+    const resizeHandler = () => {
+      // Throttle resize events for better mobile performance
+      setTimeout(resizeCanvas, 100)
+    }
+    window.addEventListener('resize', resizeHandler, { passive: true })
+
+    // Add scroll optimization for mobile to prevent animation restarts
+    let scrollTimer: number | null = null
+    const handleScroll = () => {
+      // Prevent animation frame drops during scroll
+      if (scrollTimer) {
+        clearTimeout(scrollTimer)
+      }
+      scrollTimer = window.setTimeout(() => {
+        // Force a redraw after scroll settles to ensure canvas visibility
+        if (canvas && isInitializedRef.current) {
+          const rect = canvas.getBoundingClientRect()
+          if (rect.height > 0 && rect.width > 0) {
+            // Canvas is visible, ensure animation continues
+            if (!animationFrameRef.current) {
+              animate()
+            }
+          }
+        }
+      }, 150)
+    }
+    
+    // Use passive scroll listener for better mobile performance
+    window.addEventListener('scroll', handleScroll, { passive: true })
 
     // Use a timeout to ensure the canvas is properly sized before initializing
     const initTimeout = setTimeout(() => {
-      isInitialized = true
-      resizeCanvas()
-      initAirplanes()
-      animate()
+      if (!isInitializedRef.current) {
+        isInitializedRef.current = true
+        resizeCanvas()
+        initAirplanes()
+        animate()
+      }
     }, 100)
-
-    const startTime = Date.now()
 
     // Animation loop
     const animate = () => {
-      if (!canvas || !ctx || !isInitialized) return
+      if (!canvas || !ctx || !isInitializedRef.current) return
       
       const currentTime = Date.now()
       const dpr = window.devicePixelRatio || 1
@@ -92,7 +127,7 @@ export function PaperAirplaneBackground() {
       // Animate all frames consistently to prevent flashing
       airplanesRef.current.forEach((airplane) => {
         // Check if airplane should start moving based on delay
-        if (currentTime - startTime < airplane.delay) return
+        if (currentTime - startTimeRef.current < airplane.delay) return
 
         // Move airplane diagonally from bottom-left to top-right
         airplane.x += airplane.speed // Move right
@@ -221,7 +256,11 @@ export function PaperAirplaneBackground() {
     }
 
     return () => {
-      window.removeEventListener('resize', resizeCanvas)
+      window.removeEventListener('resize', resizeHandler)
+      window.removeEventListener('scroll', handleScroll)
+      if (scrollTimer) {
+        clearTimeout(scrollTimer)
+      }
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current)
       }
@@ -241,8 +280,12 @@ export function PaperAirplaneBackground() {
         minWidth: '100%',
         opacity: '0.7', // Fixed opacity to prevent mobile flashing
         willChange: 'auto', // Remove will-change to prevent rendering issues on mobile
+        transform: 'translateZ(0)', // Force hardware acceleration
+        backfaceVisibility: 'hidden', // Prevent mobile rendering issues
       }}
       aria-hidden="true"
     />
   )
 }
+
+export const PaperAirplaneBackground = memo(PaperAirplaneBackgroundComponent)
