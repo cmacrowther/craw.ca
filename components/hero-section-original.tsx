@@ -6,10 +6,17 @@ import { useTheme } from "next-themes"
 import * as THREE from "three"
 
 export function HeroSection() {
+  // ...existing code...
+  // ...existing code...
   const threeRef = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
   const [showTyped, setShowTyped] = useState(false)
   const { theme } = useTheme()
+
+  // Choose gradient for animated text based on theme
+  const animatedGradient = theme === 'light'
+    ? 'linear-gradient(270deg, #0ea5e9, #f59e42, #f43f5e, #a21caf, #22c55e, #eab308, #0ea5e9)'
+    : 'linear-gradient(270deg, #6EE7B7, #3B82F6, #A78BFA, #F472B6, #FDE68A, #6EE7B7)';
 
   // Inject animated gradient keyframes
   // Fade in three.js container after mount
@@ -249,7 +256,7 @@ export function HeroSection() {
           opacity: isVisible ? 1 : 0,
           transition: 'opacity 1.6s cubic-bezier(0.4,0,0.2,1)',
         }}
-      />
+      ></div>
 
       {/* Hero Headings Under Pixel Overlay */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[75%] w-full max-w-4xl text-left sm:text-center pointer-events-none select-none px-4 sm:px-0">
@@ -260,10 +267,12 @@ export function HeroSection() {
             transition: 'opacity 1.6s cubic-bezier(0.4,0,0.2,1)',
           }}
         >
-          Hi, my name is <span
+          Hi, my name is{' '}
+          <span
             className="animated-gradient-text"
+            key={theme}
             style={{
-              background: 'linear-gradient(270deg, #6EE7B7, #3B82F6, #A78BFA, #F472B6, #FDE68A, #6EE7B7)',
+              background: animatedGradient,
               backgroundSize: '1200% 1200%',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
@@ -274,7 +283,8 @@ export function HeroSection() {
             }}
           >
             Colin
-          </span>.
+          </span>
+          .
         </h1>
         <div
           className="text-4xl sm:text-4xl lg:text-4xl max-w-2xl mx-auto leading-relaxed mt-4"
