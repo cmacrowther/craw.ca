@@ -376,7 +376,16 @@ export function ProjectsSection() {
               }
             }}
           >
-            <div className="bg-white dark:bg-neutral-900 rounded-3xl md:rounded-3xl rounded-none max-w-4xl w-full h-full md:h-auto md:max-h-[85vh] overflow-hidden shadow-2xl md:border md:border-gray-200 md:dark:border-gray-700 animate-in zoom-in-95 duration-300 modal-content">
+            <div
+              className="bg-white dark:bg-neutral-900 rounded-3xl md:rounded-3xl rounded-none max-w-4xl w-full h-full md:h-auto md:max-h-[85vh] overflow-hidden shadow-2xl md:border md:border-gray-200 md:dark:border-gray-700 animate-in zoom-in-95 duration-300 modal-content"
+              style={{
+                ...(typeof window !== 'undefined' && window.innerWidth < 768
+                  ? {
+                      backgroundColor: document.documentElement.classList.contains('dark') ? '#000' : '#fff',
+                    }
+                  : {}),
+              }}
+            >
               <div className="relative">
                 {/* Enhanced Close Button */}
                 <Button
