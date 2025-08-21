@@ -1,6 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+// Utility to detect mobile devices
+function isMobileDevice() {
+  if (typeof navigator === 'undefined') return false;
+  return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Github, X } from "lucide-react";
@@ -363,7 +368,7 @@ export function ProjectsSection() {
               }
             }}
           >
-            <div className="bg-white dark:bg-neutral-900 rounded-3xl md:rounded-3xl rounded-none max-w-4xl w-full h-full md:h-auto md:max-h-[85vh] overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700 animate-in zoom-in-95 duration-300 modal-content">
+            <div className="bg-white dark:bg-neutral-900 rounded-3xl md:rounded-3xl rounded-none max-w-4xl w-full h-full md:h-auto md:max-h-[85vh] overflow-hidden shadow-2xl md:border md:border-gray-200 md:dark:border-gray-700 animate-in zoom-in-95 duration-300 modal-content">
               <div className="relative">
                 {/* Enhanced Close Button */}
                 <Button
@@ -377,7 +382,7 @@ export function ProjectsSection() {
 
                 {/* Hero Image/Video Section */}
                 <div className="relative aspect-video bg-neutral-900 dark:bg-black overflow-hidden border-b border-neutral-200 dark:border-neutral-700">
-                  {selectedProject.liveUrl && !selectedProject.liveUrl.includes('#') ? (
+                  {selectedProject.liveUrl && !selectedProject.liveUrl.includes('#') && !isMobileDevice() ? (
                     <div className="relative w-full h-full overflow-hidden">
                       <iframe
                         src={selectedProject.liveUrl}
@@ -426,7 +431,7 @@ export function ProjectsSection() {
                     />
                   )}
                   {/* Monochrome overlay for better text contrast (only for non-iframe content) */}
-                  {(!selectedProject.liveUrl || selectedProject.liveUrl.includes('#')) && (
+                  {((!selectedProject.liveUrl || selectedProject.liveUrl.includes('#')) || isMobileDevice()) && (
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                   )}
                   {/* Floating metadata on image */}
@@ -439,7 +444,7 @@ export function ProjectsSection() {
                     </Badge>
                   </div>
                   {/* Live Preview badge - right aligned */}
-                  {selectedProject.liveUrl && !selectedProject.liveUrl.includes('#') && (
+                  {selectedProject.liveUrl && !selectedProject.liveUrl.includes('#') && !isMobileDevice() && (
                     <div className="absolute bottom-4 right-4">
                       <div className="px-2 py-1 bg-black/70 backdrop-blur-md rounded-full border border-white/10">
                         <span className="text-white text-xs font-medium">Live Preview</span>
