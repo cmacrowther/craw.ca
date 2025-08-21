@@ -237,22 +237,26 @@ export function ProjectsSection() {
                   key={project.id}
                   data-stagger
                   className={`${layout} group cursor-pointer relative overflow-hidden rounded-3xl transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl h-[400px]`}
+                  style={{ height: 400 }}
                   onClick={() => handleProjectSelect(project)}
                 >
                   {/* Background Image/Video */}
-                  <div className="absolute inset-0">
+                  <div className="absolute inset-0 h-full w-full">
                     {project.video ? (
-                      <OptimizedVideo
-                        src={project.video}
-                        poster={project.image}
-                        alt={project.title}
-                        autoPlay
-                        loop
-                        muted
-                        preload="metadata"
-                        className="w-full h-full object-cover"
-                        quality="medium"
-                      />
+                      <>
+                        <OptimizedVideo
+                          src={project.video}
+                          poster={project.image}
+                          alt={project.title}
+                          autoPlay
+                          loop
+                          muted
+                          preload="metadata"
+                          className="w-full h-full object-cover"
+                          quality="medium"
+                        />
+                        <div className="crt-effect h-full w-full" />
+                      </>
                     ) : (
                       <OptimizedImage
                         src={(project.image && project.image.replace(/\.(png|jpg)$/i, '.webp')) || "/placeholder.svg"}
@@ -266,11 +270,6 @@ export function ProjectsSection() {
                       />
                     )}
                   </div>
-
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/90 group-hover:via-black/30 transition-all duration-500" />
-
-                  {/* Content Overlay */}
                   <div className="relative h-full p-6">
                     <div className="flex items-center gap-2">
                       <div className="text-xs font-medium text-white/90 bg-white/20 backdrop-blur-sm px-2 py-1 rounded-full border border-white/20">

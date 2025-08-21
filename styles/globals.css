@@ -24,9 +24,10 @@
   mix-blend-mode: lighten;
   pointer-events: none;
 }
-}
+
 @import 'tailwindcss';
 @import 'tw-animate-css';
+
 
 @custom-variant dark (&:is(.dark *));
 
