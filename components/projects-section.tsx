@@ -369,7 +369,7 @@ export function ProjectsSection() {
                 </Button>
 
                 {/* Hero Image/Video Section */}
-                <div className="relative aspect-video bg-neutral-900 dark:bg-black overflow-hidden">
+                <div className="relative aspect-video bg-neutral-900 dark:bg-black overflow-hidden border-b border-neutral-200 dark:border-neutral-700">
                   {selectedProject.liveUrl && !selectedProject.liveUrl.includes('#') ? (
                     <div className="relative w-full h-full overflow-hidden">
                       <iframe
