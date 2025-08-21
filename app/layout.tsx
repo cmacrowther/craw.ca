@@ -94,7 +94,23 @@ export default function RootLayout({
                 if (typeof window !== 'undefined') {
                   setVH();
                   window.addEventListener('resize', setVH, { passive: true });
-                  window.addEventListener('orientationchange', setVH, { passive: true });
+                  window.addEventListener('orientationchange', () => {
+                    // Delay to ensure viewport has settled
+                    setTimeout(setVH, 100);
+                  }, { passive: true });
+                  
+                  // iOS-specific: Update on scroll events that might change viewport
+                  if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+                    let timeoutId;
+                    window.addEventListener('scroll', () => {
+                      clearTimeout(timeoutId);
+                      timeoutId = setTimeout(setVH, 50);
+                    }, { passive: true });
+                    
+                    // Also update on focus/blur which can trigger address bar changes
+                    window.addEventListener('focusin', setVH, { passive: true });
+                    window.addEventListener('focusout', setVH, { passive: true });
+                  }
                 }
               } catch (_) {}
             `,

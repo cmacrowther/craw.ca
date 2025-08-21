@@ -104,6 +104,21 @@ export function ProjectsSection() {
       const originalOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
       
+      // Force viewport height recalculation on iOS Safari
+      if (typeof window !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent)) {
+        const setVH = () => {
+          const vh = window.innerHeight * 0.01;
+          document.documentElement.style.setProperty('--vh', `${vh}px`);
+        };
+        
+        // Set immediately
+        setTimeout(setVH, 0);
+        
+        // Set after a small delay to catch any viewport changes
+        setTimeout(setVH, 100);
+        setTimeout(setVH, 300);
+      }
+      
       // Cleanup function
       return () => {
         document.body.style.overflow = originalOverflow;
@@ -285,6 +300,10 @@ export function ProjectsSection() {
         {selectedProject && (
           <div 
             className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-300 mobile-full-height"
+            style={{
+              minHeight: '-webkit-fill-available',
+              height: 'calc(var(--vh, 1vh) * 100)'
+            }}
             onClick={(e) => {
               // Only close if clicking the backdrop, not the modal content
               if (e.target === e.currentTarget) {
