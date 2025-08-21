@@ -1,15 +1,22 @@
 "use client";
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { ReactTyped } from "react-typed"
 import { useTheme } from "next-themes"
 import * as THREE from "three"
 
 export function HeroSection() {
   const threeRef = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
   const { theme } = useTheme()
 
   // Inject animated gradient keyframes
+  // Fade in three.js container after mount
+  useEffect(() => {
+    const timeout = setTimeout(() => setIsVisible(true), 10);
+    return () => clearTimeout(timeout);
+  }, []);
+
   useEffect(() => {
     if (typeof window !== 'undefined' && !document.getElementById('animated-gradient-keyframes')) {
       const style = document.createElement('style');
@@ -225,9 +232,16 @@ export function HeroSection() {
 
   return (
     <section className="layout min-h-screen flex flex-col justify-between relative" style={{height: '100%'}}>
-      {/* Three.js background */}
-      <div ref={threeRef} className="absolute inset-0 z-0" />
-      
+      {/* Three.js background with fade-in */}
+      <div
+        ref={threeRef}
+        className="absolute inset-0 z-0"
+        style={{
+          opacity: isVisible ? 1 : 0,
+          transition: 'opacity 1.6s cubic-bezier(0.4,0,0.2,1)',
+        }}
+      />
+
       {/* Hero Headings Under Pixel Overlay */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[75%] w-full max-w-4xl text-left sm:text-center pointer-events-none select-none px-4 sm:px-0">
         <h1 className="text-6xl sm:text-6xl lg:text-7xl font-heading font-bold tracking-tight leading-tight sm:leading-none lg:leading-none">
@@ -278,7 +292,13 @@ export function HeroSection() {
       </div>
 
       {/* Pixel Screen Overlay - now covers headings and buttons */}
-      <div className="pixel-overlay absolute inset-0 pointer-events-none"></div>
+      <div
+        className="pixel-overlay absolute inset-0 pointer-events-none"
+        style={{
+          opacity: isVisible ? 1 : 0,
+          transition: 'opacity 1.6s cubic-bezier(0.4,0,0.2,1)',
+        }}
+      ></div>
     </section>
   )
 }
