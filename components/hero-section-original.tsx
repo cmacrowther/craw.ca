@@ -8,6 +8,7 @@ import * as THREE from "three"
 export function HeroSection() {
   const threeRef = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
+  const [showTyped, setShowTyped] = useState(false)
   const { theme } = useTheme()
 
   // Inject animated gradient keyframes
@@ -16,6 +17,14 @@ export function HeroSection() {
     const timeout = setTimeout(() => setIsVisible(true), 10);
     return () => clearTimeout(timeout);
   }, []);
+
+  // Show ReactTyped after fade-in transition (1.6s)
+  useEffect(() => {
+    if (isVisible) {
+      const typedTimeout = setTimeout(() => setShowTyped(true), 1600);
+      return () => clearTimeout(typedTimeout);
+    }
+  }, [isVisible]);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && !document.getElementById('animated-gradient-keyframes')) {
@@ -244,7 +253,13 @@ export function HeroSection() {
 
       {/* Hero Headings Under Pixel Overlay */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[75%] w-full max-w-4xl text-left sm:text-center pointer-events-none select-none px-4 sm:px-0">
-        <h1 className="text-6xl sm:text-6xl lg:text-7xl font-heading font-bold tracking-tight leading-tight sm:leading-none lg:leading-none">
+        <h1
+          className="text-6xl sm:text-6xl lg:text-7xl font-heading font-bold tracking-tight leading-tight sm:leading-none lg:leading-none"
+          style={{
+            opacity: isVisible ? 1 : 0,
+            transition: 'opacity 1.6s cubic-bezier(0.4,0,0.2,1)',
+          }}
+        >
           Hi, my name is <span
             className="animated-gradient-text"
             style={{
@@ -273,21 +288,23 @@ export function HeroSection() {
               : '0 2px 12px rgba(0,0,0,0.32), 0 1px 0 #fff2',
           }}
         >
-          <ReactTyped
-            strings={[
-              "I am a full-stack developer from Prince Edward Island, Canada.", 
-              "Crafting modern web experiences.", 
-              "Full-stack development with a creative edge.", 
-              "Bridging design and engineering.", 
-              "From backend logic to front-end magic."
-            ]}
-            typeSpeed={40}
-            backSpeed={25}
-            backDelay={2200}
-            loop
-            showCursor
-            cursorChar="_"
-          />
+          {showTyped && (
+            <ReactTyped
+              strings={[
+                "I am a full-stack developer from Prince Edward Island, Canada.", 
+                "Crafting modern web experiences.", 
+                "Full-stack development with a creative edge.", 
+                "Bridging design and engineering.", 
+                "From backend logic to front-end magic."
+              ]}
+              typeSpeed={40}
+              backSpeed={25}
+              backDelay={2200}
+              loop
+              showCursor
+              cursorChar="_"
+            />
+          )}
         </div>
       </div>
 
