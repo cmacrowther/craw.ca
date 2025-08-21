@@ -472,7 +472,7 @@ export function ProjectsSection() {
                       {selectedProject.technologies.map((tech, index) => (
                         <div
                           key={tech}
-                          className="px-4 py-2 bg-black/20 dark:bg-black/40 text-gray-900 dark:text-gray-100 rounded-full border border-white/10 font-medium text-sm hover:shadow-md hover:scale-105 transition-all duration-200 backdrop-blur-sm"
+                          className="px-3 py-1 bg-black/20 dark:bg-black/40 text-gray-900 dark:text-gray-100 rounded-md border border-white/10 font-medium text-sm hover:shadow-md transition-all duration-200 backdrop-blur-sm mr-0.5 mb-1"
                           style={{ 
                             animationDelay: `${index * 75}ms`,
                             animation: 'fadeInUp 0.5s ease-out forwards'
@@ -488,7 +488,7 @@ export function ProjectsSection() {
                   <div className="flex flex-col sm:flex-row gap-3">
                     {selectedProject.githubUrl && (
                       <Button 
-                        className="flex-1 h-11 text-base font-semibold bg-neutral-900 hover:bg-neutral-800 dark:bg-neutral-100 dark:hover:bg-white dark:text-neutral-900 text-white transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 border border-neutral-700 dark:border-neutral-200" 
+                        className="flex-1 h-11 text-base font-semibold bg-neutral-900 hover:bg-neutral-800 dark:bg-neutral-100 dark:hover:bg-white dark:text-neutral-900 text-white transition-all duration-200 shadow-lg hover:shadow-xl border border-neutral-700 dark:border-neutral-200"
                         asChild
                       >
                         <a href={selectedProject.githubUrl} target="_blank" rel="noopener noreferrer">
@@ -500,12 +500,12 @@ export function ProjectsSection() {
                     {selectedProject.liveUrl && (
                       <Button 
                         variant="outline" 
-                        className="flex-1 h-11 text-base font-semibold border-0 relative overflow-hidden text-white dark:text-white group transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 p-[2px]"
+                        className="flex-1 h-11 text-base font-semibold border-0 relative overflow-hidden text-white dark:text-white group transition-all duration-200 shadow-lg hover:shadow-xl p-[2px]"
                         style={{ background: 'transparent' }}
                         asChild
                       >
                         <a href={selectedProject.liveUrl} target="_blank" rel="noopener noreferrer">
-                          <span className="absolute inset-0 w-full h-full bg-[linear-gradient(135deg,_#a78bfa_0%,_#ec4899_25%,_#8b5cf6_50%,_#06b6d4_75%,_#10b981_100%))] bg-[length:200%_200%] animate-gradient-xy opacity-90 group-hover:opacity-100 transition-opacity duration-300"></span>
+                          <span className="absolute inset-0 w-full h-full bg-[linear-gradient(270deg,_#ff80b5_0%,_#ffb347_50%,_#ff80b5_100%)] bg-[length:200%_200%] animate-gradient-move opacity-90 group-hover:opacity-100 transition-opacity duration-300"></span>
                           <span className="relative z-10 flex items-center justify-center font-semibold px-6 py-2 rounded-2xl">
                             <ExternalLink className="h-4 w-4 mr-2" />
                             Live Demo
