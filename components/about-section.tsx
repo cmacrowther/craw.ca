@@ -88,7 +88,7 @@ export function AboutSection() {
             About Me
           </h2>
           <p data-animate className="text-lg text-muted-foreground font-body max-w-2xl mx-auto">
-            Passionate about creating digital experiences that make a difference
+            Creating digital experiences that make a difference
           </p>
         </div>
 

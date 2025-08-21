@@ -266,7 +266,7 @@ export function HeroSection() {
           }}
         >
           <ReactTyped
-            strings={["I am a full-stack developer from Prince Edward Island, Canada.", "Crafting modern web experiences.", "Full-stack development with a creative edge.", "Bridging design and engineering. One pixel at a time.", "From backend logic to front-end magic."]}
+            strings={["I am a full-stack developer from Prince Edward Island, Canada.", "Crafting modern web experiences.", "Full-stack development with a creative edge.", "Bridging design and engineering.", "From backend logic to front-end magic."]}
             typeSpeed={40}
             backSpeed={25}
             backDelay={2200}

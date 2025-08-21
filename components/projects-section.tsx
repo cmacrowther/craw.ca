@@ -206,7 +206,7 @@ export function ProjectsSection() {
             Featured Work
           </h2>
           <p data-animate className="text-lg text-muted-foreground font-body max-w-2xl mx-auto">
-            A collection of projects that showcase my passion for creating meaningful digital experiences
+            Explore my latest projects. Click on any project to learn more about it.
           </p>
         </div>
 

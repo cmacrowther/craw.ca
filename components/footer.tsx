@@ -9,8 +9,7 @@ export function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg font-heading font-semibold">Colin Crowther</h3>
             <p className="font-body text-sm text-muted-foreground leading-relaxed">
-              Full-stack developer passionate about creating innovative web experiences and solving complex problems
-              through code.
+              I am a full-stack developer from Prince Edward Island, Canada. I specialize in creating digital experiences that make a difference, with a focus on performance, accessibility, and user experience.
             </p>
           </div>
 
