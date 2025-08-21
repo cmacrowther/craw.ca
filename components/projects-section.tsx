@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Github, X } from "lucide-react";
 import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/use-scroll-animation-optimized";
 import { OptimizedImage } from "./optimized-image";
+import { LazyLoadWrapper } from "./lazy-load-wrapper";
 import { OptimizedVideo } from "./optimized-video";
 
 interface Project {
@@ -183,7 +184,8 @@ export function ProjectsSection() {
       : projects.filter((project) => project.category === selectedCategory);
 
   return (
-    <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8">
+    <LazyLoadWrapper minHeight="400px">
+      <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="container mx-auto max-w-7xl">
         <div ref={headerRef} className="text-center mb-16">
           <span 
@@ -253,13 +255,14 @@ export function ProjectsSection() {
                       />
                     ) : (
                       <OptimizedImage
-                        src={project.image || "/placeholder.svg"}
+                        src={(project.image && project.image.replace(/\.(png|jpg)$/i, '.webp')) || "/placeholder.svg"}
                         alt={project.title}
                         fill
                         className="object-cover"
                         quality={75}
                         loading="lazy"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        priority={project.id === 1} // Preload first project image as above-the-fold
                       />
                     )}
                   </div>
@@ -408,7 +411,7 @@ export function ProjectsSection() {
                     />
                   ) : (
                     <OptimizedImage
-                      src={selectedProject.image || "/placeholder.svg"}
+                      src={(selectedProject.image && selectedProject.image.replace(/\.(png|jpg)$/i, '.webp')) || "/placeholder.svg"}
                       alt={selectedProject.title}
                       fill
                       className="object-cover"
@@ -522,5 +525,9 @@ export function ProjectsSection() {
         )}
       </div>
     </section>
+  {/* section closed above */}
+    </LazyLoadWrapper>
   );
+// To further improve performance, ensure Tailwind or your CSS framework is purging unused styles in production.
+// Consider using SVG sprites for icons if you have many SVGs. Lucide icons are already optimized.
 }
