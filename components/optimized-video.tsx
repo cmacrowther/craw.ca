@@ -76,15 +76,16 @@ export function OptimizedVideo({
             const video = entry.target as HTMLVideoElement
             if (video.src === '') {
               video.src = src
-              // For mobile devices, attempt to play after loading
-              if (isMobile.current && autoPlay && muted) {
-                video.load()
-                video.play().catch((error) => {
-                  console.log('Autoplay failed on mobile:', error)
-                  // Show play button instead of falling back to image
+            }
+            // If video is paused and should be playing, try to play
+            if (autoPlay && video.paused && useVideo) {
+              video.load()
+              video.play().catch((error) => {
+                console.log('Autoplay failed on re-enter:', error)
+                if (isMobile.current) {
                   setShowPlayButton(true)
-                })
-              }
+                }
+              })
             }
           } else {
             const video = entry.target as HTMLVideoElement
