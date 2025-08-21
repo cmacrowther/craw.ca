@@ -38,9 +38,11 @@ export function ContactSection() {
   }
 
   return (
-    <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 lg:py-16 relative overflow-hidden min-h-screen lg:min-h-0">
       {/* Paper airplane background spanning the entire section */}
-      <PaperAirplaneBackground />
+      <div className="absolute inset-0 w-full h-full z-0">
+        <PaperAirplaneBackground />
+      </div>
       
       <div className="container mx-auto max-w-6xl relative z-10">
         <div ref={headerRef} className="text-center mb-16">

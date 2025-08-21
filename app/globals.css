@@ -27,6 +27,43 @@
   .dark .pixel-overlay {
     opacity: 0.4;
   }
+  
+  /* Mobile canvas background fixes */
+  canvas {
+    display: block !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    min-width: 100% !important;
+  }
+  
+  /* Ensure contact section background container is properly sized on mobile */
+  #contact {
+    position: relative !important;
+    overflow: hidden !important;
+    min-height: 100vh !important;
+  }
+  
+  #contact > div:first-child {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 0 !important;
+  }
+}
+
+/* Desktop optimizations for contact section */
+@media (min-width: 1024px) {
+  #contact {
+    padding-bottom: 4rem !important; /* Reduce bottom padding on desktop */
+  }
 }
 @import "tailwindcss";
 @import "tw-animate-css";
