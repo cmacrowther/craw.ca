@@ -77,6 +77,26 @@ export function ProjectsSection() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   
+  // Safe project selection with error handling
+  const handleProjectSelect = (project: Project) => {
+    try {
+      setSelectedProject(project);
+    } catch (error) {
+      console.error('Error opening project modal:', error);
+    }
+  };
+  
+  // Safe modal close
+  const handleModalClose = () => {
+    try {
+      setSelectedProject(null);
+    } catch (error) {
+      console.error('Error closing project modal:', error);
+      // Force close as fallback
+      setSelectedProject(null);
+    }
+  };
+  
   // Handle body scroll when modal is open (simplified for iOS Safari compatibility)
   useEffect(() => {
     if (selectedProject) {
@@ -158,7 +178,7 @@ export function ProjectsSection() {
                   key={project.id}
                   data-stagger
                   className={`${layout} group cursor-pointer relative overflow-hidden rounded-3xl transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl h-[400px]`}
-                  onClick={() => setSelectedProject(project)}
+                  onClick={() => handleProjectSelect(project)}
                 >
                   {/* Background Image/Video */}
                   <div className="absolute inset-0">
@@ -263,7 +283,15 @@ export function ProjectsSection() {
         </div>
 
         {selectedProject && (
-          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-300 mobile-full-height">
+          <div 
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-300 mobile-full-height"
+            onClick={(e) => {
+              // Only close if clicking the backdrop, not the modal content
+              if (e.target === e.currentTarget) {
+                handleModalClose();
+              }
+            }}
+          >
             <div className="bg-white dark:bg-gray-900 rounded-3xl max-w-4xl w-full max-h-[85vh] overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700 animate-in zoom-in-95 duration-300">
               <div className="relative">
                 {/* Enhanced Close Button */}
@@ -271,7 +299,7 @@ export function ProjectsSection() {
                   variant="ghost"
                   size="icon"
                   className="absolute top-4 right-4 z-20 bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/20 text-white hover:text-white transition-all duration-200"
-                  onClick={() => setSelectedProject(null)}
+                  onClick={handleModalClose}
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -284,10 +312,10 @@ export function ProjectsSection() {
                         src={selectedProject.liveUrl}
                         className="w-full h-full border-0"
                         style={{
-                          width: '1920px',
-                          height: '1080px',
-                          transform: 'scale(0.5)',
-                          transformOrigin: 'top left'
+                          width: '100%',
+                          height: '100%',
+                          transform: 'scale(0.8)',
+                          transformOrigin: 'center'
                         }}
                         title={`Preview of ${selectedProject.title}`}
                         loading="lazy"
