@@ -12,14 +12,6 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
       )}
       {...props}
     >
-      {/* Gradient overlay for readability */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 rounded-b-xl"
-        style={{
-          background: "linear-gradient(to top, rgba(0,0,0,0.28) 60%, rgba(0,0,0,0.00) 100%)"
-        }}
-      />
       {/* Card content */}
       {props.children}
     </div>
