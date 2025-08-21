@@ -260,7 +260,8 @@ export function ProjectsSection() {
                           className="w-full h-full object-cover"
                           quality="medium"
                         />
-                        <div className="crt-effect h-full w-full" />
+                        {/* Ensure CRT overlay inherits border-radius for iOS and all browsers */}
+                        <div className="crt-effect h-full w-full rounded-3xl pointer-events-none" style={{ borderRadius: 'inherit' }} />
                       </>
                     ) : (
                       <OptimizedImage
