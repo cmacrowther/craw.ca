@@ -15,15 +15,7 @@ export function ThemeToggle() {
     setMounted(true)
   }, [])
 
-  // Update theme-color meta tag on theme change
-  React.useEffect(() => {
-    if (!mounted) return;
-    if (theme === "dark") {
-      setThemeColorMeta("#09090b");
-    } else if (theme === "light") {
-      setThemeColorMeta("#fff");
-    }
-  }, [theme, mounted]);
+  // ThemeColorUpdater handles meta tag updates globally
 
   if (!mounted) {
     return (

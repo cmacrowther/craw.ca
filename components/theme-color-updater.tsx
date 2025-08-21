@@ -5,7 +5,7 @@ import { setThemeColorMeta } from '../lib/set-theme-color';
 // Example theme colors, adjust as needed
 const THEME_COLORS = {
   light: '#ffffff', // or your light theme color
-  dark: '#18181b',  // or your dark theme color
+  dark: '#09090b',  // match your dark theme background
 };
 
 export function ThemeColorUpdater() {
