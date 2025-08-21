@@ -18,6 +18,7 @@ export function PaperAirplaneBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationFrameRef = useRef<number | null>(null)
   const airplanesRef = useRef<PaperAirplane[]>([])
+  const lastFrameTimeRef = useRef<number>(0)
   const { resolvedTheme } = useTheme()
 
   useEffect(() => {
@@ -74,63 +75,70 @@ export function PaperAirplaneBackground() {
       const canvasHeight = canvas.height / dpr
       const isMobile = window.innerWidth < 768
       
+      // Throttle frame rate on mobile to 30fps to prevent flashing
+      const targetFPS = isMobile ? 30 : 60
+      const frameInterval = 1000 / targetFPS
+      
+      if (currentTime - lastFrameTimeRef.current < frameInterval) {
+        animationFrameRef.current = requestAnimationFrame(animate)
+        return
+      }
+      
+      lastFrameTimeRef.current = currentTime
+      
       // Clear the canvas with transparency (no background fill)
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-      // Reduced animation frequency on mobile for better performance
-      const shouldAnimate = !isMobile || (currentTime % 2 === 0)
-      
-      if (shouldAnimate) {
-        airplanesRef.current.forEach((airplane) => {
-          // Check if airplane should start moving based on delay
-          if (currentTime - startTime < airplane.delay) return
+      // Animate all frames consistently to prevent flashing
+      airplanesRef.current.forEach((airplane) => {
+        // Check if airplane should start moving based on delay
+        if (currentTime - startTime < airplane.delay) return
 
-          // Move airplane diagonally from bottom-left to top-right
-          airplane.x += airplane.speed // Move right
-          airplane.y -= airplane.speed // Move up
+        // Move airplane diagonally from bottom-left to top-right
+        airplane.x += airplane.speed // Move right
+        airplane.y -= airplane.speed // Move up
 
-          // Reset airplane when it goes off screen (top or right side)
-          if (airplane.x > canvasWidth + 100 || airplane.y < -100) {
-            airplane.x = Math.random() * canvasWidth
-            airplane.y = canvasHeight + Math.random() * 100
-          }
+        // Reset airplane when it goes off screen (top or right side)
+        if (airplane.x > canvasWidth + 100 || airplane.y < -100) {
+          airplane.x = Math.random() * canvasWidth
+          airplane.y = canvasHeight + Math.random() * 100
+        }
 
-          // Draw airplane using the exact SVG path
-          ctx.save()
-          ctx.translate(airplane.x, airplane.y)
-          ctx.rotate(airplane.rotation)
-          ctx.globalAlpha = airplane.opacity
+        // Draw airplane using the exact SVG path
+        ctx.save()
+        ctx.translate(airplane.x, airplane.y)
+        ctx.rotate(airplane.rotation)
+        ctx.globalAlpha = airplane.opacity
 
-          // Center the airplane (SVG is roughly 157x134, center it)
-          ctx.translate(-airplane.size / 2, -airplane.size * 134 / 157 / 2)
+        // Center the airplane (SVG is roughly 157x134, center it)
+        ctx.translate(-airplane.size / 2, -airplane.size * 134 / 157 / 2)
 
-          // Create and draw the paper airplane path
-          const airplanePath = createAirplanePath(airplane.size)
-          
-          // Use explicit color based on theme for better mobile compatibility
-          // Fallback to CSS variable reading if theme isn't available
-          let strokeColor = '#475569' // default light color
-          
-          if (resolvedTheme === 'dark') {
+        // Create and draw the paper airplane path
+        const airplanePath = createAirplanePath(airplane.size)
+        
+        // Use explicit color based on theme for better mobile compatibility
+        // Fallback to CSS variable reading if theme isn't available
+        let strokeColor = '#475569' // default light color
+        
+        if (resolvedTheme === 'dark') {
+          strokeColor = '#f1f5f9'
+        } else if (resolvedTheme === 'light') {
+          strokeColor = '#475569'
+        } else if (typeof window !== 'undefined') {
+          // Fallback: read CSS variable directly
+          const computedStyle = getComputedStyle(document.documentElement)
+          const foregroundVar = computedStyle.getPropertyValue('--foreground').trim()
+          if (foregroundVar.includes('0.95')) { // Dark mode has high lightness
             strokeColor = '#f1f5f9'
-          } else if (resolvedTheme === 'light') {
-            strokeColor = '#475569'
-          } else if (typeof window !== 'undefined') {
-            // Fallback: read CSS variable directly
-            const computedStyle = getComputedStyle(document.documentElement)
-            const foregroundVar = computedStyle.getPropertyValue('--foreground').trim()
-            if (foregroundVar.includes('0.95')) { // Dark mode has high lightness
-              strokeColor = '#f1f5f9'
-            }
           }
-          
-          ctx.strokeStyle = strokeColor
-          ctx.lineWidth = isMobile ? 0.8 : 1 // Thinner lines on mobile
-          ctx.stroke(airplanePath)
+        }
+        
+        ctx.strokeStyle = strokeColor
+        ctx.lineWidth = isMobile ? 0.8 : 1 // Thinner lines on mobile
+        ctx.stroke(airplanePath)
 
-          ctx.restore()
-        })
-      }
+        ctx.restore()
+      })
 
       animationFrameRef.current = requestAnimationFrame(animate)
     }
@@ -203,9 +211,9 @@ export function PaperAirplaneBackground() {
           id: i,
           x: Math.random() * canvasWidth, // Account for device pixel ratio
           y: canvasHeight + Math.random() * 100, // Start slightly below the bottom edge
-          speed: isMobile ? 0.3 + Math.random() * 1 : 0.5 + Math.random() * 1.5, // Slower speed on mobile
-          size: isMobile ? 8 + Math.random() * 12 : 15 + Math.random() * 25, // Smaller airplanes on mobile
-          opacity: isMobile ? 0.8 : 1, // Slightly more transparent on mobile
+          speed: isMobile ? 0.5 + Math.random() * 0.8 : 0.5 + Math.random() * 1.5, // More consistent speed on mobile
+          size: isMobile ? 24 + Math.random() * 16 : 15 + Math.random() * 25, // Even larger size on mobile
+          opacity: isMobile ? 0.6 : 0.7 + Math.random() * 0.3, // Fixed opacity on mobile to prevent flashing
           rotation: Math.PI / 8, // Rotate tip to face top-right direction
           delay: Math.random() * 5000, // Stagger start times
         })
@@ -221,7 +229,7 @@ export function PaperAirplaneBackground() {
         clearTimeout(initTimeout)
       }
     }
-  }, [resolvedTheme]) // Re-initialize when theme changes
+  }, []) // Remove theme dependency to prevent frequent re-initialization
 
   return (
     <canvas
@@ -231,7 +239,8 @@ export function PaperAirplaneBackground() {
         display: 'block',
         minHeight: '100%',
         minWidth: '100%',
-        opacity: typeof window !== 'undefined' && window.innerWidth < 768 ? '0.8' : '1',
+        opacity: '0.7', // Fixed opacity to prevent mobile flashing
+        willChange: 'auto', // Remove will-change to prevent rendering issues on mobile
       }}
       aria-hidden="true"
     />
