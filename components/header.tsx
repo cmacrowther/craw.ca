@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Menu, X, Github, Linkedin, Mail, Container, Laptop2 } from "lucide-react"
 import GitLab from "@/components/ui/gitlab-icon"
 import { GradientLaptopIcon } from "@/components/ui/gradient-laptop-icon"
+import { Badge } from "@/components/ui/badge"
 import { ThemeToggle } from "@/components/theme-toggle"
 
 export function Header() {
@@ -19,8 +20,9 @@ export function Header() {
     return () => clearInterval(interval)
   }, [])
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  // Always show 'Colin Crowther' in the header pill
-  const headerText = "Colin Crowther"
+  // Header pill always shows '</>'
+  const headerText = "</>"
+
   const headerTextRef = useRef<HTMLAnchorElement>(null)
   const navRef = useRef<HTMLElement>(null)
   const actionsRef = useRef<HTMLDivElement>(null)
@@ -147,32 +149,11 @@ export function Header() {
               style={{ position: 'relative' }}
             >
               <span className="header-text-only flex items-center gap-1">
-                <GradientLaptopIcon
-                  className={`laptop-code-icon splitting-animatable ${isLaptopAnimating ? 'laptop-animate' : ''}`}
-                  style={{
-                    transition: 'transform 0.4s cubic-bezier(.68,-0.55,.27,1.55)',
-                    transform: isLaptopAnimating ? 'scale(1.2) rotate(-10deg)' : 'scale(1) rotate(0deg)',
-                    marginRight: '0.35em',
-                    verticalAlign: 'middle',
-                  }}
-                  size={22}
-                  strokeWidth={2.2}
-                  aria-label="Laptop coding icon"
-                />
-                <span
-                  className="header-pill animate-gradient-badge shadow-md px-3 py-0.5 rounded-full font-semibold text-white dark:text-gray-100 border border-white/20 dark:border-black/20 backdrop-blur-sm"
-                  style={{
-                    fontSize: '0.97em',
-                    letterSpacing: '0.01em',
-                    boxShadow: '0 2px 12px 0 rgba(80, 0, 80, 0.10)',
-                    userSelect: 'none',
-                    transition: 'box-shadow 0.3s',
-                    backgroundSize: '200% 200%',
-                    animation: 'gradient-x 3s ease-in-out infinite',
-                  }}
+                <Badge
+                  variant="outline"
+                  className="text-sm px-5 py-1.5 rounded-full shadow-md animate-gradient-badge border-white/30 text-white/90 backdrop-blur-sm tracking-wide"
                 >
-                  Colin Crowther
-                </span>
+                </Badge>
               </span>
             </a>
           </div>

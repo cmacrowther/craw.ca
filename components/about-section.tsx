@@ -108,7 +108,7 @@ export function AboutSection() {
                         </span>
                       </span> with a creative edge, combining technical expertise with an eye for design. I believe the best software is not only functional but also 
                       <span className="font-medium text-blue-600 dark:text-blue-400"> intuitive</span>, 
-                      <span className="font-medium text-purple-600 dark:text-purple-400"> accessible</span>, and guided by core UX principles.
+                      <span className="font-medium text-purple-600 dark:text-purple-400"> accessible</span>, and guided by <span className="font-medium text-red-600 dark:text-red-400">core UX principles</span>.
                     </p>
                   </div>
                 </div>

@@ -258,7 +258,7 @@ export function HeroSection() {
                   "I am a full-stack developer from Prince Edward Island, Canada.",
                   "Crafting modern web experiences.",
                   "Full-stack development with a creative edge.",
-                  "Bridging design and engineering. One pixel at a time.",
+                  "Bridging design and engineering.",
                   "From backend logic to front-end magic."
                 ]}
                 typeSpeed={40}
