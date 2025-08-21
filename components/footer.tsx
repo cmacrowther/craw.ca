@@ -1,4 +1,5 @@
-import { Github, Linkedin, Mail, Heart, GitMerge, Container } from "lucide-react"
+import { Github, Linkedin, Mail, Heart, Container } from "lucide-react"
+import GitLab from "@/components/ui/gitlab-icon"
 
 export function Footer() {
   return (
@@ -57,7 +58,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors"
               >
-                <GitMerge className="h-5 w-5" />
+                <GitLab className="h-5 w-5" />
                 <span className="sr-only">GitLab</span>
               </a>
               <a

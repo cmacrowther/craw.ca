@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
-import { Menu, X, Github, Linkedin, Mail, GitMerge, Container, Laptop2 } from "lucide-react"
+import { Menu, X, Github, Linkedin, Mail, Container, Laptop2 } from "lucide-react"
+import GitLab from "@/components/ui/gitlab-icon"
 import { GradientLaptopIcon } from "@/components/ui/gradient-laptop-icon"
 import { ThemeToggle } from "@/components/theme-toggle"
 
@@ -197,7 +198,7 @@ export function Header() {
             </a>
             <a href="https://gitlab.com/cmacrowther" target="_blank" rel="noopener noreferrer" className="action-icon">
               <Button variant="ghost" size="sm">
-                <GitMerge className="h-4 w-4" />
+                <GitLab className="h-4 w-4" />
               </Button>
             </a>
             <a href="https://www.linkedin.com/in/colincrowther/" target="_blank" rel="noopener noreferrer" className="action-icon">
@@ -253,7 +254,7 @@ export function Header() {
                 </a>
                 <a href="https://gitlab.com/cmacrowther" target="_blank" rel="noopener noreferrer" className="mobile-action-icon">
                   <Button variant="ghost" size="sm">
-                    <GitMerge className="h-4 w-4" />
+                    <GitLab className="h-4 w-4" />
                   </Button>
                 </a>
                 <a href="https://www.linkedin.com/in/colincrowther/" target="_blank" rel="noopener noreferrer" className="mobile-action-icon">
