@@ -18,7 +18,7 @@ interface Project {
   technologies: string[];
   githubUrl?: string;
   liveUrl?: string;
-  category: "web" | "music" | "tool" | "other";
+  category: "web" | "music" | "tool" | "games" | "other";
   year: string;
 }
 
@@ -34,7 +34,7 @@ const projects: Project[] = [
     technologies: ["Next.js", "TypeScript", "Socket.IO"],
     githubUrl: "https://gitlab.com/cmacrowther/tuneiq",
     liveUrl: "https://tuneiq.craw.ca/",
-    category: "web",
+    category: "games",
     year: "2024",
   },
   {
@@ -44,9 +44,10 @@ const projects: Project[] = [
     longDescription:
       "SongwriterJS is a Gatsby + Netlify CMS template for artists to publish a polished songwriter page. Modeled after Spotify's Songwriter Pages, it showcases credits, collaborators, and track previews via Spotify links or MP3s.",
     image: "/songwriter.png",
+    video: "/songwriter-video.mp4",
     technologies: ["Gatsby v4", "React", "Bulma", "TypeScript"],
     githubUrl: "https://gitlab.com/cmacrowther/songwriter",
-    liveUrl: "https://songwriter.cmacrowther.com/",
+    liveUrl: "https://music.craw.ca",
     category: "music",
     year: "2023",
   },
@@ -63,11 +64,50 @@ const projects: Project[] = [
     category: "music",
     year: "2022",
   },
+  {
+    id: 4,
+    title: "Basket Case",
+    description: "VR paper toss game inspired by the classic mobile game",
+    longDescription:
+      "Basket Case is a fully immersive virtual reality game built in Unity, inspired by the classic 'Paper Toss' mobile game. Players use hand tracking and motion controllers to crumple and throw virtual paper balls into trash baskets, with realistic physics and VR interactions that make every toss feel satisfying.",
+    video: "/basket-case-vid.mp4",
+    technologies: ["Unity", "C#", "Virtual Reality", "Hand Tracking"],
+    githubUrl: "https://gitlab.com/TimeShifts/papertossvr",
+    category: "games",
+    year: "2024",
+  },
+  {
+    id: 5,
+    title: "Forestry Mapper",
+    description: "Interactive mapping web app built with drone photography tiles",
+    longDescription:
+      "Forestry Mapper is an interactive web mapping application that showcases custom tile generation from drone photography. Built as a learning project to explore open-source mapping technologies, it features custom map tiles created from aerial drone photos and demonstrates modern web mapping capabilities with smooth navigation and responsive design.",
+    video: "/forestry-mapper-video.mp4",
+    technologies: ["Leaflet", "TypeScript", "Vite", "Node.js"],
+    githubUrl: "https://gitlab.com/cmacrowther/macphail-woods-dashboard",
+    liveUrl: "https://jelly-racer-wfsn.vercel.app/",
+    category: "web",
+    year: "2024",
+  },
+  {
+    id: 6,
+    title: "Jelly Jammers",
+    description: "Multiplayer bumper-car battle royale with mobile tilt controls",
+    longDescription:
+      "Jelly Jammers is a multiplayer web game inspired by Jackbox Games' controller system. Players connect their mobile phones as controllers and use tilt controls to navigate jelly cars in a chaotic bumper-car battle royale. Built with real-time multiplayer using Socket.IO and featuring responsive mobile controls that create an engaging party game experience.",
+    video: "/jelly-jammers-video.mp4",
+    technologies: ["Socket.IO", "Express", "Three.js", "Mobile Controls"],
+    githubUrl: "https://gitlab.com/cmacrowther/jelly-racer",
+    liveUrl: "https://jelly.craw.ca",
+    category: "games",
+    year: "2024",
+  },
 ];
 
 const categories = [
   { id: "all", label: "All Projects" },
   { id: "web", label: "Web Apps" },
+  { id: "games", label: "Games" },
   { id: "music", label: "Music" },
   { id: "tool", label: "Tools" },
   { id: "other", label: "Other" },
