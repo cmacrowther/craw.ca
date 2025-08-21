@@ -37,7 +37,23 @@ export function OptimizedVideo({
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
   const [useVideo, setUseVideo] = useState(true)
+  const [playAttempted, setPlayAttempted] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
+
+  // Check if device is mobile
+  const isMobile = useRef(false)
+  useEffect(() => {
+    isMobile.current = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    
+    // On mobile, be more conservative with video usage
+    if (isMobile.current) {
+      // Check for low-bandwidth or data saver mode
+      const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection
+      if (connection && (connection.saveData || connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g')) {
+        setUseVideo(false)
+      }
+    }
+  }, [])
 
   // Check for reduced motion preference
   useEffect(() => {
@@ -58,6 +74,17 @@ export function OptimizedVideo({
             const video = entry.target as HTMLVideoElement
             if (video.src === '') {
               video.src = src
+              // For mobile devices, attempt to play after loading
+              if (isMobile.current && autoPlay && muted) {
+                video.load()
+                video.play().catch((error) => {
+                  console.log('Autoplay failed on mobile:', error)
+                  // Fallback to poster image on mobile if autoplay fails
+                  if (poster) {
+                    setUseVideo(false)
+                  }
+                })
+              }
             }
           } else {
             const video = entry.target as HTMLVideoElement
@@ -72,7 +99,7 @@ export function OptimizedVideo({
 
     observer.observe(videoRef.current)
     return () => observer.disconnect()
-  }, [src, autoPlay])
+  }, [src, autoPlay, muted, poster])
 
   if (hasError || !useVideo) {
     if (poster) {
@@ -94,29 +121,86 @@ export function OptimizedVideo({
     )
   }
 
+  // Get the correct MIME type based on file extension
+  const getMimeType = (src: string): string => {
+    const extension = src.split('.').pop()?.toLowerCase()
+    switch (extension) {
+      case 'webm':
+        return 'video/webm'
+      case 'mp4':
+        return 'video/mp4'
+      case 'mov':
+        return 'video/quicktime'
+      case 'avi':
+        return 'video/x-msvideo'
+      default:
+        return 'video/mp4'
+    }
+  }
+
   return (
     <div className={`relative ${isLoading ? 'animate-pulse bg-muted' : ''} ${className}`}>
       <video
         ref={videoRef}
         poster={poster}
-        autoPlay={autoPlay}
+        autoPlay={autoPlay && !isMobile.current} // Disable autoplay on mobile initially
         loop={loop}
         muted={muted}
         controls={controls}
-        preload={preload}
+        preload={isMobile.current ? 'none' : preload} // Reduce preload on mobile
         playsInline
+        webkit-playsinline="true" // iOS Safari specific
+        x5-video-player-type="h5" // WeChat browser
+        x5-video-player-fullscreen="true" // WeChat browser
         className={`w-full h-full object-cover transition-opacity duration-300 ${
           isLoading ? 'opacity-0' : 'opacity-100'
         }`}
         width={width}
         height={height}
         onLoadedData={() => setIsLoading(false)}
-        onError={() => setHasError(true)}
+        onError={() => {
+          console.log('Video error, falling back to image')
+          setHasError(true)
+        }}
         onLoadStart={() => setIsLoading(true)}
+        onCanPlay={() => {
+          // Try to play when video is ready (mobile compatibility)
+          if (autoPlay && muted && videoRef.current) {
+            videoRef.current.play().catch((error) => {
+              console.log('Play failed:', error)
+            })
+          }
+        }}
       >
-        <source src={src} type="video/mp4" />
+        <source src={src} type={getMimeType(src)} />
+        {/* Fallback for different formats */}
+        {src.includes('.webm') && (
+          <>
+            <source src={src.replace('.webm', '.mp4')} type="video/mp4" />
+            <source src={src.replace('.webm', '.mov')} type="video/quicktime" />
+          </>
+        )}
         Your browser does not support the video tag.
       </video>
+      
+      {/* Mobile play overlay for better mobile experience */}
+      {isMobile.current && !playAttempted && autoPlay && (
+        <div 
+          className="absolute inset-0 flex items-center justify-center bg-black/20 cursor-pointer"
+          onClick={() => {
+            if (videoRef.current) {
+              setPlayAttempted(true)
+              videoRef.current.play().catch(console.log)
+            }
+          }}
+        >
+          <div className="bg-white/20 backdrop-blur-sm rounded-full p-4 border border-white/30">
+            <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </div>
+        </div>
+      )}
       
       {isLoading && poster && (
         <OptimizedImage
