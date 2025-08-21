@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from 'react'
+import { useTheme } from 'next-themes'
 
 interface PaperAirplane {
   id: number
@@ -17,6 +18,7 @@ export function PaperAirplaneBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationFrameRef = useRef<number | null>(null)
   const airplanesRef = useRef<PaperAirplane[]>([])
+  const { resolvedTheme } = useTheme()
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -25,15 +27,113 @@ export function PaperAirplaneBackground() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
+    let isInitialized = false
+
     // Set canvas size
     const resizeCanvas = () => {
       const rect = canvas.getBoundingClientRect()
-      canvas.width = rect.width
-      canvas.height = rect.height
+      const dpr = window.devicePixelRatio || 1
+      
+      // Set actual canvas size in memory (scaled to account for high DPI devices)
+      canvas.width = rect.width * dpr
+      canvas.height = rect.height * dpr
+      
+      // Scale the drawing context so everything draws at normal size
+      ctx.scale(dpr, dpr)
+      
+      // Set the size of the canvas on screen
+      canvas.style.width = `${rect.width}px`
+      canvas.style.height = `${rect.height}px`
+      
+      // Re-initialize airplanes after resize
+      if (isInitialized) {
+        initAirplanes()
+      }
     }
 
     resizeCanvas()
     window.addEventListener('resize', resizeCanvas)
+
+    // Use a timeout to ensure the canvas is properly sized before initializing
+    const initTimeout = setTimeout(() => {
+      isInitialized = true
+      resizeCanvas()
+      initAirplanes()
+      animate()
+    }, 100)
+
+    const startTime = Date.now()
+
+    // Animation loop
+    const animate = () => {
+      if (!canvas || !ctx || !isInitialized) return
+      
+      const currentTime = Date.now()
+      const dpr = window.devicePixelRatio || 1
+      const canvasWidth = canvas.width / dpr
+      const canvasHeight = canvas.height / dpr
+      const isMobile = window.innerWidth < 768
+      
+      // Clear the canvas with transparency (no background fill)
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+      // Reduced animation frequency on mobile for better performance
+      const shouldAnimate = !isMobile || (currentTime % 2 === 0)
+      
+      if (shouldAnimate) {
+        airplanesRef.current.forEach((airplane) => {
+          // Check if airplane should start moving based on delay
+          if (currentTime - startTime < airplane.delay) return
+
+          // Move airplane diagonally from bottom-left to top-right
+          airplane.x += airplane.speed // Move right
+          airplane.y -= airplane.speed // Move up
+
+          // Reset airplane when it goes off screen (top or right side)
+          if (airplane.x > canvasWidth + 100 || airplane.y < -100) {
+            airplane.x = Math.random() * canvasWidth
+            airplane.y = canvasHeight + Math.random() * 100
+          }
+
+          // Draw airplane using the exact SVG path
+          ctx.save()
+          ctx.translate(airplane.x, airplane.y)
+          ctx.rotate(airplane.rotation)
+          ctx.globalAlpha = airplane.opacity
+
+          // Center the airplane (SVG is roughly 157x134, center it)
+          ctx.translate(-airplane.size / 2, -airplane.size * 134 / 157 / 2)
+
+          // Create and draw the paper airplane path
+          const airplanePath = createAirplanePath(airplane.size)
+          
+          // Use explicit color based on theme for better mobile compatibility
+          // Fallback to CSS variable reading if theme isn't available
+          let strokeColor = '#475569' // default light color
+          
+          if (resolvedTheme === 'dark') {
+            strokeColor = '#f1f5f9'
+          } else if (resolvedTheme === 'light') {
+            strokeColor = '#475569'
+          } else if (typeof window !== 'undefined') {
+            // Fallback: read CSS variable directly
+            const computedStyle = getComputedStyle(document.documentElement)
+            const foregroundVar = computedStyle.getPropertyValue('--foreground').trim()
+            if (foregroundVar.includes('0.95')) { // Dark mode has high lightness
+              strokeColor = '#f1f5f9'
+            }
+          }
+          
+          ctx.strokeStyle = strokeColor
+          ctx.lineWidth = isMobile ? 0.8 : 1 // Thinner lines on mobile
+          ctx.stroke(airplanePath)
+
+          ctx.restore()
+        })
+      }
+
+      animationFrameRef.current = requestAnimationFrame(animate)
+    }
 
     // Create paper airplane path using the exact SVG provided
     const createAirplanePath = (size: number) => {
@@ -89,85 +189,49 @@ export function PaperAirplaneBackground() {
 
     // Initialize airplanes
     const initAirplanes = () => {
+      if (!canvas || !canvas.width) return // Guard against uninitialized canvas
+      
       airplanesRef.current = []
-      const numAirplanes = 10 // Fixed count of 10 airplanes
+      const isMobile = window.innerWidth < 768
+      const numAirplanes = isMobile ? 5 : 10 // Fewer airplanes on mobile
+      const dpr = window.devicePixelRatio || 1
+      const canvasWidth = canvas.width / dpr
+      const canvasHeight = canvas.height / dpr
       
       for (let i = 0; i < numAirplanes; i++) {
         airplanesRef.current.push({
           id: i,
-          x: Math.random() * canvas.width, // Spawn anywhere along the bottom width
-          y: canvas.height + Math.random() * 100, // Start slightly below the bottom edge
-          speed: 0.5 + Math.random() * 1.5, // Speed for diagonal movement
-          size: 15 + Math.random() * 25, // Varied sizes
-          opacity: 1, // 100% opacity
+          x: Math.random() * canvasWidth, // Account for device pixel ratio
+          y: canvasHeight + Math.random() * 100, // Start slightly below the bottom edge
+          speed: isMobile ? 0.3 + Math.random() * 1 : 0.5 + Math.random() * 1.5, // Slower speed on mobile
+          size: isMobile ? 8 + Math.random() * 12 : 15 + Math.random() * 25, // Smaller airplanes on mobile
+          opacity: isMobile ? 0.8 : 1, // Slightly more transparent on mobile
           rotation: Math.PI / 8, // Rotate tip to face top-right direction
           delay: Math.random() * 5000, // Stagger start times
         })
       }
     }
 
-    initAirplanes()
-
-    const startTime = Date.now()
-
-    // Animation loop
-    const animate = () => {
-      const currentTime = Date.now()
-      
-      // Clear the canvas with transparency (no background fill)
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-      airplanesRef.current.forEach((airplane) => {
-        // Check if airplane should start moving based on delay
-        if (currentTime - startTime < airplane.delay) return
-
-        // Move airplane diagonally from bottom-left to top-right
-        airplane.x += airplane.speed // Move right
-        airplane.y -= airplane.speed // Move up
-
-        // Reset airplane when it goes off screen (top or right side)
-        if (airplane.x > canvas.width + 100 || airplane.y < -100) {
-          airplane.x = Math.random() * canvas.width
-          airplane.y = canvas.height + Math.random() * 100
-        }
-
-        // Draw airplane using the exact SVG path
-        ctx.save()
-        ctx.translate(airplane.x, airplane.y)
-        ctx.rotate(airplane.rotation)
-        ctx.globalAlpha = airplane.opacity
-
-        // Center the airplane (SVG is roughly 157x134, center it)
-        ctx.translate(-airplane.size / 2, -airplane.size * 134 / 157 / 2)
-
-        // Create and draw the paper airplane path
-        const airplanePath = createAirplanePath(airplane.size)
-        ctx.strokeStyle = 'currentColor'
-        ctx.lineWidth = 1
-        ctx.stroke(airplanePath)
-
-        ctx.restore()
-      })
-
-      animationFrameRef.current = requestAnimationFrame(animate)
-    }
-
-    animate()
-
     return () => {
       window.removeEventListener('resize', resizeCanvas)
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current)
       }
+      if (initTimeout) {
+        clearTimeout(initTimeout)
+      }
     }
-  }, [])
+  }, [resolvedTheme]) // Re-initialize when theme changes
 
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none"
+      className="absolute inset-0 w-full h-full pointer-events-none z-0 touch-none"
       style={{ 
-        color: 'hsl(var(--foreground))',
+        display: 'block',
+        minHeight: '100%',
+        minWidth: '100%',
+        opacity: typeof window !== 'undefined' && window.innerWidth < 768 ? '0.8' : '1',
       }}
       aria-hidden="true"
     />
