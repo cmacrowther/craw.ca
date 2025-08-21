@@ -74,6 +74,27 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${dmSans.variable}`} suppressHydrationWarning>
       <head>
+        {/* Canonical URL for SEO */}
+        <link rel="canonical" href="https://cmacrowther.com/" />
+
+        {/* Structured Data: Organization/Person */}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Person',
+            name: 'Colin Crowther',
+            url: 'https://cmacrowther.com/',
+            sameAs: [
+              'https://github.com/cmacrowther',
+              'https://gitlab.com/cmacrowther',
+              'https://www.linkedin.com/in/colincrowther/',
+              'https://hub.docker.com/u/cmacrowther'
+            ],
+            jobTitle: 'Full-stack Developer',
+            image: 'https://cmacrowther.com/og-image.png',
+            description: 'Full-stack developer and software engineer portfolio showcasing modern web applications and innovative projects.'
+          })
+        }} />
         <script
           dangerouslySetInnerHTML={{
             __html: `
