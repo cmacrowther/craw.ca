@@ -3,6 +3,7 @@
 import * as React from "react"
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
+import { setThemeColorMeta } from "@/lib/set-theme-color"
 
 import { Button } from "@/components/ui/button"
 
@@ -13,6 +14,16 @@ export function ThemeToggle() {
   React.useEffect(() => {
     setMounted(true)
   }, [])
+
+  // Update theme-color meta tag on theme change
+  React.useEffect(() => {
+    if (!mounted) return;
+    if (theme === "dark") {
+      setThemeColorMeta("#09090b");
+    } else if (theme === "light") {
+      setThemeColorMeta("#fff");
+    }
+  }, [theme, mounted]);
 
   if (!mounted) {
     return (
