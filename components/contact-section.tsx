@@ -166,7 +166,7 @@ export function ContactSection() {
           </div>
 
           {/* Contact Form */}
-          <Card data-animate className="animate-slide-right min-h-[400px] flex items-center justify-center">
+          <Card data-animate className="animate-slide-right min-h-[400px]">
             {showSuccess ? (
               <div className="flex flex-col items-center justify-center w-full h-full py-16 animate-fade-in">
                 <svg className="w-16 h-16 text-green-500 mb-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -178,10 +178,10 @@ export function ContactSection() {
             ) : (
               <>
                 <CardHeader>
-                  <CardTitle className="font-heading">Send a Message</CardTitle>
-                  <CardDescription className="font-body">
-                    Fill out the form below and I'll get back to you as soon as possible.
-                  </CardDescription>
+                  <div className="text-left w-full">
+                    <span className="font-heading text-lg font-semibold">Send a Message</span>
+                    <span className="font-body text-sm text-muted-foreground block mt-1">Fill out the form below and I'll get back to you as soon as possible.</span>
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-4">
