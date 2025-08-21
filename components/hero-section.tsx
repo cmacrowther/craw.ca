@@ -115,13 +115,24 @@ export function HeroSection() {
         threeRef.current.addEventListener('mouseleave', handleMouseLeave);
       }
 
-      // Scroll event for subtle FOV or Z movement
       const handleScroll = () => {
         scrollY = window.scrollY || window.pageYOffset;
   // More intense FOV change (max 16 deg)
   targetFov = 100 + Math.min(16, scrollY * 0.032);
       };
       window.addEventListener('scroll', handleScroll);
+      // Throttle scroll event for better performance
+      let lastScroll = 0;
+      const throttle = 16; // ~60fps
+      const handleScroll = () => {
+        const now = Date.now();
+        if (now - lastScroll < throttle) return;
+        lastScroll = now;
+        scrollY = window.scrollY || window.pageYOffset;
+        // More intense FOV change (max 16 deg)
+        targetFov = 100 + Math.min(16, scrollY * 0.032);
+      };
+      window.addEventListener('scroll', handleScroll, { passive: true });
 
       function animate() {
         // Smoothly interpolate mouse position for smooth effect
