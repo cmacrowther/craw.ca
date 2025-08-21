@@ -30,7 +30,7 @@ const projects: Project[] = [
     longDescription:
       "TuneIQ is a real-time, multiplayer music quiz built with Next.js + TypeScript + Socket.IO. Players join rooms, answer music trivia together, and watch the live leaderboard and chat update in sync.",
     image: "/tuneiq.png",
-    video: "/tuneiq-video.mp4",
+    video: "/tuneiq-video.webm",
     technologies: ["Next.js", "TypeScript", "Socket.IO"],
     githubUrl: "https://gitlab.com/cmacrowther/tuneiq",
     liveUrl: "https://tuneiq.craw.ca/",
@@ -44,7 +44,7 @@ const projects: Project[] = [
     longDescription:
       "SongwriterJS is a Gatsby + Netlify CMS template for artists to publish a polished songwriter page. Modeled after Spotify's Songwriter Pages, it showcases credits, collaborators, and track previews via Spotify links or MP3s.",
     image: "/songwriter.png",
-    video: "/songwriter-video.mp4",
+    video: "/songwriter-video.webm",
     technologies: ["Gatsby v4", "React", "Bulma", "TypeScript"],
     githubUrl: "https://gitlab.com/cmacrowther/songwriter",
     liveUrl: "https://music.craw.ca",
@@ -58,7 +58,7 @@ const projects: Project[] = [
     longDescription:
       "A beautifully crafted static website created for my band, Heather. Features a clean, modern design that perfectly captures the band's aesthetic.",
     image: "/songwriter.png",
-    video: "/heather-video.mp4",
+    video: "/heather-video.webm",
     technologies: ["Gatsby", "React"],
     liveUrl: "https://heatherband.ca/",
     category: "music",
@@ -70,7 +70,7 @@ const projects: Project[] = [
     description: "VR paper toss game inspired by the classic mobile game",
     longDescription:
       "Basket Case is a fully immersive virtual reality game built in Unity, inspired by the classic 'Paper Toss' mobile game. Players use hand tracking and motion controllers to crumple and throw virtual paper balls into trash baskets, with realistic physics and VR interactions that make every toss feel satisfying.",
-    video: "/basket-case-vid.mp4",
+    video: "/basket-case-video.webm",
     technologies: ["Unity", "C#", "Virtual Reality", "Hand Tracking"],
     githubUrl: "https://gitlab.com/TimeShifts/papertossvr",
     category: "games",
@@ -82,7 +82,7 @@ const projects: Project[] = [
     description: "Interactive mapping web app built with drone photography tiles",
     longDescription:
       "Forestry Mapper is an interactive web mapping application that showcases custom tile generation from drone photography. Built as a learning project to explore open-source mapping technologies, it features custom map tiles created from aerial drone photos and demonstrates modern web mapping capabilities with smooth navigation and responsive design.",
-    video: "/forestry-mapper-video.mp4",
+    video: "/forestry-mapper-video.webm",
     technologies: ["Leaflet", "TypeScript", "Vite", "Node.js"],
     githubUrl: "https://gitlab.com/cmacrowther/macphail-woods-dashboard",
     liveUrl: "https://jelly-racer-wfsn.vercel.app/",
@@ -95,7 +95,7 @@ const projects: Project[] = [
     description: "Multiplayer bumper-car battle royale with mobile tilt controls",
     longDescription:
       "Jelly Jammers is a multiplayer web game inspired by Jackbox Games' controller system. Players connect their mobile phones as controllers and use tilt controls to navigate jelly cars in a chaotic bumper-car battle royale. Built with real-time multiplayer using Socket.IO and featuring responsive mobile controls that create an engaging party game experience.",
-    video: "/jelly-jammers-video.mp4",
+    video: "/jelly-jammers-video.webm",
     technologies: ["Socket.IO", "Express", "Three.js", "Mobile Controls"],
     githubUrl: "https://gitlab.com/cmacrowther/jelly-racer",
     liveUrl: "https://jelly.craw.ca",
