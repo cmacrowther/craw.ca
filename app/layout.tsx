@@ -1,23 +1,11 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Space_Grotesk, DM_Sans } from "next/font/google"
+// import { Space_Grotesk, DM_Sans } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-space-grotesk",
-  preload: false, // Don't preload to reduce initial load
-})
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-dm-sans",
-  preload: false, // Don't preload to reduce initial load
-})
+// Removed Space Grotesk and DM Sans font imports and variables
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://cmacrowther.com'),
@@ -72,7 +60,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${dmSans.variable}`} suppressHydrationWarning>
+  <html lang="en" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
