@@ -38,6 +38,8 @@ export function OptimizedVideo({
   const [hasError, setHasError] = useState(false)
   const [useVideo, setUseVideo] = useState(true)
   const [playAttempted, setPlayAttempted] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [showPlayButton, setShowPlayButton] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
 
   // Check if device is mobile
@@ -79,10 +81,8 @@ export function OptimizedVideo({
                 video.load()
                 video.play().catch((error) => {
                   console.log('Autoplay failed on mobile:', error)
-                  // Fallback to poster image on mobile if autoplay fails
-                  if (poster) {
-                    setUseVideo(false)
-                  }
+                  // Show play button instead of falling back to image
+                  setShowPlayButton(true)
                 })
               }
             }
@@ -163,11 +163,20 @@ export function OptimizedVideo({
           setHasError(true)
         }}
         onLoadStart={() => setIsLoading(true)}
+        onPlay={() => {
+          setIsPlaying(true)
+          setShowPlayButton(false)
+        }}
+        onPause={() => setIsPlaying(false)}
         onCanPlay={() => {
           // Try to play when video is ready (mobile compatibility)
           if (autoPlay && muted && videoRef.current) {
             videoRef.current.play().catch((error) => {
-              console.log('Play failed:', error)
+              console.log('Autoplay failed:', error)
+              // Only show play button on mobile if autoplay fails
+              if (isMobile.current) {
+                setShowPlayButton(true)
+              }
             })
           }
         }}
@@ -183,13 +192,14 @@ export function OptimizedVideo({
         Your browser does not support the video tag.
       </video>
       
-      {/* Mobile play overlay for better mobile experience */}
-      {isMobile.current && !playAttempted && autoPlay && (
+      {/* Mobile play overlay - only show when autoplay fails */}
+      {showPlayButton && !isPlaying && (
         <div 
           className="absolute inset-0 flex items-center justify-center bg-black/20 cursor-pointer"
           onClick={() => {
             if (videoRef.current) {
               setPlayAttempted(true)
+              setShowPlayButton(false)
               videoRef.current.play().catch(console.log)
             }
           }}
