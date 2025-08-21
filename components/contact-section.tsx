@@ -20,8 +20,9 @@ export function ContactSection() {
     message: "",
   })
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState<string|null>(null);
+  const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string|null>(null);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   // Animation refs
   const headerRef = useScrollAnimation({ delay: 100, stagger: 40 });
@@ -30,7 +31,7 @@ export function ContactSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setSuccess(null);
+  setSuccess(false);
     setError(null);
     try {
       const res = await fetch("/api/contact", {
@@ -40,8 +41,13 @@ export function ContactSection() {
       });
       const data = await res.json();
       if (res.ok) {
-        setSuccess("Message sent! I'll get back to you soon.");
+        setSuccess(true);
+        setShowSuccess(true);
         setFormData({ name: "", email: "", subject: "", message: "" });
+        setTimeout(() => {
+          setShowSuccess(false);
+          setSuccess(false);
+        }, 3500);
       } else {
         setError(data.error || "Something went wrong. Please try again later.");
       }
@@ -160,78 +166,89 @@ export function ContactSection() {
           </div>
 
           {/* Contact Form */}
-          <Card data-animate className="animate-slide-right">
-            <CardHeader>
-              <CardTitle className="font-heading">Send a Message</CardTitle>
-              <CardDescription className="font-body">
-                Fill out the form below and I'll get back to you as soon as possible.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="name" className="font-body">
-                      Name
-                    </Label>
-                    <Input
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="font-body"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="email" className="font-body">
-                      Email
-                    </Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="font-body"
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="subject" className="font-body">
-                    Subject
-                  </Label>
-                  <Input
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                    className="font-body"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="message" className="font-body">
-                    Message
-                  </Label>
-                  <Textarea
-                    id="message"
-                    name="message"
-                    rows={5}
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    className="font-body"
-                  />
-                </div>
-                <Button type="submit" className="w-full">
-                  {loading ? "Sending..." : "Send Message"}
-                </Button>
-                {success && <p className="text-green-600 text-sm pt-2">{success}</p>}
-                {error && <p className="text-red-600 text-sm pt-2">{error}</p>}
-              </form>
-            </CardContent>
+          <Card data-animate className="animate-slide-right min-h-[400px] flex items-center justify-center">
+            {showSuccess ? (
+              <div className="flex flex-col items-center justify-center w-full h-full py-16 animate-fade-in">
+                <svg className="w-16 h-16 text-green-500 mb-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <h3 className="text-2xl font-heading font-semibold mb-2">Message Sent!</h3>
+                <p className="text-muted-foreground text-center max-w-xs">Thank you for reaching out. I'll get back to you as soon as possible.</p>
+              </div>
+            ) : (
+              <>
+                <CardHeader>
+                  <CardTitle className="font-heading">Send a Message</CardTitle>
+                  <CardDescription className="font-body">
+                    Fill out the form below and I'll get back to you as soon as possible.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="name" className="font-body">
+                          Name
+                        </Label>
+                        <Input
+                          id="name"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          required
+                          className="font-body"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="email" className="font-body">
+                          Email
+                        </Label>
+                        <Input
+                          id="email"
+                          name="email"
+                          type="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          required
+                          className="font-body"
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="subject" className="font-body">
+                        Subject
+                      </Label>
+                      <Input
+                        id="subject"
+                        name="subject"
+                        value={formData.subject}
+                        onChange={handleChange}
+                        required
+                        className="font-body"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="message" className="font-body">
+                        Message
+                      </Label>
+                      <Textarea
+                        id="message"
+                        name="message"
+                        rows={5}
+                        value={formData.message}
+                        onChange={handleChange}
+                        required
+                        className="font-body"
+                      />
+                    </div>
+                    <Button type="submit" className="w-full">
+                      {loading ? "Sending..." : "Send Message"}
+                    </Button>
+                    {error && <p className="text-red-600 text-sm pt-2">{error}</p>}
+                  </form>
+                </CardContent>
+              </>
+            )}
           </Card>
         </div>
       </div>
