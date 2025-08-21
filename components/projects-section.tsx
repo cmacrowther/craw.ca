@@ -313,9 +313,7 @@ export function ProjectsSection() {
                         className="w-full h-full border-0"
                         style={{
                           width: '100%',
-                          height: '100%',
-                          transform: 'scale(0.8)',
-                          transformOrigin: 'center'
+                          height: '100%'
                         }}
                         title={`Preview of ${selectedProject.title}`}
                         loading="lazy"
