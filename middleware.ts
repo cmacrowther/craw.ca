@@ -32,7 +32,7 @@ export function middleware(request: NextRequest) {
   if (request.nextUrl.pathname === '/') {
     response.headers.set(
       'Link',
-  ''
+      '</fonts/space-grotesk.woff2>; rel=preload; as=font; type=font/woff2; crossorigin, </fonts/dm-sans.woff2>; rel=preload; as=font; type=font/woff2; crossorigin'
     )
   }
 
