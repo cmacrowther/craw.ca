@@ -269,8 +269,16 @@ export function ProjectsSection() {
                         priority={project.id === 1} // Preload first project image as above-the-fold
                       />
                     )}
+                    {/* Gradient overlay for readability */}
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-x-0 bottom-0 h-[58%] rounded-b-3xl z-10"
+                      style={{
+                        background: "linear-gradient(to top, rgba(0,0,0,0.34) 62%, rgba(0,0,0,0.00) 100%)"
+                      }}
+                    />
                   </div>
-                  <div className="relative h-full p-6">
+                  <div className="relative h-full p-6 z-20">
                     <div className="flex items-center gap-2">
                       <div className="text-xs font-medium text-white/90 bg-white/20 backdrop-blur-sm px-2 py-1 rounded-full border border-white/20">
                         {project.year}

@@ -7,11 +7,22 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="card"
       className={cn(
-        "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm",
+        "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm relative overflow-hidden",
         className
       )}
       {...props}
-    />
+    >
+      {/* Gradient overlay for readability */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 rounded-b-xl"
+        style={{
+          background: "linear-gradient(to top, rgba(0,0,0,0.28) 60%, rgba(0,0,0,0.00) 100%)"
+        }}
+      />
+      {/* Card content */}
+      {props.children}
+    </div>
   )
 }
 
