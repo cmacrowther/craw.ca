@@ -19,20 +19,11 @@ export function Header() {
     return () => clearInterval(interval)
   }, [])
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [headerText, setHeaderText] = useState("craw.ca")
   const headerTextRef = useRef<HTMLAnchorElement>(null)
   const navRef = useRef<HTMLElement>(null)
   const actionsRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    // Check if we're in the browser
-    if (typeof window !== "undefined") {
-      const hostname = window.location.hostname
-      const isCmacrowther = hostname === "cmacrowther.com" || hostname === "www.cmacrowther.com"
-      console.log("Header: Detected hostname:", hostname, "| isCmacrowther:", isCmacrowther)
-      setHeaderText(isCmacrowther ? "cmacrowther.com" : "craw.ca")
-    }
-  }, [])
+
 
   useEffect(() => {
     // Initialize splitting.js animations
@@ -42,10 +33,9 @@ export function Header() {
         const Splitting = module.default;
         
         // Animate header text first
-        if (headerTextRef.current && headerText) {
+        if (headerTextRef.current) {
           headerTextRef.current.classList.remove('header-logo-hidden')
           headerTextRef.current.classList.add('header-logo-visible')
-          
           // Target only the text span for splitting.js
           const textSpan = headerTextRef.current.querySelector('.header-text-only')
           if (textSpan) {
@@ -53,7 +43,6 @@ export function Header() {
               target: textSpan,
               by: 'chars'
             })
-            
             requestAnimationFrame(() => {
               textSpan.classList.add('splitting-animation')
             })
@@ -114,7 +103,7 @@ export function Header() {
         console.warn('Splitting.js failed to load - using fallback animations');
         
         // Still run basic animations even if splitting fails
-        if (headerTextRef.current && headerText) {
+        if (headerTextRef.current) {
           headerTextRef.current.classList.remove('header-logo-hidden')
           headerTextRef.current.classList.add('header-logo-visible')
         }
@@ -132,7 +121,7 @@ export function Header() {
     }, 300) // Initial delay to ensure everything is rendered
 
     return () => clearTimeout(timer)
-  }, [headerText])
+  }, [])
 
   const navigation = [
     { name: "Home", href: "#home" },
@@ -154,19 +143,20 @@ export function Header() {
               style={{ position: 'relative' }}
             >
               <span className="header-text-only flex items-center gap-1">
-                <GradientLaptopIcon
-                  className={`laptop-code-icon splitting-animatable ${isLaptopAnimating ? 'laptop-animate' : ''}`}
-                  style={{
-                    transition: 'transform 0.4s cubic-bezier(.68,-0.55,.27,1.55)',
-                    transform: isLaptopAnimating ? 'scale(1.2) rotate(-10deg)' : 'scale(1) rotate(0deg)',
-                    marginRight: '0.35em',
-                    verticalAlign: 'middle',
-                  }}
-                  size={22}
-                  strokeWidth={2.2}
-                  aria-label="Laptop coding icon"
-                />
-                <span>{headerText}</span>
+                <span className="bg-foreground/10 dark:bg-white/10 rounded-full px-4 py-1 text-base font-semibold border border-border/30 shadow-sm flex items-center gap-2" style={{letterSpacing: '0.01em'}}>
+                  <GradientLaptopIcon
+                    className={`laptop-code-icon splitting-animatable ${isLaptopAnimating ? 'laptop-animate' : ''}`}
+                    style={{
+                      transition: 'transform 0.4s cubic-bezier(.68,-0.55,.27,1.55)',
+                      transform: isLaptopAnimating ? 'scale(1.2) rotate(-10deg)' : 'scale(1) rotate(0deg)',
+                      verticalAlign: 'middle',
+                    }}
+                    size={22}
+                    strokeWidth={2.2}
+                    aria-label="Laptop coding icon"
+                  />
+                  Colin Crowther
+                </span>
               </span>
             </a>
           </div>
