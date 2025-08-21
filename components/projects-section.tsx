@@ -241,12 +241,16 @@ export function ProjectsSection() {
                 <div
                   key={project.id}
                   data-stagger
-                  className={`${layout} group cursor-pointer relative overflow-hidden rounded-3xl transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl h-[400px]`}
-                  style={{ height: 400 }}
+                  className={`${layout} group cursor-pointer relative overflow-hidden rounded-3xl transition-all duration-500 hover:scale-[1.02] h-[400px]`}
+                  style={{
+                    height: 400,
+                    willChange: 'transform',
+                    boxShadow: '0 4px 24px 0 rgba(0,0,0,0.10)', // lighter shadow for all
+                  }}
                   onClick={() => handleProjectSelect(project)}
                 >
                   {/* Background Image/Video */}
-                  <div className="absolute inset-0 h-full w-full">
+                  <div className="absolute inset-0 h-full w-full" style={{ willChange: 'transform', transform: 'translateZ(0)' }}>
                     {project.video ? (
                       <>
                         <OptimizedVideo
@@ -280,7 +284,8 @@ export function ProjectsSection() {
                       aria-hidden="true"
                       className="pointer-events-none absolute inset-x-0 bottom-0 h-[58%] rounded-b-3xl z-10"
                       style={{
-                        background: "linear-gradient(to top, rgba(0,0,0,0.34) 62%, rgba(0,0,0,0.00) 100%)"
+                        background: "linear-gradient(to top, rgba(0,0,0,0.34) 62%, rgba(0,0,0,0.00) 100%)",
+                        willChange: 'opacity',
                       }}
                     />
                   </div>
@@ -345,7 +350,9 @@ export function ProjectsSection() {
                     </div>
 
                     {/* Hover indicator */}
-                    <div className="absolute top-4 right-4 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 border border-white/30">
+                    <div className="absolute top-4 right-4 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 border border-white/30"
+                      style={{ boxShadow: 'none' }} // Remove shadow on hover icon for mobile perf
+                    >
                       <ExternalLink className="w-4 h-4 text-white" />
                     </div>
                   </div>
