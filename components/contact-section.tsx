@@ -81,8 +81,8 @@ export function ContactSection() {
       <div className="container mx-auto max-w-6xl relative z-10">
         <div ref={headerRef} className="text-center mb-16">
           <span 
-            className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-full mb-4 text-white bg-primary relative overflow-hidden animate-fade-down"
-            style={{}}
+            className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-full mb-4 text-white bg-gradient-to-r from-pink-500 via-yellow-400 to-green-400 bg-[length:200%_200%] animate-gradient-x relative overflow-hidden animate-fade-down shadow-lg"
+            style={{ backgroundSize: '200% 200%' }}
           >
             <svg 
               className="w-4 h-4 mr-2 animate-pulse" 
