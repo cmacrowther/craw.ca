@@ -1,3 +1,14 @@
+/* Animated gradient for laptop icon in header */
+.animate-gradient-icon {
+  background: linear-gradient(90deg, #a78bfa, #ec4899, #a78bfa);
+  background-size: 200% 200%;
+  animation: gradient-x 6s ease-in-out infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
 /* Local font-face for Space Grotesk and DM Sans */
 @font-face {
   font-family: 'Space Grotesk';

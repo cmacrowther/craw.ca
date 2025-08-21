@@ -2,10 +2,21 @@
 
 import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
-import { Menu, X, Github, Linkedin, Mail, GitMerge, Container } from "lucide-react"
+import { Menu, X, Github, Linkedin, Mail, GitMerge, Container, Laptop2 } from "lucide-react"
+import { GradientLaptopIcon } from "@/components/ui/gradient-laptop-icon"
 import { ThemeToggle } from "@/components/theme-toggle"
 
 export function Header() {
+  const [isLaptopAnimating, setIsLaptopAnimating] = useState(false)
+
+  // Periodically animate the laptop icon
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsLaptopAnimating(true)
+      setTimeout(() => setIsLaptopAnimating(false), 1000)
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [])
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [headerText, setHeaderText] = useState("craw.ca")
   const headerTextRef = useRef<HTMLAnchorElement>(null)
@@ -16,8 +27,9 @@ export function Header() {
     // Check if we're in the browser
     if (typeof window !== "undefined") {
       const hostname = window.location.hostname
-      const isCmacrowther = hostname === "cmacrowther.com"
-      setHeaderText(isCmacrowther ? "Colin Crowther" : "craw.ca")
+      const isCmacrowther = hostname === "cmacrowther.com" || hostname === "www.cmacrowther.com"
+      console.log("Header: Detected hostname:", hostname, "| isCmacrowther:", isCmacrowther)
+      setHeaderText(isCmacrowther ? "cmacrowther.com" : "craw.ca")
     }
   }, [])
 
@@ -138,8 +150,23 @@ export function Header() {
               ref={headerTextRef}
               href="#home"
               className="text-xl font-heading font-bold text-foreground hover:text-foreground transition-colors flex items-center gap-2 header-logo-hidden"
+              style={{ position: 'relative' }}
             >
-              <span className="header-text-only">{headerText}</span>
+              <span className="header-text-only flex items-center gap-1">
+                <GradientLaptopIcon
+                  className={`laptop-code-icon splitting-animatable ${isLaptopAnimating ? 'laptop-animate' : ''}`}
+                  style={{
+                    transition: 'transform 0.4s cubic-bezier(.68,-0.55,.27,1.55)',
+                    transform: isLaptopAnimating ? 'scale(1.2) rotate(-10deg)' : 'scale(1) rotate(0deg)',
+                    marginRight: '0.35em',
+                    verticalAlign: 'middle',
+                  }}
+                  size={22}
+                  strokeWidth={2.2}
+                  aria-label="Laptop coding icon"
+                />
+                <span>{headerText}</span>
+              </span>
             </a>
           </div>
 
