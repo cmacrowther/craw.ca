@@ -103,6 +103,7 @@ export function ProjectsSection() {
       // Simple overflow hidden approach - more stable on iOS
       const originalOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
+      document.body.classList.add('modal-open');
       
       // Force viewport height recalculation on iOS Safari
       if (typeof window !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent)) {
@@ -122,6 +123,7 @@ export function ProjectsSection() {
       // Cleanup function
       return () => {
         document.body.style.overflow = originalOverflow;
+        document.body.classList.remove('modal-open');
       };
     }
   }, [selectedProject]);
@@ -299,7 +301,7 @@ export function ProjectsSection() {
 
         {selectedProject && (
           <div 
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-300 mobile-full-height"
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-0 md:p-6 z-50 animate-in fade-in duration-300 mobile-full-height"
             style={{
               minHeight: '-webkit-fill-available',
               height: 'calc(var(--vh, 1vh) * 100)'
@@ -311,7 +313,7 @@ export function ProjectsSection() {
               }
             }}
           >
-            <div className="bg-white dark:bg-gray-900 rounded-3xl max-w-4xl w-full max-h-[85vh] overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700 animate-in zoom-in-95 duration-300">
+            <div className="bg-white dark:bg-gray-900 rounded-3xl md:rounded-3xl rounded-none max-w-4xl w-full h-full md:h-auto md:max-h-[85vh] overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700 animate-in zoom-in-95 duration-300 modal-content">
               <div className="relative">
                 {/* Enhanced Close Button */}
                 <Button
@@ -331,8 +333,10 @@ export function ProjectsSection() {
                         src={selectedProject.liveUrl}
                         className="w-full h-full border-0"
                         style={{
-                          width: '100%',
-                          height: '100%'
+                          width: '150%',
+                          height: '150%',
+                          transform: 'scale(0.67)',
+                          transformOrigin: 'top left'
                         }}
                         title={`Preview of ${selectedProject.title}`}
                         loading="lazy"
@@ -399,7 +403,7 @@ export function ProjectsSection() {
                 </div>
 
                 {/* Content Section */}
-                <div className="p-6 lg:p-8 overflow-y-auto max-h-[calc(85vh-240px)]">
+                <div className="p-4 md:p-6 lg:p-8 overflow-y-auto h-auto md:max-h-[calc(85vh-240px)] max-h-[calc(100vh-240px)] modal-content-scroll">
                   {/* Header */}
                   <div className="mb-6">
                     <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-3 leading-tight">
