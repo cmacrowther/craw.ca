@@ -74,6 +74,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${dmSans.variable}`} suppressHydrationWarning>
       <head>
+        {/* Default theme-color meta for dynamic update */}
+        <meta name="theme-color" content="#ffffff" />
         {/* Canonical URL for SEO */}
         <link rel="canonical" href="https://cmacrowther.com/" />
 
