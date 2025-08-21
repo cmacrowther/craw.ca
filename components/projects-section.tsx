@@ -356,7 +356,7 @@ export function ProjectsSection() {
               }
             }}
           >
-            <div className="bg-white dark:bg-gray-900 rounded-3xl md:rounded-3xl rounded-none max-w-4xl w-full h-full md:h-auto md:max-h-[85vh] overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700 animate-in zoom-in-95 duration-300 modal-content">
+            <div className="bg-white dark:bg-neutral-900 rounded-3xl md:rounded-3xl rounded-none max-w-4xl w-full h-full md:h-auto md:max-h-[85vh] overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700 animate-in zoom-in-95 duration-300 modal-content">
               <div className="relative">
                 {/* Enhanced Close Button */}
                 <Button
@@ -369,7 +369,7 @@ export function ProjectsSection() {
                 </Button>
 
                 {/* Hero Image/Video Section */}
-                <div className="relative aspect-video bg-gradient-to-br from-gray-900 to-gray-800 overflow-hidden">
+                <div className="relative aspect-video bg-neutral-900 dark:bg-black overflow-hidden">
                   {selectedProject.liveUrl && !selectedProject.liveUrl.includes('#') ? (
                     <div className="relative w-full h-full overflow-hidden">
                       <iframe
@@ -379,22 +379,21 @@ export function ProjectsSection() {
                           width: '150%',
                           height: '150%',
                           transform: 'scale(0.67)',
-                          transformOrigin: 'top left'
+                          transformOrigin: 'top left',
+                          background: '#111' // fallback for iframe
                         }}
                         title={`Preview of ${selectedProject.title}`}
                         loading="lazy"
                         sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
                       />
-                      {/* Overlay for interaction (optional - remove if you want full interaction) */}
-                      <div className="absolute inset-0 bg-transparent hover:bg-black/5 transition-colors duration-200 cursor-pointer"
+                      <div className="absolute inset-0 bg-transparent hover:bg-black/10 transition-colors duration-200 cursor-pointer"
                            onClick={() => window.open(selectedProject.liveUrl, '_blank')}
                            title="Click to open in new tab"
                       />
-                      {/* Desktop-like chrome effect */}
                       <div className="absolute top-4 left-4 flex items-center gap-1.5 z-10">
-                        <div className="w-2.5 h-2.5 bg-red-500 rounded-full"></div>
-                        <div className="w-2.5 h-2.5 bg-yellow-500 rounded-full"></div>
-                        <div className="w-2.5 h-2.5 bg-green-500 rounded-full"></div>
+                        <div className="w-2.5 h-2.5 bg-neutral-700 dark:bg-neutral-800 rounded-full"></div>
+                        <div className="w-2.5 h-2.5 bg-neutral-600 dark:bg-neutral-700 rounded-full"></div>
+                        <div className="w-2.5 h-2.5 bg-neutral-500 dark:bg-neutral-600 rounded-full"></div>
                       </div>
                     </div>
                   ) : selectedProject.video ? (
@@ -406,7 +405,7 @@ export function ProjectsSection() {
                       loop
                       muted
                       preload="metadata"
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover bg-black"
                       quality="high"
                     />
                   ) : (
@@ -414,31 +413,28 @@ export function ProjectsSection() {
                       src={(selectedProject.image && selectedProject.image.replace(/\.(png|jpg)$/i, '.webp')) || "/placeholder.svg"}
                       alt={selectedProject.title}
                       fill
-                      className="object-cover"
+                      className="object-cover bg-black"
                       quality={85}
                       priority
                     />
                   )}
-                  
-                  {/* Gradient overlay for better text contrast (only for non-iframe content) */}
+                  {/* Monochrome overlay for better text contrast (only for non-iframe content) */}
                   {(!selectedProject.liveUrl || selectedProject.liveUrl.includes('#')) && (
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                   )}
-                  
                   {/* Floating metadata on image */}
                   <div className="absolute bottom-4 left-4 flex items-center gap-2">
-                    <div className="px-2 py-1 bg-white/20 backdrop-blur-md rounded-full border border-white/30">
+                    <div className="px-2 py-1 bg-black/40 backdrop-blur-md rounded-full border border-white/10">
                       <span className="text-white/90 text-xs font-medium">{selectedProject.year}</span>
                     </div>
-                    <Badge variant="outline" className="bg-white/20 backdrop-blur-md border-white/30 text-white/90 text-xs">
+                    <Badge variant="outline" className="bg-black/30 backdrop-blur-md border-white/10 text-white/90 text-xs">
                       {selectedProject.category}
                     </Badge>
                   </div>
-                  
                   {/* Live Preview badge - right aligned */}
                   {selectedProject.liveUrl && !selectedProject.liveUrl.includes('#') && (
                     <div className="absolute bottom-4 right-4">
-                      <div className="px-2 py-1 bg-blue-500/80 backdrop-blur-md rounded-full border border-blue-400/50">
+                      <div className="px-2 py-1 bg-black/70 backdrop-blur-md rounded-full border border-white/10">
                         <span className="text-white text-xs font-medium">Live Preview</span>
                       </div>
                     </div>
@@ -452,7 +448,7 @@ export function ProjectsSection() {
                     <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-3 leading-tight">
                       {selectedProject.title}
                     </h2>
-                    <div className="w-16 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                    <div className="w-16 h-0.5 bg-neutral-700 dark:bg-white/10 rounded-full"></div>
                   </div>
 
                   {/* Description */}
@@ -465,7 +461,7 @@ export function ProjectsSection() {
                   {/* Technologies Section */}
                   <div className="mb-6">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
-                      <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+                      <div className="w-6 h-6 bg-neutral-900 dark:bg-neutral-800 rounded-lg flex items-center justify-center border border-white/10">
                         <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                         </svg>
@@ -476,7 +472,7 @@ export function ProjectsSection() {
                       {selectedProject.technologies.map((tech, index) => (
                         <div
                           key={tech}
-                          className="px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 text-blue-700 dark:text-blue-300 rounded-full border border-blue-200 dark:border-blue-700/50 font-medium text-sm hover:shadow-md hover:scale-105 transition-all duration-200 backdrop-blur-sm"
+                          className="px-4 py-2 bg-black/20 dark:bg-black/40 text-gray-900 dark:text-gray-100 rounded-full border border-white/10 font-medium text-sm hover:shadow-md hover:scale-105 transition-all duration-200 backdrop-blur-sm"
                           style={{ 
                             animationDelay: `${index * 75}ms`,
                             animation: 'fadeInUp 0.5s ease-out forwards'
@@ -492,7 +488,7 @@ export function ProjectsSection() {
                   <div className="flex flex-col sm:flex-row gap-3">
                     {selectedProject.githubUrl && (
                       <Button 
-                        className="flex-1 h-11 text-base font-semibold bg-gradient-to-r from-gray-900 to-gray-800 hover:from-gray-800 hover:to-gray-700 dark:from-gray-100 dark:to-gray-200 dark:hover:from-white dark:hover:to-gray-100 dark:text-gray-900 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105" 
+                        className="flex-1 h-11 text-base font-semibold bg-neutral-900 hover:bg-neutral-800 dark:bg-neutral-100 dark:hover:bg-white dark:text-neutral-900 text-white transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 border border-neutral-700 dark:border-neutral-200" 
                         asChild
                       >
                         <a href={selectedProject.githubUrl} target="_blank" rel="noopener noreferrer">
@@ -504,20 +500,20 @@ export function ProjectsSection() {
                     {selectedProject.liveUrl && (
                       <Button 
                         variant="outline" 
-                        className="flex-1 h-11 text-base font-semibold border-2 border-blue-500 text-blue-600 hover:bg-blue-500 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-400 dark:hover:text-gray-900 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105" 
+                        className="flex-1 h-11 text-base font-semibold border-0 relative overflow-hidden text-white dark:text-white group transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 p-[2px]"
+                        style={{ background: 'transparent' }}
                         asChild
                       >
                         <a href={selectedProject.liveUrl} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="h-4 w-4 mr-2" />
-                          Live Demo
+                          <span className="absolute inset-0 w-full h-full bg-[linear-gradient(135deg,_#a78bfa_0%,_#ec4899_25%,_#8b5cf6_50%,_#06b6d4_75%,_#10b981_100%))] bg-[length:200%_200%] animate-gradient-xy opacity-90 group-hover:opacity-100 transition-opacity duration-300"></span>
+                          <span className="relative z-10 flex items-center justify-center font-semibold px-6 py-2 rounded-2xl">
+                            <ExternalLink className="h-4 w-4 mr-2" />
+                            Live Demo
+                          </span>
                         </a>
                       </Button>
                     )}
                   </div>
-
-                  {/* Decorative elements */}
-                  <div className="absolute top-6 right-16 w-24 h-24 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
-                  <div className="absolute bottom-6 left-8 w-20 h-20 bg-gradient-to-br from-emerald-500/10 to-blue-500/10 rounded-full blur-2xl animate-pulse delay-1000"></div>
                 </div>
               </div>
             </div>
