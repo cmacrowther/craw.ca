@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import { ThemeColorUpdater } from './theme-color-updater'
 import {
   ThemeProvider as NextThemesProvider,
   type ThemeProviderProps,
@@ -17,5 +18,10 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
     return <>{children}</>
   }
 
-  return <NextThemesProvider {...props}>{children}</NextThemesProvider>
+  return (
+    <NextThemesProvider {...props}>
+      <ThemeColorUpdater />
+      {children}
+    </NextThemesProvider>
+  )
 }
