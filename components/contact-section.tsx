@@ -19,15 +19,37 @@ export function ContactSection() {
     subject: "",
     message: "",
   })
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState<string|null>(null);
+  const [error, setError] = useState<string|null>(null);
 
   // Animation refs
   const headerRef = useScrollAnimation({ delay: 100, stagger: 40 });
   const contentRef = useScrollAnimation({ delay: 200, stagger: 80 });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle form submission here
-    console.log("Form submitted:", formData)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setSuccess(null);
+    setError(null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setSuccess("Message sent! I'll get back to you soon.");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        setError(data.error || "Something went wrong. Please try again later.");
+      }
+    } catch (err) {
+      setError("Network error. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -204,8 +226,10 @@ export function ContactSection() {
                   />
                 </div>
                 <Button type="submit" className="w-full">
-                  Send Message
+                  {loading ? "Sending..." : "Send Message"}
                 </Button>
+                {success && <p className="text-green-600 text-sm pt-2">{success}</p>}
+                {error && <p className="text-red-600 text-sm pt-2">{error}</p>}
               </form>
             </CardContent>
           </Card>
