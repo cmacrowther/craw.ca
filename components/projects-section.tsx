@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Github, X } from "lucide-react";
@@ -76,6 +76,20 @@ const categories = [
 export function ProjectsSection() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  
+  // Handle body scroll when modal is open (simplified for iOS Safari compatibility)
+  useEffect(() => {
+    if (selectedProject) {
+      // Simple overflow hidden approach - more stable on iOS
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      
+      // Cleanup function
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [selectedProject]);
   
   // Animation refs
   const headerRef = useScrollAnimation({ delay: 100, stagger: 30 });
@@ -249,7 +263,7 @@ export function ProjectsSection() {
         </div>
 
         {selectedProject && (
-          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-300">
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-300 mobile-full-height">
             <div className="bg-white dark:bg-gray-900 rounded-3xl max-w-4xl w-full max-h-[85vh] overflow-hidden shadow-2xl border border-gray-200 dark:border-gray-700 animate-in zoom-in-95 duration-300">
               <div className="relative">
                 {/* Enhanced Close Button */}

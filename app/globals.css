@@ -675,3 +675,22 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Mobile viewport height fix for iOS Safari */
+.mobile-full-height {
+  height: 100vh;
+  height: 100dvh; /* Dynamic viewport height - supported in iOS 15.4+ */
+}
+
+@supports not (height: 100dvh) {
+  .mobile-full-height {
+    height: calc(var(--vh, 1vh) * 100);
+  }
+}
+
+/* Fallback for older browsers */
+@media screen and (max-width: 768px) {
+  .mobile-full-height {
+    min-height: -webkit-fill-available;
+  }
+}
