@@ -114,7 +114,7 @@ const projects: Project[] = [
     description: "Music display for vinyl lovers: real-time track ID and living 'now playing' screen.",
     longDescription:
       "WaxTrax is a music display for vinyl lovers. It listens to the music playing in your room, identifies the track in real time, and transforms your television into a living ‘now playing’ screen featuring the album artwork, artist, and song title.",
-    video: "/waxtrax-video.mp4",
+  video: "/waxtrax-video.webm",
     technologies: ["Python", "Next.js", "Flask"],
     githubUrl: "https://gitlab.com/cmacrowther/waxtrax",
     category: "music",
