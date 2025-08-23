@@ -41,7 +41,7 @@ const projects: Project[] = [
     githubUrl: "https://gitlab.com/cmacrowther/tuneiq",
     liveUrl: "https://tuneiq.craw.ca/",
     category: "games",
-    year: "2024",
+    year: "2025",
   },
   {
     id: 2,
@@ -55,7 +55,7 @@ const projects: Project[] = [
     githubUrl: "https://gitlab.com/cmacrowther/songwriter",
     liveUrl: "https://music.craw.ca",
     category: "music",
-    year: "2023",
+    year: "2024",
   },
   {
     id: 3,
@@ -80,7 +80,7 @@ const projects: Project[] = [
     technologies: ["Unity", "C#", "Virtual Reality", "Hand Tracking"],
     githubUrl: "https://gitlab.com/TimeShifts/papertossvr",
     category: "games",
-    year: "2024",
+    year: "2023",
   },
   {
     id: 5,
@@ -106,7 +106,7 @@ const projects: Project[] = [
     githubUrl: "https://gitlab.com/cmacrowther/jelly-racer",
     liveUrl: "https://jelly.craw.ca",
     category: "games",
-    year: "2024",
+    year: "2025",
   },
   {
     id: 7,
@@ -195,10 +195,13 @@ export function ProjectsSection() {
     childSelector: '[data-stagger]' 
   });
 
+  // Sort projects by year (descending) without mutating the original array.
+  const sortedProjectsByYear = [...projects].sort((a, b) => parseInt(b.year) - parseInt(a.year));
+
   const filteredProjects =
-    selectedCategory === "all" 
-      ? projects 
-      : projects.filter((project) => project.category === selectedCategory);
+    selectedCategory === "all"
+      ? sortedProjectsByYear
+      : sortedProjectsByYear.filter((project) => project.category === selectedCategory);
 
   return (
     <LazyLoadWrapper minHeight="400px">
@@ -223,7 +226,7 @@ export function ProjectsSection() {
             Featured Work
           </h2>
           <p data-animate className="text-lg text-muted-foreground font-body max-w-2xl mx-auto">
-            Explore my latest projects. Click on any project to learn more about it.
+            Explore my latest hobby projects. Click on any project to learn more about it.
           </p>
         </div>
 
