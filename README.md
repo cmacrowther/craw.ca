@@ -1,30 +1,68 @@
-# Personal
+# Colin Crowther - Developer Portfolio
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
+![Vercel Deployment](https://img.shields.io/badge/Deployed-Vercel-000000?style=for-the-badge&logo=vercel)
+![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![License](https://img.shields.io/badge/License-Proprietary-red?style=for-the-badge)
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/colin-crowther/v0-personal)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/projects/J7V2ClddWfa)
+> **A modern, high-performance portfolio website showcasing projects, skills, and professional experience.**
 
-## Overview
+---
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+## ✨ Overview
 
-## Deployment
+This repository contains the source code for my personal portfolio website, available at [cmacrowther.com](https://cmacrowther.com). Built with performance and accessibility in mind, it serves as a central hub for my work as a Full-stack Developer.
 
-Your project is live at:
+## 🚀 Features
 
-**[https://vercel.com/colin-crowther/v0-personal](https://vercel.com/colin-crowther/v0-personal)**
+- **⚡ High Performance**: Utilizing **Next.js 15** App Router and Server Components for optimal speed.
+- **🎨 Modern Design**: Clean, responsive aesthetic built with **Tailwind CSS v4** and **Shadcn UI**.
+- **🌗 Dark/Light Mode**: Fully integrated theme switching support.
+- **🏎️ Lazy Loading**: Optimized component loading for smooth user experience.
+- **🔍 SEO Optimized**: Comprehensive metadata and JSON-LD schema integration.
+- **📱 Responsive Layout**: Flawless experience across desktop, tablet, and mobile devices.
 
-## Build your app
+## 🛠️ Tech Stack
 
-Continue building your app on:
+- **Framework**: [Next.js 15](https://nextjs.org/)
+- **Library**: [React 19](https://react.dev/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) & [Tailwind Animate](https://github.com/jamiebuilds/tailwindcss-animate)
+- **UI Components**: [Shadcn UI](https://ui.shadcn.com/) / [Radix UI](https://www.radix-ui.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Analytics**: Vercel Speed Insights
 
-**[https://v0.app/chat/projects/J7V2ClddWfa](https://v0.app/chat/projects/J7V2ClddWfa)**
+## 📦 Getting Started
 
-## How It Works
+### Prerequisites
 
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+Ensure you have **Node.js 18+** installed.
+
+### Installation
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/cmacrowther/cmacrowther.com.git
+    cd cmacrowther.com
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    # or
+    pnpm install
+    ```
+
+3.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
+
+4.  **Open your browser:**
+    Navigate to [http://localhost:3000](http://localhost:3000) to view the site.
+
+## 🔒 License
+
+**Copyright © 2026 Colin Crowther.**
+
+All rights reserved. This software is proprietary and confidential. Unauthorized copying, distribution, or use is strictly prohibited.
