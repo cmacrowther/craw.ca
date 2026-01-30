@@ -120,6 +120,19 @@ const projects: Project[] = [
     category: "music",
     year: "2025",
   },
+  {
+    id: 8,
+    title: "Gobert UI",
+    description: "A modern, immersive AI chat interface built with Next.js, Tailwind CSS, and React Three Fiber.",
+    longDescription:
+      "Gobert UI is a modern, immersive AI chat interface built with Next.js, Tailwind CSS, and React Three Fiber. It features a fully interactive 3D floating head avatar, dynamic animations, and real-time communication via WebSockets. Designed to interface with a local or remote Clawdbot instance, it provides a sleek, dark-mode interface for interacting with AI agents.",
+    image: "/gobert-ui.png",
+    video: "/gobertui-video.mp4",
+    technologies: ["Next.js", "Tailwind CSS", "React Three Fiber", "Docker"],
+    githubUrl: "https://github.com/cmacrowther/gobert",
+    category: "tool",
+    year: "2026",
+  },
 ];
 
 const categories = [
