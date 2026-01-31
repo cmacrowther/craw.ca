@@ -912,3 +912,19 @@
     padding-right: env(safe-area-inset-right, 0);
   }
 }
+
+/* Performance Optimizations: content-visibility
+   Skips layout/paint for off-screen sections.
+   Note: #projects is excluded to prevent clipping of its fixed-position modal.
+*/
+#about, #contact {
+  content-visibility: auto;
+}
+
+#about {
+  contain-intrinsic-size: 1px 500px;
+}
+
+#contact {
+  contain-intrinsic-size: 1px 400px;
+}
