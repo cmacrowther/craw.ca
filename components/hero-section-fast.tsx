@@ -67,7 +67,7 @@ export function HeroSection() {
       {/* Hero Headings Under Pixel Overlay */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:-translate-y-[75%] w-full max-w-4xl text-left sm:text-center pointer-events-none select-none px-4 sm:px-0">
         <h1
-          className="text-4xl sm:text-6xl lg:text-7xl font-heading font-bold tracking-tight leading-tight sm:leading-none lg:leading-none"
+          className="text-5xl sm:text-6xl lg:text-7xl font-heading font-bold tracking-tight leading-tight sm:leading-none lg:leading-none"
           style={{
             opacity: isVisible ? 1 : 0,
             transition: 'opacity 1.6s cubic-bezier(0.4,0,0.2,1)',
@@ -93,7 +93,7 @@ export function HeroSection() {
           .
         </h1>
         <div
-          className="text-xl sm:text-4xl lg:text-4xl max-w-2xl mx-auto leading-relaxed mt-4"
+          className="text-2xl sm:text-4xl lg:text-4xl max-w-2xl mx-auto leading-relaxed mt-4"
           style={{
             fontFamily: 'JetBrains Mono, monospace',
             fontWeight: 300,
