@@ -36,17 +36,6 @@ export function OptimizedImage({
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
 
-  if (hasError) {
-    return (
-      <div 
-        className={`bg-muted animate-pulse flex items-center justify-center ${className}`}
-        style={{ width: width || '100%', height: height || '200px' }}
-      >
-        <span className="text-muted-foreground">Failed to load image</span>
-      </div>
-    )
-  }
-
   // Provide default dimensions for images when not specified
   const imageWidth = fill ? undefined : (width || 800)
   const imageHeight = fill ? undefined : (height || 600)
@@ -58,7 +47,7 @@ export function OptimizedImage({
   return (
     <div className={`relative ${isLoading ? 'animate-pulse bg-muted' : ''} ${fill ? 'w-full h-full' : wrapperClasses}`}>
       <Image
-        src={src}
+        src={hasError ? "/placeholder.svg" : src}
         alt={alt}
         width={imageWidth}
         height={imageHeight}
@@ -72,7 +61,14 @@ export function OptimizedImage({
         className={`transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'} ${objectFitClasses}`}
         onLoad={() => setIsLoading(false)}
         onError={() => {
-          setHasError(true)
+          if (!hasError) {
+             setHasError(true)
+             // Keep loading true until fallback loads?
+             // Actually, next/image onError fires when the image fails.
+             // We switch src, which triggers a new load.
+             // So we should probably keep isLoading true or let the new load handle it.
+             // But for simplicity, let's just switch src.
+          }
           setIsLoading(false)
         }}
         {...props}

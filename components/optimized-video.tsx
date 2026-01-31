@@ -43,12 +43,14 @@ export function OptimizedVideo({
   const videoRef = useRef<HTMLVideoElement>(null)
 
   // Check if device is mobile
-  const isMobile = useRef(false)
+  const [isMobile, setIsMobile] = useState(false)
   useEffect(() => {
-    isMobile.current = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    setIsMobile(mobile)
     
     // On mobile, be more conservative with video usage
-    if (isMobile.current) {
+    if (mobile) {
+      setShowPlayButton(true)
       // Check for low-bandwidth or data saver mode
       const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection
       if (connection && (connection.saveData || connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g')) {
@@ -82,7 +84,7 @@ export function OptimizedVideo({
               video.load()
               video.play().catch((error) => {
                 console.log('Autoplay failed on re-enter:', error)
-                if (isMobile.current) {
+                if (isMobile) {
                   setShowPlayButton(true)
                 }
               })
@@ -100,7 +102,7 @@ export function OptimizedVideo({
 
     observer.observe(videoRef.current)
     return () => observer.disconnect()
-  }, [src, autoPlay, muted, poster])
+  }, [src, autoPlay, muted, poster, isMobile, useVideo])
 
   if (hasError || !useVideo) {
     if (poster) {
@@ -144,11 +146,11 @@ export function OptimizedVideo({
       <video
         ref={videoRef}
         poster={poster}
-        autoPlay={autoPlay && !isMobile.current} // Disable autoplay on mobile initially
+        autoPlay={autoPlay}
         loop={loop}
         muted={muted}
         controls={controls}
-        preload={isMobile.current ? 'none' : preload} // Reduce preload on mobile
+        preload={isMobile ? 'none' : preload} // Reduce preload on mobile
         playsInline
         webkit-playsinline="true" // iOS Safari specific
         x5-video-player-type="h5" // WeChat browser
@@ -175,7 +177,7 @@ export function OptimizedVideo({
             videoRef.current.play().catch((error) => {
               console.log('Autoplay failed:', error)
               // Only show play button on mobile if autoplay fails
-              if (isMobile.current) {
+              if (isMobile) {
                 setShowPlayButton(true)
               }
             })
@@ -183,13 +185,6 @@ export function OptimizedVideo({
         }}
       >
         <source src={src} type={getMimeType(src)} />
-        {/* Fallback for different formats */}
-        {src.includes('.webm') && (
-          <>
-            <source src={src.replace('.webm', '.mp4')} type="video/mp4" />
-            <source src={src.replace('.webm', '.mov')} type="video/quicktime" />
-          </>
-        )}
         Your browser does not support the video tag.
       </video>
       

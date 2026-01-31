@@ -928,3 +928,12 @@
 #contact {
   contain-intrinsic-size: 1px 400px;
 }
+
+/* Force disable CRT effect on mobile for performance */
+@media (max-width: 768px) {
+  .crt-effect {
+    display: none !important;
+    animation: none !important;
+    background: none !important;
+  }
+}
