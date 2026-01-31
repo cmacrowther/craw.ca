@@ -1,0 +1,34 @@
+
+> my-v0-project@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+- Experiments (use with caution):
+  · optimizePackageImports
+
+✓ Starting...
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+✓ Ready in 1627ms
+○ Compiling / ...
+Image with src "/gobert-ui.png" is using quality "60" which is not configured in images.qualities [75]. Please update your config to [60, 75].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities
+Image with src "/tuneiq.png" is using quality "60" which is not configured in images.qualities [75]. Please update your config to [60, 75].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities
+Image with src "/songwriter.png" is using quality "60" which is not configured in images.qualities [75]. Please update your config to [60, 75].
+Read more: https://nextjs.org/docs/messages/next-image-unconfigured-qualities
+ GET / 200 in 11.3s (compile: 9.9s, proxy.ts: 138ms, render: 1213ms)
+ GET /songwriter.png 404 in 1044ms (compile: 715ms, proxy.ts: 9ms, render: 321ms)
+ GET /tuneiq.png 404 in 1255ms (compile: 955ms, proxy.ts: 14ms, render: 286ms)
+ GET /songwriter.png 404 in 187ms (compile: 30ms, proxy.ts: 9ms, render: 148ms)
+ GET /tuneiq.png 404 in 434ms (compile: 106ms, proxy.ts: 9ms, render: 319ms)
+ GET /songwriter.png 404 in 470ms (compile: 174ms, proxy.ts: 9ms, render: 287ms)
+⨯ The requested resource isn't a valid image for /songwriter.png received null
+⨯ The requested resource isn't a valid image for /tuneiq.png received null
+ GET /tuneiq.png 404 in 244ms (compile: 33ms, proxy.ts: 5ms, render: 206ms)
+ GET /songwriter.png 404 in 252ms (compile: 142ms, proxy.ts: 6ms, render: 103ms)
+ GET /songwriter.png 404 in 217ms (compile: 30ms, proxy.ts: 16ms, render: 171ms)
+ GET /tuneiq.png 404 in 230ms (compile: 73ms, proxy.ts: 16ms, render: 141ms)
+⨯ The requested resource isn't a valid image for /songwriter.png received null
+⨯ The requested resource isn't a valid image for /tuneiq.png received null
