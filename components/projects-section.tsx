@@ -147,6 +147,11 @@ const categories = [
 export function ProjectsSection() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(isMobileDevice());
+  }, []);
   
   // Safe project selection with error handling
   const handleProjectSelect = (project: Project) => {
@@ -279,11 +284,11 @@ export function ProjectsSection() {
                 >
                   {/* Background Image/Video */}
                   <div className="absolute inset-0 h-full w-full" style={{ willChange: 'transform', transform: 'translateZ(0)' }}>
-                    {project.video ? (
+                    {project.video && !isMobile ? (
                       <>
                         <OptimizedVideo
                           src={project.video}
-                          poster={project.image}
+                          poster={project.image || "/placeholder.svg"}
                           alt={project.title}
                           autoPlay
                           loop
@@ -297,7 +302,7 @@ export function ProjectsSection() {
                       </>
                     ) : (
                       <OptimizedImage
-                        src={(project.image && project.image.replace(/\.(png|jpg)$/i, '.webp')) || "/placeholder.svg"}
+                        src={project.image || "/placeholder.svg"}
                         alt={project.title}
                         fill
                         className="object-cover"
@@ -427,7 +432,7 @@ export function ProjectsSection() {
 
                 {/* Hero Image/Video Section */}
                 <div className="relative aspect-video bg-neutral-900 dark:bg-black overflow-hidden border-b border-neutral-200 dark:border-neutral-700">
-                  {selectedProject.liveUrl && !selectedProject.liveUrl.includes('#') && !isMobileDevice() ? (
+                  {selectedProject.liveUrl && !selectedProject.liveUrl.includes('#') && !isMobile ? (
                     <div className="relative w-full h-full overflow-hidden">
                       <iframe
                         src={selectedProject.liveUrl}
@@ -456,7 +461,7 @@ export function ProjectsSection() {
                   ) : selectedProject.video ? (
                     <OptimizedVideo
                       src={selectedProject.video}
-                      poster={selectedProject.image}
+                      poster={selectedProject.image || "/placeholder.svg"}
                       alt={selectedProject.title}
                       autoPlay
                       loop
@@ -467,7 +472,7 @@ export function ProjectsSection() {
                     />
                   ) : (
                     <OptimizedImage
-                      src={(selectedProject.image && selectedProject.image.replace(/\.(png|jpg)$/i, '.webp')) || "/placeholder.svg"}
+                      src={selectedProject.image || "/placeholder.svg"}
                       alt={selectedProject.title}
                       fill
                       className="object-cover bg-black"
@@ -476,7 +481,7 @@ export function ProjectsSection() {
                     />
                   )}
                   {/* Monochrome overlay for better text contrast (only for non-iframe content) */}
-                  {((!selectedProject.liveUrl || selectedProject.liveUrl.includes('#')) || isMobileDevice()) && (
+                  {((!selectedProject.liveUrl || selectedProject.liveUrl.includes('#')) || isMobile) && (
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                   )}
                   {/* Floating metadata on image */}
@@ -489,7 +494,7 @@ export function ProjectsSection() {
                     </Badge>
                   </div>
                   {/* Live Preview badge - right aligned */}
-                  {selectedProject.liveUrl && !selectedProject.liveUrl.includes('#') && !isMobileDevice() && (
+                  {selectedProject.liveUrl && !selectedProject.liveUrl.includes('#') && !isMobile && (
                     <div className="absolute bottom-4 right-4">
                       <div className="px-2 py-1 bg-black/70 backdrop-blur-md rounded-full border border-white/10">
                         <span className="text-white text-xs font-medium">Live Preview</span>
