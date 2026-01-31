@@ -9,6 +9,8 @@ export function ThreeWaveBackground() {
   const { theme } = useTheme()
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     let renderer: THREE.WebGLRenderer | null = null;
     let animationId: number;
     let camera: THREE.PerspectiveCamera;
@@ -16,9 +18,10 @@ export function ThreeWaveBackground() {
     let mesh: THREE.InstancedMesh;
     let count = 0;
 
-    const SEPARATION = 45;
-    const AMOUNTX = 100;
-    const AMOUNTY = 35;
+    const isMobile = window.innerWidth < 768;
+    const SEPARATION = isMobile ? 90 : 45;
+    const AMOUNTX = isMobile ? 50 : 100;
+    const AMOUNTY = isMobile ? 20 : 35;
     const TOTAL_PARTICLES = AMOUNTX * AMOUNTY;
 
     // Mouse and scroll state

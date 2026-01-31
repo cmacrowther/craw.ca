@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react"
-import { ReactTyped } from "react-typed"
+import { TypewriterEffect } from "@/components/ui/typewriter-effect"
 import { useTheme } from "next-themes"
 import dynamic from "next/dynamic"
 
@@ -105,7 +105,7 @@ export function HeroSection() {
           }}
         >
           {showTyped && (
-            <ReactTyped
+            <TypewriterEffect
               strings={[
                 "I am a full-stack developer from Prince Edward Island, Canada.",
                 "Crafting modern web experiences.",
@@ -117,7 +117,6 @@ export function HeroSection() {
               backSpeed={25}
               backDelay={2200}
               loop
-              showCursor
               cursorChar="_"
             />
           )}
