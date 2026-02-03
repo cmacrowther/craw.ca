@@ -34,11 +34,12 @@ export function HeroSection() {
     let animationId: number;
     let camera: THREE.PerspectiveCamera;
     let scene: THREE.Scene;
-    let particles: THREE.Mesh[] = [];
+    let instancedMesh: THREE.InstancedMesh;
     let count = 0;
     
     // Optimized particle counts for better performance
     const SEPARATION = 50, AMOUNTX = 60, AMOUNTY = 25;
+    const TOTAL_PARTICLES = AMOUNTX * AMOUNTY;
 
     // Mouse and scroll state
     let mouseX = 0, mouseY = 0;
@@ -64,10 +65,43 @@ export function HeroSection() {
     camera.rotation.y = 0.1;
     scene = new THREE.Scene();
     
-    let i = 0;
     // Simpler geometry for better performance
     const geometry = new THREE.SphereGeometry(1.2, 12, 12);
     
+    // Material with custom shader for per-instance opacity
+    const material = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true });
+
+    // Patch the material to support per-instance opacity
+    material.onBeforeCompile = (shader) => {
+      shader.vertexShader = `
+        attribute float instanceOpacity;
+        varying float vInstanceOpacity;
+        ${shader.vertexShader}
+      `.replace(
+        '#include <begin_vertex>',
+        `
+        #include <begin_vertex>
+        vInstanceOpacity = instanceOpacity;
+        `
+      );
+
+      shader.fragmentShader = `
+        varying float vInstanceOpacity;
+        ${shader.fragmentShader}
+      `.replace(
+        '#include <dithering_fragment>',
+        `
+        #include <dithering_fragment>
+        gl_FragColor.a *= vInstanceOpacity;
+        `
+      );
+    };
+
+    instancedMesh = new THREE.InstancedMesh(geometry, material, TOTAL_PARTICLES);
+    const dummy = new THREE.Object3D();
+    const opacityArray = new Float32Array(TOTAL_PARTICLES);
+
+    let i = 0;
     for (let ix = 0; ix < AMOUNTX; ix++) {
       for (let iy = 0; iy < AMOUNTY; iy++) {
         let color: THREE.Color;
@@ -78,15 +112,26 @@ export function HeroSection() {
           const t = ix / AMOUNTX;
           color = new THREE.Color().setHSL(baseHue - 0.2 * t, baseSaturation, baseLightness + 0.15 * Math.sin(iy / AMOUNTY * Math.PI));
         }
+
+        // Calculate opacity
         const opacity = isLightTheme ? 0.6 + 0.3 * Math.sin(iy / AMOUNTY * Math.PI) : 0.45 + 0.25 * Math.sin(iy / AMOUNTY * Math.PI);
-        const material = new THREE.MeshBasicMaterial({ color, transparent: true, opacity });
-        const particle = particles[i++] = new THREE.Mesh(geometry, material);
-        particle.position.x = ix * SEPARATION - (AMOUNTX * SEPARATION) / 2;
-        particle.position.z = iy * SEPARATION - (AMOUNTY * SEPARATION - 10);
-        scene.add(particle);
+        opacityArray[i] = opacity;
+
+        // Set position
+        dummy.position.x = ix * SEPARATION - (AMOUNTX * SEPARATION) / 2;
+        dummy.position.z = iy * SEPARATION - (AMOUNTY * SEPARATION - 10);
+        dummy.updateMatrix();
+
+        instancedMesh.setMatrixAt(i, dummy.matrix);
+        instancedMesh.setColorAt(i, color);
+
         originalColors.push(color.clone());
+        i++;
       }
     }
+
+    geometry.setAttribute('instanceOpacity', new THREE.InstancedBufferAttribute(opacityArray, 1));
+    scene.add(instancedMesh);
     
     renderer = new THREE.WebGLRenderer({ 
       alpha: true,
@@ -164,37 +209,67 @@ export function HeroSection() {
 
       // Simplified particle animation
       let i = 0;
+      let colorsNeedUpdate = false;
+
       for (let ix = 0; ix < AMOUNTX; ix++) {
         for (let iy = 0; iy < AMOUNTY; iy++) {
-          const particle = particles[i];
           const baseY = iy * SEPARATION - (AMOUNTY * SEPARATION - 10);
           
+          // Calculate X and Z (Z is constant per particle, but we need it for distance calc)
+          const posX = ix * SEPARATION - (AMOUNTX * SEPARATION) / 2;
+          const posZ = baseY;
+
+          let posY = 0;
+
           if (isMouseOver) {
             const distance = Math.sqrt(
-              Math.pow(particle.position.x - mouseX * 0.1, 2) + 
-              Math.pow(particle.position.z - (-mouseY * 0.1 + baseY), 2)
+              Math.pow(posX - mouseX * 0.1, 2) +
+              Math.pow(posZ - (-mouseY * 0.1 + baseY), 2)
             );
             const influence = Math.max(0, 200 - distance) / 200;
-            particle.position.y = Math.sin((ix + count) * 0.3) * 20 + influence * 50;
+            posY = Math.sin((ix + count) * 0.3) * 20 + influence * 50;
             
-            const meshMat = particle.material as THREE.MeshBasicMaterial;
             const originalColor = originalColors[i];
             if (influence > 0.1) {
-              meshMat.color.setRGB(
+              // Create a temp color for calculation
+              // We avoid creating new objects inside the loop ideally, but Three.js Color methods mutate
+              const tempColor = new THREE.Color();
+              tempColor.setRGB(
                 Math.min(1, originalColor.r + influence * 0.3),
                 Math.min(1, originalColor.g + influence * 0.2),
                 Math.min(1, originalColor.b + influence * 0.5)
               );
+              instancedMesh.setColorAt(i, tempColor);
+              colorsNeedUpdate = true;
             } else {
-              meshMat.color.copy(originalColor);
+              // Check if we need to reset color?
+              // Optimization: Only reset if we know it might be changed.
+              // But reading back color from InstanceMesh is expensive.
+              // Just setting it is safer.
+              instancedMesh.setColorAt(i, originalColor);
+              colorsNeedUpdate = true;
             }
           } else {
-            particle.position.y = Math.sin((ix + count) * 0.3) * 20;
-            const meshMat = particle.material as THREE.MeshBasicMaterial;
-            meshMat.color.copy(originalColors[i]);
+            posY = Math.sin((ix + count) * 0.3) * 20;
+            // Reset color
+             instancedMesh.setColorAt(i, originalColors[i]);
+             // Use a flag or check if we were mouseover previously to avoid setting this every frame if possible
+             // For now, setting it every frame ensures correctness
+             colorsNeedUpdate = true;
           }
+
+          // Update position
+          dummy.position.set(posX, posY, posZ);
+          dummy.updateMatrix();
+          instancedMesh.setMatrixAt(i, dummy.matrix);
+
           i++;
         }
+      }
+
+      instancedMesh.instanceMatrix.needsUpdate = true;
+      if (colorsNeedUpdate) {
+        instancedMesh.instanceColor!.needsUpdate = true;
       }
 
       renderer!.render(scene, camera);
@@ -217,12 +292,8 @@ export function HeroSection() {
       }
       
       geometry.dispose();
-      particles.forEach(particle => {
-        if (particle.material instanceof THREE.Material) {
-          particle.material.dispose();
-        }
-      });
-      particles = [];
+      material.dispose();
+      instancedMesh.dispose();
     };
   }, [theme]);
 
