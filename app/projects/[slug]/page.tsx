@@ -10,6 +10,7 @@ import { OptimizedVideo } from "@/components/optimized-video";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { categoryLabels, getProjectBySlug, getRelatedProjects, isEmbeddableProject, projects, type Project } from "@/lib/projects";
+import { ProjectPixelBackground } from "@/components/project-pixel-background";
 
 const siteUrl = "https://cmacrowther.com";
 
@@ -184,7 +185,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const hasLivePreview = isEmbeddableProject(project);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
+      <ProjectPixelBackground />
       <Header />
       <main className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0">

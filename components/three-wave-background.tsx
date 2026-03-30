@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react"
 import { useTheme } from "next-themes"
 import * as THREE from "three"
 
-export function ThreeWaveBackground() {
+export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
   const threeRef = useRef<HTMLDivElement>(null)
   const { theme } = useTheme()
 
@@ -121,13 +121,15 @@ export function ThreeWaveBackground() {
             const xPos = ix * SEPARATION - (AMOUNTX * SEPARATION) / 2;
             const zPosBase = iy * SEPARATION - (AMOUNTY * SEPARATION - 10);
 
-            const yPos =
-              Math.sin((ix + count) * 0.45) * 16 +
-              Math.cos((iy + count) * 0.32) * 12;
+            const yPos = wave
+              ? Math.sin((ix + count) * 0.45) * 16 +
+                Math.cos((iy + count) * 0.32) * 12
+              : 0;
 
-            const zPos =
-              (Math.sin((ix + count) * 0.18) + Math.cos((iy + count) * 0.22)) * 8 +
-              zPosBase;
+            const zPos = wave
+              ? (Math.sin((ix + count) * 0.18) + Math.cos((iy + count) * 0.22)) * 8 +
+                zPosBase
+              : zPosBase;
 
             const scale = 1.2 + 0.45 * Math.sin((ix + count) * 0.25 + (iy + count) * 0.18);
 
@@ -179,7 +181,7 @@ export function ThreeWaveBackground() {
         cancelAnimationFrame(animationId);
       };
     }
-  }, [theme]);
+  }, [theme, wave]);
 
   return (
     <div
