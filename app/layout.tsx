@@ -24,6 +24,9 @@ export const metadata: Metadata = {
   title: "Colin Crowther - Developer Portfolio",
   description:
     "Full-stack developer and software engineer portfolio showcasing modern web applications and innovative projects.",
+  alternates: {
+    canonical: "/",
+  },
   generator: "v0.app",
   icons: {
     icon: [
@@ -76,8 +79,6 @@ export default function RootLayout({
       <head>
         {/* Default theme-color meta for dynamic update */}
         <meta name="theme-color" content="#ffffff" />
-        {/* Canonical URL for SEO */}
-        <link rel="canonical" href="https://cmacrowther.com/" />
 
         {/* Structured Data: Organization/Person */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{

@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { Github, Linkedin, Mail, Heart, Container } from "lucide-react"
 import GitLab from "@/components/ui/gitlab-icon"
 
@@ -18,24 +19,24 @@ export function Footer() {
           <div className="space-y-4">
             <h4 className="text-sm font-heading font-semibold uppercase tracking-wider">Quick Links</h4>
             <nav className="flex flex-col space-y-2">
-              <a href="#home" className="font-body text-sm text-muted-foreground hover:text-primary transition-colors">
+              <Link href="/#home" className="font-body text-sm text-muted-foreground hover:text-primary transition-colors">
                 Home
-              </a>
-              <a
-                href="#projects"
+              </Link>
+              <Link
+                href="/#projects"
                 className="font-body text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 Projects
-              </a>
-              <a href="#about" className="font-body text-sm text-muted-foreground hover:text-primary transition-colors">
+              </Link>
+              <Link href="/#about" className="font-body text-sm text-muted-foreground hover:text-primary transition-colors">
                 About
-              </a>
-              <a
-                href="#contact"
+              </Link>
+              <Link
+                href="/#contact"
                 className="font-body text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 Contact
-              </a>
+              </Link>
             </nav>
           </div>
 

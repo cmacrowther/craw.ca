@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ParticleBackground } from "./particle-background"
@@ -77,7 +78,7 @@ export function AboutSection() {
           
           {/* GLB viewer for mobile - positioned above header */}
           <div data-animate className="md:hidden flex justify-center mb-8">
-            <div className="w-64 h-48 animate-scale-in" style={{ overflow: 'visible' }}>
+            <div className="w-64 h-48" style={{ overflow: 'visible' }}>
               <LazyLoadWrapper minHeight="192px">
                 <GLBViewer modelUrl="/model.glb" className="rounded-lg" />
               </LazyLoadWrapper>
@@ -95,10 +96,10 @@ export function AboutSection() {
         <div ref={contentRef} className="space-y-6 md:space-y-12">
           {/* Main content grid - paragraphs and GLB model */}
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
-            <div className="lg:col-span-2 space-y-8 animate-slide-left">
-              <div data-animate className="prose prose-lg dark:prose-invert max-w-none space-y-8">
+            <div className="lg:col-span-2 space-y-8">
+              <div className="prose prose-lg dark:prose-invert max-w-none space-y-8">
                 {/* Enhanced paragraph 1 with visual accent */}
-                <div className="relative">
+                <div data-animate className="relative">
                   <div className="absolute -left-6 top-0 w-1 h-full bg-gradient-to-b from-blue-500 to-purple-600 rounded-full opacity-60 hidden md:block"></div>
                   <div className="pl-0 md:pl-8">
                     <p className="font-body text-lg leading-relaxed text-foreground">
@@ -114,7 +115,7 @@ export function AboutSection() {
                 </div>
 
                 {/* Enhanced paragraph 2 with different styling */}
-                <div className="relative">
+                <div data-animate className="relative">
                   <div className="absolute -left-6 top-0 w-1 h-full bg-gradient-to-b from-purple-500 to-pink-600 rounded-full opacity-60 hidden md:block"></div>
                   <div className="pl-0 md:pl-8">
                     <p className="font-body text-lg leading-relaxed text-foreground">
@@ -130,23 +131,23 @@ export function AboutSection() {
                 </div>
 
                 {/* Enhanced paragraph 3 with call-to-action styling */}
-                <div className="relative">
+                <div data-animate className="relative">
                   <div className="absolute -left-6 top-0 w-1 h-full bg-gradient-to-b from-pink-500 to-rose-600 rounded-full opacity-60 hidden md:block"></div>
                   <div className="pl-0 md:pl-8">
                     <p className="font-body text-lg leading-relaxed text-foreground">
                       I've had the chance to work with a wide mix of languages and technologies, and I'm always eager to learn more. If you'd like a copy of my resume, 
-                      <a href="#contact" className="relative inline font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors duration-300 group ml-1">
+                      <Link href="/#contact" className="relative inline font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors duration-300 group ml-1">
                         <span className="relative z-10">shoot me a message!</span>
                         <span className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                         <span className="absolute bottom-0 left-0 w-full h-1 bg-emerald-500/20 animate-pulse"></span>
-                      </a>
+                      </Link>
                     </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div data-animate className="lg:col-span-3 hidden md:flex justify-center items-center animate-slide-right">
+            <div data-animate className="lg:col-span-3 hidden md:flex justify-center items-center">
               <div className="w-full h-[450px] lg:h-[500px] xl:h-[550px] flex items-center justify-center" style={{ overflow: 'visible' }}>
                 <LazyLoadWrapper minHeight="450px">
                   <GLBViewer modelUrl="/model.glb" className="rounded-lg" />
@@ -156,7 +157,7 @@ export function AboutSection() {
           </div>
 
           {/* Technology list section - separate from the main grid */}
-          <div className="space-y-8 animate-slide-left">
+          <div className="space-y-8">
             <div data-animate className="w-full md:w-1/2">
               <p data-animate className="text-xl font-heading font-semibold mb-4 mt-12 md:mt-6">
                 Technologies I have experience with:

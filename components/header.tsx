@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Menu, X, Github, Linkedin, Mail, Container, Laptop2 } from "lucide-react"
@@ -130,10 +131,10 @@ export function Header() {
   }, [headerText])
 
   const navigation = [
-    { name: "Home", href: "#home" },
-    { name: "Projects", href: "#projects" },
-    { name: "About", href: "#about" },
-    { name: "Contact", href: "#contact" },
+    { name: "Home", href: "/#home" },
+    { name: "Projects", href: "/#projects" },
+    { name: "About", href: "/#about" },
+    { name: "Contact", href: "/#contact" },
   ]
 
   return (
@@ -142,9 +143,9 @@ export function Header() {
         <div className="flex h-16 items-center justify-between md:grid md:grid-cols-3 md:justify-items-stretch">
           {/* Logo - Shared between mobile and desktop */}
           <div className="flex justify-start">
-            <a
+            <Link
               ref={headerTextRef}
-              href="#home"
+              href="/#home"
               className="text-xl font-heading font-bold text-foreground hover:text-foreground transition-colors flex items-center gap-2 header-logo-hidden"
               style={{ position: 'relative' }}
             >
@@ -155,21 +156,21 @@ export function Header() {
                 >
                 </Badge>
               </span>
-            </a>
+            </Link>
           </div>
 
           {/* Desktop Navigation - Center Column (hidden on mobile) */}
           <nav ref={navRef} className="hidden md:flex items-center justify-center nav-hidden">
             <div className="flex items-center space-x-8">
               {navigation.map((item, index) => (
-                <a
+                <Link
                   key={item.name}
                   href={item.href}
                   className="text-sm font-body font-medium text-muted-foreground hover:text-foreground transition-colors nav-item-hidden"
                   style={{ '--nav-index': index } as React.CSSProperties}
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
             </div>
           </nav>
@@ -223,7 +224,7 @@ export function Header() {
           <div className="md:hidden mobile-menu-animate">
             <div className="px-2 pt-2 pb-3 space-y-1 border-t border-border/20 bg-white/5 dark:bg-black/5 backdrop-blur-sm">
               {navigation.map((item, index) => (
-                <a
+                <Link
                   key={item.name}
                   href={item.href}
                   className="block px-3 py-2 text-base font-body font-medium text-muted-foreground hover:text-foreground transition-colors mobile-nav-item"
@@ -231,7 +232,7 @@ export function Header() {
                   style={{ '--mobile-delay': `${index * 0.1}s` } as React.CSSProperties}
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
               <div className="flex items-center space-x-2 px-3 py-2 mobile-actions">
                 <a href="https://github.com/cmacrowther" target="_blank" rel="noopener noreferrer" className="mobile-action-icon">

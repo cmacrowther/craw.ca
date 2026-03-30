@@ -110,7 +110,7 @@ export function ContactSection() {
 
         <div ref={contentRef} className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Information */}
-          <div className="space-y-8 animate-slide-left">
+          <div className="space-y-8">
             <div data-animate>
               <h3 className="text-2xl font-heading font-semibold mb-6">Let's Connect</h3>
               <p className="font-body text-base leading-relaxed text-muted-foreground mb-8">
@@ -162,7 +162,7 @@ export function ContactSection() {
           </div>
 
           {/* Contact Form */}
-          <Card data-animate className="animate-slide-right min-h-[400px]">
+          <Card data-animate className="min-h-[400px]">
             {showSuccess ? (
               <div className="flex flex-col items-center justify-center w-full h-full py-16 animate-fade-in">
                 <svg className="w-16 h-16 text-green-500 mb-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
