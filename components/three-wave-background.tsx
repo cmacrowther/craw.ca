@@ -24,11 +24,7 @@ export function ThreeWaveBackground() {
     const AMOUNTY = isMobile ? 20 : 35;
     const TOTAL_PARTICLES = AMOUNTX * AMOUNTY;
 
-    // Mouse and scroll state
-    let mouseX = 0, mouseY = 0;
-    let targetMouseX = 0, targetMouseY = 0;
-    let smoothMouseX = 0, smoothMouseY = 0;
-    let isMouseOver = false;
+    // Scroll state
     let scrollY = 0, targetFov = 100;
 
     // Store original colors (baked with opacity)
@@ -98,36 +94,13 @@ export function ThreeWaveBackground() {
       scene.add(mesh);
 
       const localRenderer = new THREE.WebGLRenderer({ alpha: false, antialias: false });
-      localRenderer.setSize(width, height);
+      localRenderer.setSize(width, height, false);
       localRenderer.setClearColor(bgColorHex, 1);
-      localRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      localRenderer.setPixelRatio(1);
       threeRef.current.appendChild(localRenderer.domElement);
+      localRenderer.domElement.style.width = '100%';
+      localRenderer.domElement.style.height = '100%';
       renderer = localRenderer;
-
-      // Mouse events
-      const handleMouseMove = (e: MouseEvent) => {
-        if (!threeRef.current) return;
-        const rect = threeRef.current.getBoundingClientRect();
-        const relY = (e.clientY - rect.top) / rect.height;
-        if (relY >= 0.5 && relY <= 1) {
-          isMouseOver = true;
-          targetMouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-          targetMouseY = (relY - 0.5) * 4 - 1;
-          mouseX = (e.clientX - rect.left) / rect.width;
-          mouseY = (relY - 0.5) * 2;
-        } else {
-          isMouseOver = false;
-        }
-      };
-
-      const handleMouseLeave = () => {
-        isMouseOver = false;
-      };
-
-      if (threeRef.current) {
-        threeRef.current.addEventListener('mousemove', handleMouseMove);
-        threeRef.current.addEventListener('mouseleave', handleMouseLeave);
-      }
 
       const handleScroll = () => {
         scrollY = window.scrollY || window.pageYOffset;
@@ -140,20 +113,7 @@ export function ThreeWaveBackground() {
       const colorInstance = new THREE.Color();
 
       function animate() {
-        if (!isMouseOver) {
-          targetMouseX = 0;
-          targetMouseY = 0;
-        }
-        smoothMouseX += (targetMouseX - smoothMouseX) * 0.08;
-        smoothMouseY += (targetMouseY - smoothMouseY) * 0.08;
-
         let i = 0;
-        const PHASE_INTENSITY = 1.2;
-        const AMPLITUDE_INTENSITY = 0.09;
-        const AMPLITUDE_BASE = 1;
-
-        const phaseShiftBase = smoothMouseX * PHASE_INTENSITY + smoothMouseY * (PHASE_INTENSITY * 0.6);
-        const amplitudeMod = AMPLITUDE_BASE + smoothMouseY * AMPLITUDE_INTENSITY;
 
         for (let ix = 0; ix < AMOUNTX; ix++) {
           for (let iy = 0; iy < AMOUNTY; iy++) {
@@ -162,61 +122,21 @@ export function ThreeWaveBackground() {
             const zPosBase = iy * SEPARATION - (AMOUNTY * SEPARATION - 10);
 
             const yPos =
-              Math.sin((ix + count) * (0.45 + smoothMouseX * 0.035) + phaseShiftBase) * 16 * amplitudeMod +
-              Math.cos((iy + count) * (0.32 + smoothMouseY * 0.025) + phaseShiftBase) * 12 * amplitudeMod;
+              Math.sin((ix + count) * 0.45) * 16 +
+              Math.cos((iy + count) * 0.32) * 12;
 
             const zPos =
-              (Math.sin((ix + count) * 0.18 + phaseShiftBase) + Math.cos((iy + count) * 0.22 + phaseShiftBase)) * 8 +
+              (Math.sin((ix + count) * 0.18) + Math.cos((iy + count) * 0.22)) * 8 +
               zPosBase;
 
-            const scale = 1.2 + 0.45 * Math.sin((ix + count) * 0.25 + (iy + count) * 0.18 + phaseShiftBase);
+            const scale = 1.2 + 0.45 * Math.sin((ix + count) * 0.25 + (iy + count) * 0.18);
 
             dummy.position.set(xPos, yPos, zPos);
             dummy.scale.set(scale, scale, scale);
             dummy.updateMatrix();
             mesh.setMatrixAt(i, dummy.matrix);
 
-            // Color logic
-            // Reset to original (baked)
-            const origR = originalColors[i*3];
-            const origG = originalColors[i*3+1];
-            const origB = originalColors[i*3+2];
-            colorInstance.setRGB(origR, origG, origB);
-
-            if (isMouseOver) {
-              const px = ix / AMOUNTX;
-              const py = iy / AMOUNTY;
-              const dist = Math.sqrt((px - mouseX) ** 2 + (py - mouseY) ** 2);
-
-              if (dist < 0.18) {
-                // Apply lightness/hue shift on top of baked color?
-                // The original logic shifted HSL.
-                // We have RGB.
-                // We should un-bake? No, that's expensive.
-                // We can just apply the shift to the baked color. It won't be mathematically identical but visually close.
-                // Or we can recalculate from scratch if we knew the original HSL.
-                // For performance, let's just shift the current RGB.
-
-                // Original logic:
-                // Light: L += 0.1 * (1 - dist/0.18)
-                // Dark: H += 0.035 * ...
-
-                // We'll just brighten/hue shift the baked color.
-                if (isLightTheme) {
-                  const lightnessShift = 0.1 * (1 - dist / 0.18);
-                  const hsl = { h: 0, s: 0, l: 0 };
-                  colorInstance.getHSL(hsl);
-                  // Clamp L to avoid blowing out
-                   colorInstance.setHSL(hsl.h, hsl.s, Math.min(1.0, hsl.l + lightnessShift));
-                } else {
-                  const hueShift = 0.035 * (1 - dist / 0.18);
-                  const hsl = { h: 0, s: 0, l: 0 };
-                  colorInstance.getHSL(hsl);
-                  colorInstance.setHSL(hsl.h + hueShift, hsl.s, hsl.l);
-                }
-              }
-            }
-
+            colorInstance.setRGB(originalColors[i*3], originalColors[i*3+1], originalColors[i*3+2]);
             mesh.setColorAt(i, colorInstance);
             i++;
           }
@@ -242,7 +162,7 @@ export function ThreeWaveBackground() {
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
         if (renderer) {
-          renderer.setSize(width, height);
+          renderer.setSize(width, height, false);
         }
       };
       window.addEventListener('resize', handleResize);
@@ -250,10 +170,6 @@ export function ThreeWaveBackground() {
       return () => {
         window.removeEventListener('resize', handleResize);
         window.removeEventListener('scroll', handleScroll);
-        if (threeRef.current) {
-          threeRef.current.removeEventListener('mousemove', handleMouseMove);
-          threeRef.current.removeEventListener('mouseleave', handleMouseLeave);
-        }
         if (renderer) {
           renderer.dispose();
           if (renderer.domElement && renderer.domElement.parentNode) {

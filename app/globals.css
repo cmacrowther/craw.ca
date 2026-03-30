@@ -31,10 +31,8 @@
   font-display: swap;
 }
 /* Pixel Screen Overlay Effect - Theme aware */
-/* --pixel-cell scales with viewport so the grid stays proportionally consistent
-   across screen sizes: ~3px at 1440px desktop, clamped to 2px min on mobile */
 :root {
-  --pixel-cell: clamp(2px, 0.21vw, 5px);
+  --pixel-cell: 2px;
 }
 
 .pixel-overlay {
@@ -42,27 +40,23 @@
   inset: 0;
   z-index: 9;
   pointer-events: none;
+  /* Normal blend: lines dim proportionally instead of fully crushing white text.
+     At 45% opacity, white text stays ~78% bright on average (vs 0% with multiply). */
   background:
-    repeating-linear-gradient(0deg, rgba(0,0,0,1) 0 1px, transparent 1px var(--pixel-cell)),
-    repeating-linear-gradient(90deg, rgba(0,0,0,1) 0 1px, transparent 1px var(--pixel-cell));
-  mix-blend-mode: multiply;
-  opacity: 0.9;
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.65) 0 1px, transparent 1px var(--pixel-cell)),
+    repeating-linear-gradient(90deg, rgba(0,0,0,0.65) 0 1px, transparent 1px var(--pixel-cell));
+  mix-blend-mode: normal;
 }
 
-/* Light theme pixel overlay */
+/* Light theme pixel overlay — multiply is fine here since text is dark on a light bg */
 .light .pixel-overlay {
   background:
-    repeating-linear-gradient(0deg, rgba(0,0,0,0.12) 0 1px, transparent 1px var(--pixel-cell)),
-    repeating-linear-gradient(90deg, rgba(0,0,0,0.12) 0 1px, transparent 1px var(--pixel-cell));
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.35) 0 1px, transparent 1px var(--pixel-cell)),
+    repeating-linear-gradient(90deg, rgba(0,0,0,0.35) 0 1px, transparent 1px var(--pixel-cell));
   mix-blend-mode: multiply;
 }
 
-/* Mobile dark mode pixel overlay - lighter opacity since grid is finer at min cell size */
 @media (max-width: 768px) {
-  .dark .pixel-overlay {
-    opacity: 0.5;
-  }
-  
   /* Mobile canvas background fixes */
   canvas {
     display: block !important;
@@ -73,6 +67,8 @@
     height: 100% !important;
     min-height: 100% !important;
     min-width: 100% !important;
+    image-rendering: pixelated !important;
+    image-rendering: crisp-edges !important;
   }
   
   /* Ensure contact section background container is properly sized on mobile */
@@ -688,6 +684,152 @@
   }
 }
 
+/* Project-page arcade monitor treatment */
+.arcade-screen-stage {
+  perspective: 2200px;
+  perspective-origin: center 25%;
+  padding: 0.75rem 0 3.5rem;
+}
+
+.arcade-screen-shell {
+  position: relative;
+  transform-style: preserve-3d;
+  transform-origin: center bottom;
+  will-change: transform;
+  animation: arcade-cabinet-idle 11s ease-in-out infinite;
+}
+
+.arcade-screen-shell::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 12%;
+  bottom: -2.2rem;
+  height: clamp(1.8rem, 4vw, 3rem);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at center, rgba(0, 0, 0, 0.58) 0%, rgba(0, 0, 0, 0.22) 42%, transparent 82%),
+    linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+  filter: blur(18px);
+  opacity: 0.8;
+  pointer-events: none;
+  transform: translateZ(-120px) rotateX(82deg);
+}
+
+.arcade-screen-frame {
+  position: relative;
+  padding: clamp(0.8rem, 1.7vw, 1.1rem);
+  border-radius: clamp(2rem, 4vw, 2.75rem);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.12) 0%, rgba(148, 163, 184, 0.14) 12%, rgba(12, 14, 18, 0.98) 42%, rgba(4, 5, 7, 0.98) 100%);
+  box-shadow:
+    0 38px 110px rgba(0, 0, 0, 0.44),
+    0 14px 32px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -26px 34px rgba(0, 0, 0, 0.42);
+  isolation: isolate;
+  transform: rotateX(14deg) rotateY(-6deg);
+  transform-origin: center bottom;
+  transform-style: preserve-3d;
+}
+
+.arcade-screen-frame::before {
+  content: "";
+  position: absolute;
+  inset: clamp(0.48rem, 1vw, 0.72rem);
+  z-index: 3;
+  border-radius: clamp(1.65rem, 3vw, 2.2rem);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 18px 30px rgba(255, 255, 255, 0.05),
+    inset 0 -20px 32px rgba(0, 0, 0, 0.62);
+  pointer-events: none;
+}
+
+.arcade-screen-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  background: linear-gradient(125deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.07) 16%, transparent 34%, transparent 72%, rgba(255, 255, 255, 0.08) 90%, rgba(255, 255, 255, 0.18) 100%);
+  mix-blend-mode: screen;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.arcade-screen-viewport {
+  position: relative;
+  z-index: 1;
+  border-radius: clamp(1.5rem, 3vw, 2rem);
+  background: #020304;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 18px 30px rgba(255, 255, 255, 0.04),
+    inset 0 -28px 40px rgba(0, 0, 0, 0.6);
+}
+
+.arcade-screen-media {
+  transform: scale(1.08);
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.arcade-screen-glass {
+  position: absolute;
+  inset: clamp(0.95rem, 1.9vw, 1.2rem);
+  z-index: 4;
+  border-radius: clamp(1.38rem, 2.8vw, 1.9rem);
+  background:
+    linear-gradient(115deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.22) 8%, rgba(255, 255, 255, 0.05) 18%, rgba(255, 255, 255, 0) 38%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.04) 12%, rgba(255, 255, 255, 0) 28%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0) 48%, rgba(255, 255, 255, 0.06) 68%, rgba(255, 255, 255, 0.18) 100%),
+    radial-gradient(circle at 18% 8%, rgba(255, 255, 255, 0.24), transparent 34%);
+  background-repeat: no-repeat;
+  background-size: 140% 100%, 100% 100%, 100% 100%, 100% 100%;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  animation: arcade-glare-shift 8s ease-in-out infinite;
+}
+
+.arcade-screen-frame .crt-effect {
+  transform: none;
+  opacity: 0.58;
+  filter: blur(0.35px) contrast(1.15) saturate(1.08);
+  box-shadow: inset 0 0 26px rgba(0, 0, 0, 0.32);
+}
+
+@keyframes arcade-cabinet-idle {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotateZ(0deg);
+  }
+  25% {
+    transform: translate3d(-3px, -2px, 0) rotateZ(-0.28deg);
+  }
+  50% {
+    transform: translate3d(2px, 1px, 0) rotateZ(0.24deg);
+  }
+  75% {
+    transform: translate3d(-1px, 3px, 0) rotateZ(-0.18deg);
+  }
+}
+
+@keyframes arcade-glare-shift {
+  0%, 100% {
+    background-position: 0 0, 0 0, 0 0, 0 0;
+    opacity: 0.88;
+  }
+  50% {
+    background-position: 1.5rem 0, 0 0, -1rem 0, 0 0;
+    opacity: 0.96;
+  }
+}
+
 /* CRT Screen Effect */
 
 
@@ -735,7 +877,7 @@
   /* Screen curvature simulation */
   border-radius: 3.5% 3.5% 6% 6%/5.5% 5.5% 8% 8%;
   box-shadow:
-    0 0 32px 8px rgba(0,0,0,0.45) inset,
+    0 0 32px 8px rgba(0,0,0,0.65) inset,
     0 0 0 2px rgba(255,255,255,0.04) inset;
   transform:
     perspective(900px)
@@ -826,6 +968,51 @@
 
 #contact {
   contain-intrinsic-size: 1px 400px;
+}
+
+@media (max-width: 960px) {
+  .arcade-screen-stage {
+    padding-bottom: 2.5rem;
+  }
+
+  .arcade-screen-frame {
+    transform: rotateX(10deg) rotateY(-3deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .arcade-screen-stage {
+    perspective: 1600px;
+    padding: 0.25rem 0 1.5rem;
+  }
+
+  .arcade-screen-media {
+    transform: scale(1.05);
+  }
+
+  .arcade-screen-shell::after {
+    left: 6%;
+    right: 10%;
+    bottom: -1.2rem;
+    filter: blur(14px);
+    opacity: 0.58;
+  }
+
+  .arcade-screen-frame {
+    transform: rotateX(7deg) rotateY(-1.5deg);
+  }
+
+  .arcade-screen-glass {
+    opacity: 0.8;
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arcade-screen-shell,
+  .arcade-screen-glass {
+    animation: none;
+  }
 }
 
 /* Force disable CRT effect on mobile for performance */

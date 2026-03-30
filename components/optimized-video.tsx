@@ -8,6 +8,7 @@ interface OptimizedVideoProps {
   poster?: string
   alt: string
   className?: string
+  mediaClassName?: string
   autoPlay?: boolean
   loop?: boolean
   muted?: boolean
@@ -24,6 +25,7 @@ export function OptimizedVideo({
   poster,
   alt,
   className = '',
+  mediaClassName = '',
   autoPlay = false,
   loop = true,
   muted = true,
@@ -112,7 +114,7 @@ export function OptimizedVideo({
           alt={alt}
           width={width}
           height={height}
-          className={className}
+          className={`${className} object-cover ${mediaClassName}`.trim()}
           quality={80}
         />
       )
@@ -155,7 +157,7 @@ export function OptimizedVideo({
         webkit-playsinline="true" // iOS Safari specific
         x5-video-player-type="h5" // WeChat browser
         x5-video-player-fullscreen="true" // WeChat browser
-        className={`w-full h-full object-cover transition-opacity duration-300 ${
+        className={`w-full h-full object-cover transition-opacity duration-300 ${mediaClassName} ${
           isLoading ? 'opacity-0' : 'opacity-100'
         }`}
         width={width}
@@ -214,7 +216,7 @@ export function OptimizedVideo({
           alt={alt}
           width={width}
           height={height}
-          className="absolute inset-0 object-cover"
+          className={`absolute inset-0 object-cover ${mediaClassName}`.trim()}
           quality={60}
         />
       )}

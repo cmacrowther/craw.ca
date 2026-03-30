@@ -72,12 +72,14 @@ function ProjectMedia({
   quality = "high",
   withCrt = true,
   wrapperClassName = "aspect-[16/10] w-full",
+  mediaClassName = "",
 }: {
   project: Project;
   priority?: boolean;
   quality?: "low" | "medium" | "high";
   withCrt?: boolean;
   wrapperClassName?: string;
+  mediaClassName?: string;
 }) {
   if (project.video) {
     return (
@@ -90,7 +92,8 @@ function ProjectMedia({
           loop
           muted
           preload="metadata"
-          className="h-full w-full object-cover"
+          className="h-full w-full"
+          mediaClassName={mediaClassName}
           quality={quality}
         />
         {withCrt && <div className="crt-effect pointer-events-none rounded-[2rem]" style={{ borderRadius: "inherit" }} />}
@@ -104,7 +107,7 @@ function ProjectMedia({
         src={project.image || "/placeholder.jpg"}
         alt={project.title}
         fill
-        className="object-cover"
+        className={`object-cover ${mediaClassName}`.trim()}
         quality={90}
         priority={priority}
         sizes="(max-width: 1024px) 100vw, 45vw"
@@ -207,84 +210,94 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               Back to featured work
             </Link>
 
-            <div className="max-w-4xl">
-                <span
-                  className="inline-flex items-center rounded-full px-4 py-2 text-sm font-medium text-white shadow-lg"
-                  style={{ background: project.accent.badgeGradient }}
-                >
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  Project Deep Dive
-                </span>
+            <div className="grid gap-12 xl:grid-cols-[minmax(0,1fr)_minmax(420px,0.92fr)] xl:items-start xl:gap-16">
+              <div className="max-w-4xl xl:max-w-none xl:pt-6">
+                  <span
+                    className="inline-flex items-center rounded-full px-4 py-2 text-sm font-medium text-white shadow-lg"
+                    style={{ background: project.accent.badgeGradient }}
+                  >
+                    <Sparkles className="mr-2 h-4 w-4" />
+                    Project Deep Dive
+                  </span>
 
-                <div className="mt-6 flex flex-wrap items-center gap-3">
-                  <Badge variant="outline" className="rounded-full border-border/60 bg-background/70 px-3 py-1 text-sm dark:border-white/10 dark:bg-white/5">
-                    {project.year}
-                  </Badge>
-                  <Badge variant="outline" className="rounded-full border-border/60 bg-background/70 px-3 py-1 text-sm dark:border-white/10 dark:bg-white/5">
-                    {categoryLabels[project.category]}
-                  </Badge>
-                  <Badge variant="outline" className="rounded-full border-border/60 bg-background/70 px-3 py-1 text-sm dark:border-white/10 dark:bg-white/5">
-                    {project.technologies.length} technologies
-                  </Badge>
-                </div>
-
-                <h1 className="mt-6 max-w-3xl font-heading text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-                  {project.title}
-                </h1>
-                <p className="mt-6 max-w-2xl font-body text-xl leading-relaxed text-muted-foreground">
-                  {project.description}
-                </p>
-
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  {project.liveUrl && (
-                    <Button
-                      asChild
-                      className="h-11 rounded-full px-6 text-base font-semibold text-white shadow-lg transition-transform duration-300 hover:-translate-y-0.5"
-                      style={{ background: project.accent.badgeGradient }}
-                    >
-                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                        <Globe className="h-4 w-4" />
-                        Visit Live Demo
-                      </a>
-                    </Button>
-                  )}
-                  {project.githubUrl && (
-                    <Button asChild variant="outline" className="h-11 rounded-full px-6 text-base font-semibold">
-                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                        <Github className="h-4 w-4" />
-                        View Source Code
-                      </a>
-                    </Button>
-                  )}
-                </div>
-
-                <div className="mt-10 grid gap-4 sm:grid-cols-3">
-                  <ProjectStat icon={CalendarRange} label="Year" value={project.year} />
-                  <ProjectStat icon={Layers3} label="Category" value={categoryLabels[project.category]} />
-                  <ProjectStat icon={Sparkles} label="Stack Size" value={`${project.technologies.length} tools`} />
-                </div>
-            </div>
-
-            <div className="relative mt-12">
-              <div className="absolute -inset-6 rounded-[2.75rem] blur-3xl opacity-80" style={{ background: project.accent.surfaceGradient }} />
-              <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-black/70 shadow-[0_30px_120px_rgba(0,0,0,0.35)]">
-                <ProjectMedia
-                  project={project}
-                  priority
-                  wrapperClassName="aspect-[16/9] w-full md:aspect-[18/10]"
-                />
-                <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-white/10 to-transparent" />
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
-                <div className="absolute bottom-5 left-5 right-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-                  <div>
-                    <p className="font-body text-[11px] uppercase tracking-[0.32em] text-white/60">Featured Work</p>
-                    <p className="mt-2 font-heading text-lg font-semibold text-white sm:text-xl">{project.title}</p>
+                  <div className="mt-6 flex flex-wrap items-center gap-3">
+                    <Badge variant="outline" className="rounded-full border-border/60 bg-background/70 px-3 py-1 text-sm dark:border-white/10 dark:bg-white/5">
+                      {project.year}
+                    </Badge>
+                    <Badge variant="outline" className="rounded-full border-border/60 bg-background/70 px-3 py-1 text-sm dark:border-white/10 dark:bg-white/5">
+                      {categoryLabels[project.category]}
+                    </Badge>
+                    <Badge variant="outline" className="rounded-full border-border/60 bg-background/70 px-3 py-1 text-sm dark:border-white/10 dark:bg-white/5">
+                      {project.technologies.length} technologies
+                    </Badge>
                   </div>
-                  {project.liveUrl && (
-                    <div className="w-fit rounded-full border border-white/15 bg-black/35 px-3 py-1 text-xs font-medium text-white/90 backdrop-blur-md">
-                      Live demo available
+
+                  <h1 className="mt-6 max-w-3xl font-heading text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+                    {project.title}
+                  </h1>
+                  <p className="mt-6 max-w-2xl font-body text-xl leading-relaxed text-muted-foreground">
+                    {project.description}
+                  </p>
+
+                  <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                    {project.liveUrl && (
+                      <Button
+                        asChild
+                        className="h-11 rounded-full px-6 text-base font-semibold text-white shadow-lg transition-transform duration-300 hover:-translate-y-0.5"
+                        style={{ background: project.accent.badgeGradient }}
+                      >
+                        <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                          <Globe className="h-4 w-4" />
+                          Visit Live Demo
+                        </a>
+                      </Button>
+                    )}
+                    {project.githubUrl && (
+                      <Button asChild variant="outline" className="h-11 rounded-full px-6 text-base font-semibold">
+                        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                          <Github className="h-4 w-4" />
+                          View Source Code
+                        </a>
+                      </Button>
+                    )}
+                  </div>
+
+                  <div className="mt-10 grid gap-4 sm:grid-cols-3">
+                    <ProjectStat icon={CalendarRange} label="Year" value={project.year} />
+                    <ProjectStat icon={Layers3} label="Category" value={categoryLabels[project.category]} />
+                    <ProjectStat icon={Sparkles} label="Stack Size" value={`${project.technologies.length} tools`} />
+                  </div>
+              </div>
+
+              <div className="xl:pt-4">
+                <div className="arcade-screen-stage relative mx-auto w-full max-w-[46rem] xl:ml-auto xl:mr-0">
+                  <div className="absolute -inset-6 rounded-[3rem] blur-3xl opacity-80" style={{ background: project.accent.surfaceGradient }} />
+                  <div className="arcade-screen-shell relative">
+                    <div className="arcade-screen-frame">
+                      <div className="arcade-screen-viewport relative overflow-hidden bg-black/80">
+                        <ProjectMedia
+                          project={project}
+                          priority
+                          wrapperClassName="aspect-[16/9] w-full"
+                          mediaClassName="arcade-screen-media"
+                        />
+                        <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-white/8 to-transparent" />
+                        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/50 via-black/16 to-transparent" />
+                        <div className="absolute bottom-5 left-5 right-5 z-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+                          <div>
+                            <p className="font-body text-[11px] uppercase tracking-[0.32em] text-white/60">Featured Work</p>
+                            <p className="mt-2 font-heading text-lg font-semibold text-white sm:text-xl">{project.title}</p>
+                          </div>
+                          {project.liveUrl && (
+                            <div className="w-fit rounded-full border border-white/15 bg-black/35 px-3 py-1 text-xs font-medium text-white/90 backdrop-blur-md">
+                              Live demo available
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <div className="arcade-screen-glass pointer-events-none" />
                     </div>
-                  )}
+                  </div>
                 </div>
               </div>
             </div>
