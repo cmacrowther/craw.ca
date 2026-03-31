@@ -130,49 +130,56 @@ function RelatedProjectCard({ project }: { project: Project }) {
   return (
     <Link
       href={`/projects/${project.slug}`}
-      className="group overflow-hidden rounded-[1.75rem] border border-border/60 bg-card/80 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_80px_rgba(0,0,0,0.18)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-4"
+      className="group relative overflow-hidden rounded-[1.75rem] border border-border/60 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_80px_rgba(0,0,0,0.18)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-4"
     >
-      <div className="relative overflow-hidden">
-        <ProjectMedia project={project} quality="medium" withCrt={false} />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/60 to-transparent" />
-        <div className="absolute left-4 top-4 rounded-full border border-white/20 bg-black/35 px-3 py-1 text-xs font-medium text-white/85 backdrop-blur-md">
-          {project.releaseDate}
+      <div className="absolute inset-0 rounded-[1.75rem] bg-card dark:bg-neutral-900 project-lighter" />
+      <div className="relative bg-card/80">
+        <div className="relative overflow-hidden">
+          <ProjectMedia project={project} quality="medium" withCrt={false} />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/60 to-transparent" />
+          <div className="absolute left-4 top-4 rounded-full border border-white/20 bg-black/35 px-3 py-1 text-xs font-medium text-white/85 backdrop-blur-md">
+            {project.releaseDate}
+          </div>
         </div>
-      </div>
-      <div className="space-y-4 p-6">
-        <div className="flex items-start justify-between gap-3">
+
+        <div className="space-y-4 p-6">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex flex-wrap gap-2">
+              {project.categories.slice(0, 2).map((category) => (
+                <Badge key={category} variant="outline" className="border-border/60 bg-background/60 text-xs backdrop-blur-sm dark:border-white/10 dark:bg-white/5">
+                  {categoryLabels[category]}
+                </Badge>
+              ))}
+              {project.categories.length > 2 && (
+                <Badge variant="outline" className="border-border/60 bg-background/60 text-xs backdrop-blur-sm dark:border-white/10 dark:bg-white/5">
+                  +{project.categories.length - 2}
+                </Badge>
+              )}
+            </div>
+            <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground" />
+          </div>
+
+          <div>
+            <h3 className="font-heading text-xl font-semibold text-foreground">{project.title}</h3>
+            <p className="mt-2 font-body leading-relaxed text-muted-foreground">{project.shortDescription}</p>
+          </div>
+
           <div className="flex flex-wrap gap-2">
-            {project.categories.slice(0, 2).map((category) => (
-              <Badge key={category} variant="outline" className="border-border/60 bg-background/60 text-xs backdrop-blur-sm dark:border-white/10 dark:bg-white/5">
-                {categoryLabels[category]}
+            {project.technologies.slice(0, 3).map((tech) => (
+              <Badge key={tech} variant="secondary" className="rounded-full">
+                {tech}
               </Badge>
             ))}
-            {project.categories.length > 2 && (
-              <Badge variant="outline" className="border-border/60 bg-background/60 text-xs backdrop-blur-sm dark:border-white/10 dark:bg-white/5">
-                +{project.categories.length - 2}
-              </Badge>
-            )}
           </div>
-          <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground" />
-        </div>
-        <div>
-          <h3 className="font-heading text-xl font-semibold text-foreground">{project.title}</h3>
-          <p className="mt-2 font-body leading-relaxed text-muted-foreground">{project.shortDescription}</p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          {project.technologies.slice(0, 3).map((tech) => (
-            <Badge key={tech} variant="secondary" className="rounded-full">
-              {tech}
+
+          <div className="flex flex-wrap gap-2">
+            <Badge variant="outline" className="rounded-full">
+              {projectStateLabels[project.projectState]}
             </Badge>
-          ))}
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Badge variant="outline" className="rounded-full">
-            {projectStateLabels[project.projectState]}
-          </Badge>
-          <Badge variant="outline" className="rounded-full">
-            {distributionLabels[project.distribution]}
-          </Badge>
+            <Badge variant="outline" className="rounded-full">
+              {distributionLabels[project.distribution]}
+            </Badge>
+          </div>
         </div>
       </div>
     </Link>
