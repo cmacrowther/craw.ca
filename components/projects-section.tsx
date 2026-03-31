@@ -126,9 +126,12 @@ export function ProjectsSection() {
 
                     <div
                       aria-hidden="true"
-                      className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[58%] rounded-b-3xl"
+                      className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[38%] rounded-b-3xl"
                       style={{
-                        background: "linear-gradient(to top, rgba(0,0,0,0.40) 62%, rgba(0,0,0,0.00) 100%)",
+                        background: `linear-gradient(to top, rgba(2,6,23,0.97) 0%, rgba(2,6,23,0.92) 16%, rgba(2,6,23,0.76) 32%, rgba(2,6,23,0.34) 58%, rgba(2,6,23,0.00) 100%), ${project.accent.spotlight}`,
+                        backgroundPosition: "center bottom, center 120%",
+                        backgroundSize: "100% 100%, 145% 145%",
+                        backgroundRepeat: "no-repeat",
                         willChange: "opacity",
                       }}
                     />

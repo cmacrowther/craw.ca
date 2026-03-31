@@ -186,20 +186,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   return (
     <div className="min-h-screen">
-      <ProjectPixelBackground />
       <Header />
       <main className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute left-[-12rem] top-16 h-[28rem] w-[28rem] rounded-full blur-3xl" style={{ background: project.accent.spotlight }} />
           <div className="absolute right-[-8rem] top-[24rem] h-[24rem] w-[24rem] rounded-full blur-3xl" style={{ background: project.accent.surfaceGradient }} />
-          <div
-            className="absolute inset-0 opacity-[0.06] dark:opacity-[0.09]"
-            style={{
-              backgroundImage:
-                "linear-gradient(rgba(148,163,184,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.6) 1px, transparent 1px)",
-              backgroundSize: "80px 80px",
-            }}
-          />
         </div>
 
         <section className="relative px-4 pb-16 pt-8 sm:px-6 lg:px-8 lg:pb-24 lg:pt-16">
@@ -419,6 +410,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             </div>
           </div>
         </section>
+        {/* Pixel Screen Overlay - now covers headings and buttons */}
+        <div className="pixel-overlay absolute inset-0 pointer-events-none"></div>
+        <ProjectPixelBackground />
       </main>
       <Footer />
     </div>

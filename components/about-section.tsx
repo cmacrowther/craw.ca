@@ -119,13 +119,15 @@ export function AboutSection() {
                   <div className="absolute -left-6 top-0 w-1 h-full bg-gradient-to-b from-purple-500 to-pink-600 rounded-full opacity-60 hidden md:block"></div>
                   <div className="pl-0 md:pl-8">
                     <p className="font-body text-lg leading-relaxed text-foreground">
-                      During the day, I work as a Java developer on 
+                      By day, I work with Java developing enterprise-level systems.
+                      
+                      By night, I set my focus on the
                       <span className="relative inline-block mx-1">
                         <span className="relative z-10 px-2 py-1 bg-gradient-to-r from-orange-500/15 to-red-500/15 rounded-md font-medium">
-                          enterprise-level systems
+                          bleeding edge
                         </span>
-                      </span>. 
-                      In the evenings, I focus on bleeding-edge technology, exploring modern frameworks, experimenting with ideas, and bringing new concepts to life.
+                      </span>  
+                      , exploring modern frameworks, and bringing new concepts to life.
                     </p>
                   </div>
                 </div>

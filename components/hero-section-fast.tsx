@@ -107,15 +107,13 @@ export function HeroSection() {
           {showTyped && (
             <TypewriterEffect
               strings={[
-                "I am a full-stack developer from Prince Edward Island, Canada.",
+                "I am a full-stack developer from Canada.",
                 "Crafting modern web experiences.",
-                "Full-stack development with a creative edge.",
-                "Bridging design and engineering.",
-                "From backend logic to front-end magic."
+                "By bridging design and engineering.",
               ]}
-              typeSpeed={40}
+              typeSpeed={60}
               backSpeed={25}
-              backDelay={2200}
+              backDelay={3600}
               loop
               cursorChar="_"
             />
