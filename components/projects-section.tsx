@@ -126,7 +126,7 @@ export function ProjectsSection() {
 
                     <div
                       aria-hidden="true"
-                      className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[38%] rounded-b-3xl"
+                      className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[100%] rounded-b-3xl"
                       style={{
                         background: `linear-gradient(to top, rgba(2,6,23,0.97) 0%, rgba(2,6,23,0.92) 16%, rgba(2,6,23,0.76) 32%, rgba(2,6,23,0.34) 58%, rgba(2,6,23,0.00) 100%), ${project.accent.spotlight}`,
                         backgroundPosition: "center bottom, center 120%",
@@ -138,14 +138,6 @@ export function ProjectsSection() {
                   </div>
 
                   <div className="relative z-20 h-full p-6">
-                    <div className="flex items-center gap-2">
-                      <div className="rounded-full border border-white/20 bg-white/20 px-2 py-1 text-xs font-medium text-white/90 backdrop-blur-sm">
-                        {project.year}
-                      </div>
-                      <Badge variant="outline" className="border-white/30 bg-white/20 text-xs text-white/90 backdrop-blur-sm">
-                        {project.category}
-                      </Badge>
-                    </div>
 
                     <div className="absolute bottom-6 left-6 right-6">
                       <div className="mb-4">
@@ -195,9 +187,6 @@ export function ProjectsSection() {
                           <div className="h-2 w-2 rounded-full bg-emerald-400 opacity-60" />
                           <div className="h-2 w-2 rounded-full bg-purple-400 opacity-50" />
                         </div>
-                        <span className="font-body text-xs font-medium uppercase tracking-[0.3em] text-white/70">
-                          View Page
-                        </span>
                       </div>
                     </div>
 

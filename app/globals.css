@@ -48,6 +48,18 @@
   mix-blend-mode: normal;
 }
 
+.project-difference {
+  mix-blend-mode: difference !important;
+}
+
+.project-dodge {
+  mix-blend-mode: color-dodge !important;
+}
+
+.project-lighter {
+  mix-blend-mode: plus-lighter !important;
+}
+
 /* Light theme pixel overlay — multiply is fine here since text is dark on a light bg */
 .light .pixel-overlay {
   background:
