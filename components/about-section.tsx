@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ParticleBackground } from "./particle-background"
 import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/use-scroll-animation-optimized"
@@ -58,7 +57,7 @@ export function AboutSection() {
   });
 
   return (
-    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/90 dark:md:bg-muted/30 dark:bg-white/5 relative overflow-hidden">
+    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/90 dark:bg-card relative overflow-hidden">
       {/* Particle background spanning the entire section */}
       <ParticleBackground />
       

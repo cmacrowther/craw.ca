@@ -294,7 +294,12 @@ export function GLBViewer({ modelUrl, className = "" }: GLBViewerProps) {
   
   return (
     <div className={`w-full h-full ${className}`}>
-      <Canvas camera={{ position: [0, 0, 10], fov: 65 }}>
+      <Canvas
+        camera={{ position: [0, 0, 10], fov: 65 }}
+        gl={{ alpha: true, antialias: true }}
+        onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
+        style={{ background: "transparent" }}
+      >
         <Suspense fallback={null}>
           <Model url={modelUrl} />
           <SparkleEffect />
