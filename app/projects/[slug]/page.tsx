@@ -17,6 +17,7 @@ import {
   isEmbeddableProject,
   projectStateLabels,
   projects,
+  type ProjectCopyLink,
   type Project,
 } from "@/lib/projects";
 import { ProjectPixelBackground } from "@/components/project-pixel-background";
@@ -186,6 +187,55 @@ function RelatedProjectCard({ project }: { project: Project }) {
   );
 }
 
+function renderProjectCopy(text: string, copyLinks?: ProjectCopyLink[]) {
+  if (!copyLinks?.length) {
+    return text;
+  }
+
+  type CopySegment = string | ProjectCopyLink;
+
+  const segments = copyLinks.reduce<CopySegment[]>((parts, link) => {
+    let replaced = false;
+
+    return parts.flatMap((part) => {
+      if (replaced || typeof part !== "string") {
+        return [part];
+      }
+
+      const matchIndex = part.indexOf(link.term);
+
+      if (matchIndex === -1) {
+        return [part];
+      }
+
+      replaced = true;
+
+      const before = part.slice(0, matchIndex);
+      const after = part.slice(matchIndex + link.term.length);
+
+      return [before, link, after].filter(Boolean);
+    });
+  }, [text]);
+
+  return segments.map((segment, index) => {
+    if (typeof segment === "string") {
+      return segment;
+    }
+
+    return (
+      <a
+        key={`${segment.term}-${segment.href}-${index}`}
+        href={segment.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="site-link-inline font-medium"
+      >
+        {segment.term}
+      </a>
+    );
+  });
+}
+
 export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
@@ -210,7 +260,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           <div className="container mx-auto max-w-7xl">
             <Link
               href="/#projects"
-              className="mb-8 project-difference inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/70 px-4 py-2 font-body text-sm font-medium text-muted-foreground backdrop-blur-xl transition-colors hover:text-foreground dark:border-white/10 dark:bg-white/5"
+              className="site-link-muted mb-8 project-difference inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/70 px-4 py-2 font-body text-sm font-medium backdrop-blur-xl dark:border-white/10 dark:bg-white/5"
             >
               <ArrowLeft className="h-4 w-4" />
               Back to featured work
@@ -250,7 +300,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     {project.title}
                   </h1>
                   <p className="mt-6 max-w-2xl font-body text-xl leading-relaxed text-muted-foreground">
-                    {project.longDescription}
+                    {renderProjectCopy(project.longDescription, project.copyLinks)}
                   </p>
 
                   <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -323,7 +373,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                       <h2 className="font-heading text-2xl font-bold text-foreground">What this project is about</h2>
                     </div>
                   </div>
-                  <p className="max-w-3xl font-body text-lg leading-8 text-muted-foreground">{project.projectStory}</p>
+                  <p className="max-w-3xl font-body text-lg leading-8 text-muted-foreground">
+                    {renderProjectCopy(project.projectStory, project.copyLinks)}
+                  </p>
 
                   <div className="mt-8 grid gap-4 md:grid-cols-2">
                     <div className="rounded-[1.5rem] border border-border/50 bg-background/70 p-5 dark:border-white/10 dark:bg-black/20">
@@ -429,7 +481,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 <p className="font-body text-xs uppercase tracking-[0.3em] text-muted-foreground">More Work</p>
                 <h2 className="mt-3 font-heading text-3xl font-bold text-foreground">Keep exploring</h2>
               </div>
-              <Button asChild variant="link" className="justify-start gap-1.5 px-0 text-base font-semibold text-foreground hover:text-foreground sm:justify-center">
+              <Button asChild variant="link" className="justify-start gap-1.5 px-0 text-base font-semibold sm:justify-center">
                 <Link href="/#projects">Browse all featured projects <ArrowUpRight className="size-4" /></Link>
               </Button>
             </div>

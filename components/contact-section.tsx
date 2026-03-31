@@ -127,7 +127,7 @@ export function ContactSection() {
                   <p className="font-body text-sm text-muted-foreground">Email</p>
                   <a
                     href="mailto:hello@cmacrowther.com"
-                    className="font-body text-base text-foreground hover:text-primary transition-colors"
+                    className="font-body text-base site-link"
                   >
                     cmacrowther@gmail.com
                   </a>
@@ -142,7 +142,7 @@ export function ContactSection() {
                   <p className="font-body text-sm text-muted-foreground">Phone</p>
                   <a
                     href="tel:+1234567890"
-                    className="font-body text-base text-foreground hover:text-primary transition-colors"
+                    className="font-body text-base site-link"
                   >
                     +1 (902) 393-0928   
                   </a>
@@ -247,6 +247,9 @@ export function ContactSection() {
             )}
           </Card>
         </div>
+      </div>
+      <div className="fixed inset-0 z-[-1] pointer-events-none">
+        <div className="pixel-overlay absolute inset-0 pointer-events-none" />
       </div>
     </section>
   )

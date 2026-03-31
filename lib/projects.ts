@@ -1,11 +1,16 @@
 export type ProjectCategory = "web" | "music" | "tool" | "games" | "ai" | "other";
-export type ProjectState = "ongoing" | "feature-complete" | "archived";
+export type ProjectState = "ongoing" | "feature-complete" | "archived" | "paused";
 export type ProjectDistribution = "open-source" | "closed-source";
 
 export interface ProjectAccent {
   badgeGradient: string;
   spotlight: string;
   surfaceGradient: string;
+}
+
+export interface ProjectCopyLink {
+  term: string;
+  href: string;
 }
 
 export interface Project {
@@ -17,6 +22,7 @@ export interface Project {
   projectStory: string;
   buildFocus: string;
   experienceGoal: string;
+  copyLinks?: ProjectCopyLink[];
   image?: string;
   video?: string;
   technologies: string[];
@@ -42,6 +48,7 @@ export const projectStateLabels: Record<ProjectState, string> = {
   ongoing: "Ongoing",
   "feature-complete": "Feature Complete",
   archived: "Archived",
+  "paused": "Paused"
 };
 
 export const distributionLabels: Record<ProjectDistribution, string> = {
@@ -73,11 +80,10 @@ export const projects: Project[] = [
     experienceGoal: "Make a music trivia session feel lively, competitive, and easy to jump into with friends.",
     video: "/tuneiq-video.webm",
     technologies: ["Next.js", "TypeScript", "Socket.IO"],
-    githubUrl: "https://gitlab.com/cmacrowther/tuneiq",
     liveUrl: "https://tuneiq.craw.ca/",
     categories: ["games", "music", "web"],
     projectState: "feature-complete",
-    distribution: "open-source",
+    distribution: "closed-source",
     releaseDate: "2025",
     accent: {
       badgeGradient: "linear-gradient(135deg, #22d3ee 0%, #3b82f6 48%, #a855f7 100%)",
@@ -98,7 +104,7 @@ export const projects: Project[] = [
     experienceGoal: "Help artists launch a credible online presence that feels polished, personal, and easy to maintain.",
     video: "/songwriter-video.webm",
     technologies: ["Gatsby v4", "React", "Bulma", "TypeScript"],
-    githubUrl: "https://gitlab.com/cmacrowther/songwriter",
+    githubUrl: "https://github.com/cmacrowther/songwriter",
     liveUrl: "https://music.craw.ca",
     categories: ["music", "web", "tool"],
     projectState: "feature-complete",
@@ -125,7 +131,7 @@ export const projects: Project[] = [
     technologies: ["Gatsby", "React"],
     liveUrl: "https://heatherband.ca/",
     categories: ["music", "web"],
-    projectState: "ongoing",
+    projectState: "feature-complete",
     distribution: "closed-source",
     releaseDate: "2022",
     accent: {
@@ -147,10 +153,9 @@ export const projects: Project[] = [
     experienceGoal: "Make a throwaway arcade mechanic feel surprisingly physical, funny, and satisfying in VR.",
     video: "/basket-case-video.webm",
     technologies: ["Unity", "C#", "Virtual Reality", "Hand Tracking"],
-    githubUrl: "https://gitlab.com/TimeShifts/papertossvr",
     categories: ["games"],
     projectState: "archived",
-    distribution: "open-source",
+    distribution: "closed-source",
     releaseDate: "2023",
     accent: {
       badgeGradient: "linear-gradient(135deg, #f59e0b 0%, #ef4444 55%, #dc2626 100%)",
@@ -171,11 +176,10 @@ export const projects: Project[] = [
     experienceGoal: "Make detailed environmental imagery feel easy to navigate, inspect, and trust.",
     video: "/forestry-mapper-video.webm",
     technologies: ["Leaflet", "TypeScript", "Vite", "Node.js"],
-    githubUrl: "https://gitlab.com/cmacrowther/macphail-woods-dashboard",
     liveUrl: "https://jelly-racer-wfsn.vercel.app/",
     categories: ["web", "tool"],
-    projectState: "feature-complete",
-    distribution: "open-source",
+    projectState: "archived",
+    distribution: "closed-source",
     releaseDate: "2024",
     accent: {
       badgeGradient: "linear-gradient(135deg, #14b8a6 0%, #22c55e 48%, #0ea5e9 100%)",
@@ -196,11 +200,10 @@ export const projects: Project[] = [
     experienceGoal: "Create a party game that feels instantly understandable, chaotic, and fun in a room full of people.",
     video: "/jelly-jammers-video.webm",
     technologies: ["Socket.IO", "Express", "Three.js", "Mobile Controls"],
-    githubUrl: "https://gitlab.com/cmacrowther/jelly-racer",
     liveUrl: "https://jelly.craw.ca",
     categories: ["games", "web"],
     projectState: "ongoing",
-    distribution: "open-source",
+    distribution: "closed-source",
     releaseDate: "2025",
     accent: {
       badgeGradient: "linear-gradient(135deg, #84cc16 0%, #06b6d4 50%, #3b82f6 100%)",
@@ -223,7 +226,7 @@ export const projects: Project[] = [
     technologies: ["Python", "Next.js", "Flask"],
     githubUrl: "https://gitlab.com/cmacrowther/waxtrax",
     categories: ["music", "tool"],
-    projectState: "ongoing",
+    projectState: "paused",
     distribution: "open-source",
     releaseDate: "2025",
     accent: {
@@ -236,19 +239,20 @@ export const projects: Project[] = [
     id: 8,
     slug: "gobert-ui",
     title: "Gobert",
-    shortDescription: "Immersive OpenClaw interface with cinematic chat UI and a live 3D avatar.",
+    shortDescription: "Open-source OpenClaw web interface built to give AI chat a more modern, polished feel.",
     longDescription:
-      "Gobert is a cinematic AI chat interface built with Next.js, Tailwind CSS, and React Three Fiber. It pairs real-time messaging with a floating 3D avatar and a polished visual system designed for talking to local or remote OpenClaw instances.",
+      "Gobert is an open-source OpenClaw web interface built as a faster, more modern alternative to the clunky Clawdbot frontend that existed at the time. As OpenClaw started gaining popularity, I wanted to move quickly and ship an AI-first experience that felt closer to products like ChatGPT, Claude, and Gemini, with cleaner messaging UX, stronger visual hierarchy, and support for local or remote instances.",
     projectStory:
-      "This project was an opportunity to treat an AI interface less like a dashboard and more like a character-driven environment. I wanted the experience to feel immediate, expressive, and a little theatrical, without sacrificing responsiveness or clarity. The work naturally became a balance between interaction design and presentation engineering, using motion, lighting, and layout to make the chat feel alive while still keeping the conversation front and center.",
-    buildFocus: "Blending real-time chat UX with expressive visual presentation and performant 3D interface work.",
-    experienceGoal: "Make talking to an AI feel immersive, legible, and genuinely enjoyable to spend time in.",
+      "I built Gobert while OpenClaw was catching on quickly and it felt like there was a real window to beat other frontend efforts to market with something more polished. Clawdbot's web UI worked, but it felt clunky compared to the AI products people were rapidly getting used to elsewhere, so I pushed for a cleaner, more productized experience with better conversation ergonomics and more personality. I ultimately failed to beat everyone else to market, but the project still became a strong exploration of what an OpenClaw AI interface could feel like. I eventually open-sourced it so anyone interested could continue where I left off.",
+    buildFocus: "Designing a modern AI chat experience for OpenClaw with cleaner UX, stronger presentation, and faster iteration.",
+    experienceGoal: "Make OpenClaw feel like a polished, current AI product that people would actually enjoy using.",
+    copyLinks: [{ term: "OpenClaw", href: "https://openclaw.ai/" }],
     image: "/gobert-ui.png",
     video: "/gobertui-video.mp4",
     technologies: ["OpenClaw", "LLM", "Artificial Intelligence", "Next.js", "Tailwind", "React Three Fiber"],
     githubUrl: "https://github.com/cmacrowther/gobert",
     categories: ["tool", "web", "ai"],
-    projectState: "ongoing",
+    projectState: "paused",
     distribution: "open-source",
     releaseDate: "2026",
     accent: {

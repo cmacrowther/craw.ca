@@ -145,7 +145,7 @@ export function Header() {
             <Link
               ref={headerTextRef}
               href="/#home"
-              className="text-xl font-heading font-bold text-foreground hover:text-foreground transition-colors flex items-center gap-2 header-logo-hidden"
+              className="site-link text-xl font-heading font-bold flex items-center gap-2 header-logo-hidden"
               style={{ position: 'relative' }}
             >
               <span className="header-text-only flex items-center gap-1">
@@ -165,7 +165,7 @@ export function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-sm font-body font-medium text-muted-foreground hover:text-foreground transition-colors nav-item-hidden"
+                  className="site-link-muted text-sm font-body font-medium nav-item-hidden"
                   style={{ '--nav-index': index } as React.CSSProperties}
                 >
                   {item.name}
@@ -222,7 +222,7 @@ export function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="block px-3 py-2 text-base font-body font-medium text-muted-foreground hover:text-foreground transition-colors mobile-nav-item"
+                  className="site-link-muted block px-3 py-2 text-base font-body font-medium mobile-nav-item"
                   onClick={() => setIsMenuOpen(false)}
                   style={{ '--mobile-delay': `${index * 0.1}s` } as React.CSSProperties}
                 >

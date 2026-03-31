@@ -137,10 +137,10 @@ export function AboutSection() {
                   <div className="pl-0 md:pl-8">
                     <p className="font-body text-lg leading-relaxed text-foreground">
                       I've had the chance to work with a wide mix of languages and technologies, and I'm always eager to learn more. If you'd like a copy of my resume, 
-                      <Link href="/#contact" className="relative inline font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors duration-300 group ml-1">
+                      <Link href="/#contact" className="site-link-strong relative inline font-semibold transition-colors duration-300 group ml-1">
                         <span className="relative z-10">shoot me a message!</span>
-                        <span className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-                        <span className="absolute bottom-0 left-0 w-full h-1 bg-emerald-500/20 animate-pulse"></span>
+                        <span className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-sky-400 to-cyan-300 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                        <span className="absolute bottom-0 left-0 w-full h-1 bg-sky-400/20 animate-pulse"></span>
                       </Link>
                     </p>
                   </div>
@@ -178,6 +178,9 @@ export function AboutSection() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="absolute inset-0 z-[10] pointer-events-none">
+        <div className="pixel-overlay absolute inset-0 pointer-events-none" />
       </div>
     </section>
   )

@@ -203,6 +203,9 @@ export function ProjectsSection() {
             </div>
           </div>
         </div>
+        <div className="fixed inset-0 z-[-1] pointer-events-none">
+          <div className="pixel-overlay absolute inset-0 pointer-events-none" />
+        </div>
       </section>
     </LazyLoadWrapper>
   );

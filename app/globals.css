@@ -138,6 +138,8 @@
   --sidebar-accent-foreground: oklch(0.95 0 0);
   --sidebar-border: oklch(0.2 0 0);
   --sidebar-ring: oklch(0.55 0.15 160 / 0.5);
+  --link-accent: oklch(0.74 0.1 225);
+  --link-accent-strong: oklch(0.82 0.08 210);
 }
 
 @theme inline {
@@ -198,6 +200,68 @@
 
   .font-body {
     font-family: var(--font-body);
+  }
+
+  .site-link,
+  .site-link-muted,
+  .site-link-inline,
+  .site-link-strong {
+    transition:
+      color 180ms ease,
+      text-decoration-color 180ms ease,
+      border-color 180ms ease,
+      opacity 180ms ease;
+  }
+
+  .site-link {
+    color: inherit;
+  }
+
+  .site-link:hover,
+  .site-link:focus-visible {
+    color: var(--link-accent);
+  }
+
+  .site-link-muted {
+    color: var(--muted-foreground);
+  }
+
+  .site-link-muted:hover,
+  .site-link-muted:focus-visible {
+    color: var(--link-accent);
+  }
+
+  .site-link-inline {
+    color: var(--link-accent);
+    text-decoration-line: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.22em;
+    text-decoration-color: color-mix(in oklab, var(--link-accent) 40%, transparent);
+    text-decoration-skip-ink: auto;
+  }
+
+  .site-link-inline:hover,
+  .site-link-inline:focus-visible {
+    color: var(--link-accent-strong);
+    text-decoration-color: color-mix(in oklab, var(--link-accent-strong) 72%, transparent);
+  }
+
+  .site-link-strong {
+    color: var(--link-accent);
+  }
+
+  .site-link-strong:hover,
+  .site-link-strong:focus-visible {
+    color: var(--link-accent-strong);
+  }
+
+  .site-link:focus-visible,
+  .site-link-muted:focus-visible,
+  .site-link-inline:focus-visible,
+  .site-link-strong:focus-visible {
+    outline: 2px solid color-mix(in oklab, var(--link-accent) 48%, transparent);
+    outline-offset: 3px;
+    border-radius: 0.2rem;
   }
 }
 
