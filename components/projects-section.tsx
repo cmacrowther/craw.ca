@@ -109,7 +109,7 @@ export function ProjectsSection() {
                           className="h-full w-full object-cover"
                           quality="medium"
                         />
-                        <div className="crt-effect pointer-events-none h-full w-full rounded-3xl" style={{ borderRadius: "inherit" }} />
+                        <div className="pixel-overlay pointer-events-none h-full w-full rounded-3xl" style={{ borderRadius: "inherit" }} />
                       </>
                     ) : (
                       <OptimizedImage

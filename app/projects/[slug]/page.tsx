@@ -271,10 +271,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                         <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-white/8 to-transparent" />
                         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/50 via-black/16 to-transparent" />
                         <div className="absolute bottom-5 left-5 right-5 z-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-                          <div>
-                            <p className="font-body text-[11px] uppercase tracking-[0.32em] text-white/60">Featured Work</p>
-                            <p className="mt-2 font-heading text-lg font-semibold text-white sm:text-xl">{project.title}</p>
-                          </div>
                           {project.liveUrl && (
                             <div className="w-fit rounded-full border border-white/15 bg-black/35 px-3 py-1 text-xs font-medium text-white/90 backdrop-blur-md">
                               Live demo available
@@ -291,34 +287,39 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </div>
         </section>
 
-        <section className="relative project-lighter px-4 pb-16 sm:px-6 lg:px-8 lg:pb-24">
+        <section className="relative px-4 pb-16 sm:px-6 lg:px-8 lg:pb-24">
           <div className="container mx-auto max-w-7xl">
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]">
-              <div className="rounded-[2rem] border border-border/60 bg-card/80 p-8 backdrop-blur-xl dark:border-white/10 dark:bg-white/5">
-                <div className="mb-6 flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-black/5 dark:bg-white/[0.08]">
-                    <Sparkles className="h-5 w-5 text-foreground" />
+              <div className="relative">
+                <div className="absolute inset-0 rounded-[2rem] bg-card dark:bg-neutral-900 project-lighter" />
+                <div className="relative rounded-[2rem] border border-border/60 bg-card/80 p-8 h-[100%]">
+                  <div className="mb-6 flex items-center gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-black/5 dark:bg-white/[0.08]">
+                      <Sparkles className="h-5 w-5 text-foreground" />
+                    </div>
+                    <div>
+                      <p className="font-body text-xs uppercase tracking-[0.3em] text-muted-foreground">Project Story</p>
+                      <h2 className="font-heading text-2xl font-bold text-foreground">What this project is about</h2>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-body text-xs uppercase tracking-[0.3em] text-muted-foreground">Project Story</p>
-                    <h2 className="font-heading text-2xl font-bold text-foreground">What this project is about</h2>
-                  </div>
-                </div>
-                <p className="max-w-3xl font-body text-lg leading-8 text-muted-foreground">{project.longDescription}</p>
+                  <p className="max-w-3xl font-body text-lg leading-8 text-muted-foreground">{project.longDescription}</p>
 
-                <div className="mt-8 grid gap-4 md:grid-cols-2">
-                  <div className="rounded-[1.5rem] border border-border/50 bg-background/70 p-5 dark:border-white/10 dark:bg-black/20">
-                    <p className="font-body text-xs uppercase tracking-[0.28em] text-muted-foreground">Build Focus</p>
-                    <p className="mt-3 font-heading text-xl font-semibold text-foreground">Polished interaction with a strong visual identity</p>
-                  </div>
-                  <div className="rounded-[1.5rem] border border-border/50 bg-background/70 p-5 dark:border-white/10 dark:bg-black/20">
-                    <p className="font-body text-xs uppercase tracking-[0.28em] text-muted-foreground">Experience Goal</p>
-                    <p className="mt-3 font-heading text-xl font-semibold text-foreground">Make the interface feel alive, clear, and worth exploring</p>
+                  <div className="mt-8 grid gap-4 md:grid-cols-2">
+                    <div className="rounded-[1.5rem] border border-border/50 bg-background/70 p-5 dark:border-white/10 dark:bg-black/20">
+                      <p className="font-body text-xs uppercase tracking-[0.28em] text-muted-foreground">Build Focus</p>
+                      <p className="mt-3 font-heading text-xl font-semibold text-foreground">Polished interaction with a strong visual identity</p>
+                    </div>
+                    <div className="rounded-[1.5rem] border border-border/50 bg-background/70 p-5 dark:border-white/10 dark:bg-black/20">
+                      <p className="font-body text-xs uppercase tracking-[0.28em] text-muted-foreground">Experience Goal</p>
+                      <p className="mt-3 font-heading text-xl font-semibold text-foreground">Make the interface feel alive, clear, and worth exploring</p>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="rounded-[2rem] border border-border/60 bg-card/80 p-8 backdrop-blur-xl dark:border-white/10 dark:bg-white/5">
+              <div className="relative">
+                <div className="absolute inset-0 rounded-[2rem] bg-card dark:bg-neutral-900 project-lighter" />
+              <div className="relative rounded-[2rem] border border-border/60 bg-card/80 p-8">
                 <div className="mb-6">
                   <p className="font-body text-xs uppercase tracking-[0.3em] text-muted-foreground">Technology Stack</p>
                   <h2 className="mt-3 font-heading text-2xl font-bold text-foreground">Built with</h2>
@@ -348,6 +349,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     </p>
                   </div>
                 </div>
+              </div>
               </div>
             </div>
           </div>
