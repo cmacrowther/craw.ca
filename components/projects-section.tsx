@@ -7,7 +7,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/use-scroll-animation-optimized";
-import { projectCategories, projectsByYear } from "@/lib/projects";
+import { distributionLabels, projectCategories, projectStateLabels, projectsByReleaseDate } from "@/lib/projects";
 
 import { LazyLoadWrapper } from "./lazy-load-wrapper";
 import { OptimizedImage } from "./optimized-image";
@@ -19,7 +19,7 @@ function isMobileDevice() {
 }
 
 export function ProjectsSection() {
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState<(typeof projectCategories)[number]["id"]>("all");
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -36,8 +36,8 @@ export function ProjectsSection() {
 
   const filteredProjects =
     selectedCategory === "all"
-      ? projectsByYear
-      : projectsByYear.filter((project) => project.category === selectedCategory);
+      ? projectsByReleaseDate
+      : projectsByReleaseDate.filter((project) => project.categories.includes(selectedCategory));
 
   return (
     <LazyLoadWrapper minHeight="400px">
@@ -164,7 +164,7 @@ export function ProjectsSection() {
                             lineHeight: "1.25rem",
                           }}
                         >
-                          {project.description}
+                          {project.shortDescription}
                         </p>
                       </div>
 
@@ -181,12 +181,16 @@ export function ProjectsSection() {
                         )}
                       </div>
 
-                      <div className="flex items-center justify-between gap-3">
-                        <div className="flex gap-2">
-                          <div className="h-2 w-2 rounded-full bg-blue-400 opacity-80" />
-                          <div className="h-2 w-2 rounded-full bg-emerald-400 opacity-60" />
-                          <div className="h-2 w-2 rounded-full bg-purple-400 opacity-50" />
-                        </div>
+                      <div className="flex flex-wrap gap-2">
+                        <Badge variant="outline" className="border-white/30 bg-white/10 text-xs text-white/85 backdrop-blur-sm">
+                          {project.releaseDate}
+                        </Badge>
+                        <Badge variant="outline" className="border-white/30 bg-white/10 text-xs text-white/85 backdrop-blur-sm">
+                          {projectStateLabels[project.projectState]}
+                        </Badge>
+                        <Badge variant="outline" className="border-white/30 bg-white/10 text-xs text-white/85 backdrop-blur-sm">
+                          {distributionLabels[project.distribution]}
+                        </Badge>
                       </div>
                     </div>
 

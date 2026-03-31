@@ -2,7 +2,6 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Space_Grotesk, DM_Sans } from "next/font/google"
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const spaceGrotesk = Space_Grotesk({
@@ -75,10 +74,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${dmSans.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`dark ${spaceGrotesk.variable} ${dmSans.variable}`}>
       <head>
         {/* Default theme-color meta for dynamic update */}
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#09090b" />
 
         {/* Structured Data: Organization/Person */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{
@@ -98,53 +97,9 @@ export default function RootLayout({
             description: 'Full-stack developer and software engineer portfolio showcasing modern web applications and innovative projects.'
           })
         }} />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                  document.documentElement.classList.add('dark')
-                } else {
-                  document.documentElement.classList.remove('dark')
-                }
-              } catch (_) {}
-              
-              // Set mobile viewport height for iOS Safari (simplified)
-              try {
-                function setVH() {
-                  const vh = window.innerHeight * 0.01;
-                  document.documentElement.style.setProperty('--vh', vh + 'px');
-                }
-                if (typeof window !== 'undefined') {
-                  setVH();
-                  window.addEventListener('resize', setVH, { passive: true });
-                  window.addEventListener('orientationchange', () => {
-                    // Delay to ensure viewport has settled
-                    setTimeout(setVH, 100);
-                  }, { passive: true });
-                  
-                  // iOS-specific: Update on scroll events that might change viewport
-                  if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-                    let timeoutId;
-                    window.addEventListener('scroll', () => {
-                      clearTimeout(timeoutId);
-                      timeoutId = setTimeout(setVH, 50);
-                    }, { passive: true });
-                    
-                    // Also update on focus/blur which can trigger address bar changes
-                    window.addEventListener('focusin', setVH, { passive: true });
-                    window.addEventListener('focusout', setVH, { passive: true });
-                  }
-                }
-              } catch (_) {}
-            `,
-          }}
-        />
       </head>
-      <body className="antialiased" suppressHydrationWarning>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          {children}
-        </ThemeProvider>
+      <body className="antialiased">
+        {children}
         <SpeedInsights />
       </body>
     </html>

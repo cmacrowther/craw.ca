@@ -93,7 +93,7 @@ export function HeroSection() {
           .
         </h1>
         <div
-          className="text-3xl sm:text-4xl lg:text-4xl max-w-2xl mx-auto leading-relaxed mt-4"
+          className="text-3xl sm:text-4xl lg:text-4xl mx-auto leading-relaxed mt-4"
           style={{
             fontFamily: 'JetBrains Mono, monospace',
             fontWeight: 300,

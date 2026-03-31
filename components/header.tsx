@@ -7,7 +7,6 @@ import { Menu, X, Github, Linkedin, Mail, Container, Laptop2 } from "lucide-reac
 import GitLab from "@/components/ui/gitlab-icon"
 import { GradientLaptopIcon } from "@/components/ui/gradient-laptop-icon"
 import { Badge } from "@/components/ui/badge"
-import { ThemeToggle } from "@/components/theme-toggle"
 
 export function Header() {
   const [isLaptopAnimating, setIsLaptopAnimating] = useState(false)
@@ -204,14 +203,10 @@ export function Header() {
                 <Mail className="h-4 w-4" />
               </Button>
             </a>
-            <div className="action-icon">
-              <ThemeToggle />
-            </div>
             </div>
             
             {/* Mobile menu button */}
             <div className="md:hidden flex items-center space-x-2 mobile-controls-hidden">
-              <ThemeToggle />
               <Button variant="ghost" size="sm" onClick={() => setIsMenuOpen(!isMenuOpen)}>
                 {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </Button>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowUpRight, CalendarRange, Github, Globe, Layers3, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Github, Globe, Sparkles } from "lucide-react";
 
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
@@ -9,7 +9,16 @@ import { OptimizedImage } from "@/components/optimized-image";
 import { OptimizedVideo } from "@/components/optimized-video";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { categoryLabels, getProjectBySlug, getRelatedProjects, isEmbeddableProject, projects, type Project } from "@/lib/projects";
+import {
+  categoryLabels,
+  distributionLabels,
+  getProjectBySlug,
+  getRelatedProjects,
+  isEmbeddableProject,
+  projectStateLabels,
+  projects,
+  type Project,
+} from "@/lib/projects";
 import { ProjectPixelBackground } from "@/components/project-pixel-background";
 
 const siteUrl = "https://cmacrowther.com";
@@ -117,26 +126,6 @@ function ProjectMedia({
   );
 }
 
-function ProjectStat({
-  icon: Icon,
-  label,
-  value,
-}: {
-  icon: typeof CalendarRange;
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="rounded-[1.5rem] border border-border/60 bg-white/60 p-4 backdrop-blur-xl dark:border-white/10 dark:bg-white/5">
-      <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-2xl bg-black/5 dark:bg-white/[0.08]">
-        <Icon className="h-4 w-4 text-foreground" />
-      </div>
-      <p className="font-body text-xs uppercase tracking-[0.28em] text-muted-foreground">{label}</p>
-      <p className="mt-2 font-heading text-lg font-semibold text-foreground">{value}</p>
-    </div>
-  );
-}
-
 function RelatedProjectCard({ project }: { project: Project }) {
   return (
     <Link
@@ -147,19 +136,28 @@ function RelatedProjectCard({ project }: { project: Project }) {
         <ProjectMedia project={project} quality="medium" withCrt={false} />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/60 to-transparent" />
         <div className="absolute left-4 top-4 rounded-full border border-white/20 bg-black/35 px-3 py-1 text-xs font-medium text-white/85 backdrop-blur-md">
-          {project.year}
+          {project.releaseDate}
         </div>
       </div>
       <div className="space-y-4 p-6">
-        <div className="flex items-center justify-between gap-3">
-          <Badge variant="outline" className="border-border/60 bg-background/60 text-xs backdrop-blur-sm dark:border-white/10 dark:bg-white/5">
-            {categoryLabels[project.category]}
-          </Badge>
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex flex-wrap gap-2">
+            {project.categories.slice(0, 2).map((category) => (
+              <Badge key={category} variant="outline" className="border-border/60 bg-background/60 text-xs backdrop-blur-sm dark:border-white/10 dark:bg-white/5">
+                {categoryLabels[category]}
+              </Badge>
+            ))}
+            {project.categories.length > 2 && (
+              <Badge variant="outline" className="border-border/60 bg-background/60 text-xs backdrop-blur-sm dark:border-white/10 dark:bg-white/5">
+                +{project.categories.length - 2}
+              </Badge>
+            )}
+          </div>
           <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground" />
         </div>
         <div>
           <h3 className="font-heading text-xl font-semibold text-foreground">{project.title}</h3>
-          <p className="mt-2 font-body leading-relaxed text-muted-foreground">{project.description}</p>
+          <p className="mt-2 font-body leading-relaxed text-muted-foreground">{project.shortDescription}</p>
         </div>
         <div className="flex flex-wrap gap-2">
           {project.technologies.slice(0, 3).map((tech) => (
@@ -167,6 +165,14 @@ function RelatedProjectCard({ project }: { project: Project }) {
               {tech}
             </Badge>
           ))}
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Badge variant="outline" className="rounded-full">
+            {projectStateLabels[project.projectState]}
+          </Badge>
+          <Badge variant="outline" className="rounded-full">
+            {distributionLabels[project.distribution]}
+          </Badge>
         </div>
       </div>
     </Link>
@@ -215,11 +221,19 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
                   <div className="mt-6 flex flex-wrap items-center gap-3">
                     <Badge variant="outline" className="rounded-full border-border/60 bg-background/70 px-3 py-1 text-sm dark:border-white/10 dark:bg-white/5">
-                      {project.year}
+                      {project.releaseDate}
                     </Badge>
                     <Badge variant="outline" className="rounded-full border-border/60 bg-background/70 px-3 py-1 text-sm dark:border-white/10 dark:bg-white/5">
-                      {categoryLabels[project.category]}
+                      {projectStateLabels[project.projectState]}
                     </Badge>
+                    <Badge variant="outline" className="rounded-full border-border/60 bg-background/70 px-3 py-1 text-sm dark:border-white/10 dark:bg-white/5">
+                      {distributionLabels[project.distribution]}
+                    </Badge>
+                    {project.categories.map((category) => (
+                      <Badge key={category} variant="outline" className="rounded-full border-border/60 bg-background/70 px-3 py-1 text-sm dark:border-white/10 dark:bg-white/5">
+                        {categoryLabels[category]}
+                      </Badge>
+                    ))}
                     <Badge variant="outline" className="rounded-full border-border/60 bg-background/70 px-3 py-1 text-sm dark:border-white/10 dark:bg-white/5">
                       {project.technologies.length} technologies
                     </Badge>
@@ -229,7 +243,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     {project.title}
                   </h1>
                   <p className="mt-6 max-w-2xl font-body text-xl leading-relaxed text-muted-foreground">
-                    {project.description}
+                    {project.longDescription}
                   </p>
 
                   <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -302,16 +316,16 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                       <h2 className="font-heading text-2xl font-bold text-foreground">What this project is about</h2>
                     </div>
                   </div>
-                  <p className="max-w-3xl font-body text-lg leading-8 text-muted-foreground">{project.longDescription}</p>
+                  <p className="max-w-3xl font-body text-lg leading-8 text-muted-foreground">{project.projectStory}</p>
 
                   <div className="mt-8 grid gap-4 md:grid-cols-2">
                     <div className="rounded-[1.5rem] border border-border/50 bg-background/70 p-5 dark:border-white/10 dark:bg-black/20">
                       <p className="font-body text-xs uppercase tracking-[0.28em] text-muted-foreground">Build Focus</p>
-                      <p className="mt-3 font-heading text-xl font-semibold text-foreground">Polished interaction with a strong visual identity</p>
+                      <p className="mt-3 font-heading text-xl font-semibold text-foreground">{project.buildFocus}</p>
                     </div>
                     <div className="rounded-[1.5rem] border border-border/50 bg-background/70 p-5 dark:border-white/10 dark:bg-black/20">
                       <p className="font-body text-xs uppercase tracking-[0.28em] text-muted-foreground">Experience Goal</p>
-                      <p className="mt-3 font-heading text-xl font-semibold text-foreground">Make the interface feel alive, clear, and worth exploring</p>
+                      <p className="mt-3 font-heading text-xl font-semibold text-foreground">{project.experienceGoal}</p>
                     </div>
                   </div>
                 </div>
@@ -319,7 +333,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
               <div className="relative">
                 <div className="absolute inset-0 rounded-[2rem] bg-card dark:bg-neutral-900 project-lighter" />
-              <div className="relative rounded-[2rem] border border-border/60 bg-card/80 p-8">
+              <div className="relative rounded-[2rem] border h-[100%] border-border/60 bg-card/80 p-8">
                 <div className="mb-6">
                   <p className="font-body text-xs uppercase tracking-[0.3em] text-muted-foreground">Technology Stack</p>
                   <h2 className="mt-3 font-heading text-2xl font-bold text-foreground">Built with</h2>
@@ -335,12 +349,26 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
                 <div className="mt-8 space-y-4">
                   <div className="rounded-[1.5rem] border border-border/50 bg-background/70 p-5 dark:border-white/10 dark:bg-black/20">
-                    <p className="font-body text-xs uppercase tracking-[0.28em] text-muted-foreground">Category</p>
-                    <p className="mt-2 font-heading text-lg font-semibold text-foreground">{categoryLabels[project.category]}</p>
+                    <p className="font-body text-xs uppercase tracking-[0.28em] text-muted-foreground">Categories</p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {project.categories.map((category) => (
+                        <Badge key={category} variant="secondary" className="rounded-full px-3 py-1 text-sm">
+                          {categoryLabels[category]}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
                   <div className="rounded-[1.5rem] border border-border/50 bg-background/70 p-5 dark:border-white/10 dark:bg-black/20">
-                    <p className="font-body text-xs uppercase tracking-[0.28em] text-muted-foreground">Released</p>
-                    <p className="mt-2 font-heading text-lg font-semibold text-foreground">{project.year}</p>
+                    <p className="font-body text-xs uppercase tracking-[0.28em] text-muted-foreground">Release Date</p>
+                    <p className="mt-2 font-heading text-lg font-semibold text-foreground">{project.releaseDate}</p>
+                  </div>
+                  <div className="rounded-[1.5rem] border border-border/50 bg-background/70 p-5 dark:border-white/10 dark:bg-black/20">
+                    <p className="font-body text-xs uppercase tracking-[0.28em] text-muted-foreground">Project State</p>
+                    <p className="mt-2 font-heading text-lg font-semibold text-foreground">{projectStateLabels[project.projectState]}</p>
+                  </div>
+                  <div className="rounded-[1.5rem] border border-border/50 bg-background/70 p-5 dark:border-white/10 dark:bg-black/20">
+                    <p className="font-body text-xs uppercase tracking-[0.28em] text-muted-foreground">Distribution</p>
+                    <p className="mt-2 font-heading text-lg font-semibold text-foreground">{distributionLabels[project.distribution]}</p>
                   </div>
                   <div className="rounded-[1.5rem] border border-border/50 bg-background/70 p-5 dark:border-white/10 dark:bg-black/20">
                     <p className="font-body text-xs uppercase tracking-[0.28em] text-muted-foreground">External Links</p>
@@ -394,8 +422,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 <p className="font-body text-xs uppercase tracking-[0.3em] text-muted-foreground">More Work</p>
                 <h2 className="mt-3 font-heading text-3xl font-bold text-foreground">Keep exploring</h2>
               </div>
-              <Button asChild variant="ghost" className="justify-start rounded-full px-0 text-base font-semibold sm:justify-center">
-                <Link href="/#projects">Browse all featured projects</Link>
+              <Button asChild variant="link" className="justify-start gap-1.5 px-0 text-base font-semibold text-foreground hover:text-foreground sm:justify-center">
+                <Link href="/#projects">Browse all featured projects <ArrowUpRight className="size-4" /></Link>
               </Button>
             </div>
 
