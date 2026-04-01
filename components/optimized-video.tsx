@@ -50,10 +50,8 @@ export function OptimizedVideo({
     const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
     setIsMobile(mobile)
     
-    // On mobile, be more conservative with video usage
+    // On mobile, check for low-bandwidth or data saver mode
     if (mobile) {
-      setShowPlayButton(true)
-      // Check for low-bandwidth or data saver mode
       const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection
       if (connection && (connection.saveData || connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g')) {
         setUseVideo(false)

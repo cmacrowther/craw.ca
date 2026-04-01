@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -13,18 +13,8 @@ import { LazyLoadWrapper } from "./lazy-load-wrapper";
 import { OptimizedImage } from "./optimized-image";
 import { OptimizedVideo } from "./optimized-video";
 
-function isMobileDevice() {
-  if (typeof navigator === "undefined") return false;
-  return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-}
-
 export function ProjectsSection() {
   const [selectedCategory, setSelectedCategory] = useState<(typeof projectCategories)[number]["id"]>("all");
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    setIsMobile(isMobileDevice());
-  }, []);
 
   const headerRef = useScrollAnimation({ delay: 100, stagger: 30 });
   const filtersRef = useScrollAnimation({ delay: 200, stagger: 50 });
@@ -96,7 +86,7 @@ export function ProjectsSection() {
                   }}
                 >
                   <div className="absolute inset-0 h-full w-full" style={{ transform: "translateZ(0)", willChange: "transform" }}>
-                    {project.video && !isMobile ? (
+                    {project.video ? (
                       <>
                         <OptimizedVideo
                           src={project.video}
