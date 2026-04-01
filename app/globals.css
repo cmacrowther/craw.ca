@@ -45,8 +45,8 @@
      Explicit 4-stop syntax avoids Android/Chromium bugs with the two-value shorthand
      and CSS custom properties inside gradient stop positions. */
   background:
-    repeating-linear-gradient(0deg, rgba(0,0,0,0.65) 0px, rgba(0,0,0,0.65) 1px, transparent 1px, transparent 2px),
-    repeating-linear-gradient(90deg, rgba(0,0,0,0.65) 0px, rgba(0,0,0,0.65) 1px, transparent 1px, transparent 2px);
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.45) 0px, rgba(0,0,0,0.45) 1px, transparent 1px, transparent 2px),
+    repeating-linear-gradient(90deg, rgba(0,0,0,0.45) 0px, rgba(0,0,0,0.45) 1px, transparent 1px, transparent 2px);
 }
 
 .project-difference {
@@ -63,6 +63,13 @@
 
 
 @media (max-width: 768px) {
+  /* On mobile high-DPR screens the 1px:1px grid is too dense; use a wider gap */
+  .pixel-overlay {
+    background:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.45) 0px, rgba(0,0,0,0.45) 1px, transparent 1px, transparent 4px),
+      repeating-linear-gradient(90deg, rgba(0,0,0,0.45) 0px, rgba(0,0,0,0.45) 1px, transparent 1px, transparent 4px);
+  }
+
   /* Mobile canvas background fixes */
   canvas {
     display: block !important;
