@@ -35,6 +35,20 @@
   --pixel-cell: 2px;
 }
 
+.pixel-mask {
+  mask-image:
+    repeating-linear-gradient(0deg, #000 0 1px, transparent 1px var(--pixel-cell)),
+    repeating-linear-gradient(90deg, #000 0 1px, transparent 1px var(--pixel-cell)) !important;
+  mask-composite: exclude !important;
+}
+
+.pixel-mask-text {
+  mask-image:
+    repeating-linear-gradient(0deg, #000 0 1px, transparent 1px var(--pixel-cell)),
+    repeating-linear-gradient(90deg, #000 0 1px, transparent 1px var(--pixel-cell)) !important;
+  mask-composite: add !important;
+}
+
 .pixel-overlay {
   position: absolute;
   inset: 0;
@@ -150,8 +164,8 @@
   --sidebar-accent-foreground: oklch(0.95 0 0);
   --sidebar-border: oklch(0.2 0 0);
   --sidebar-ring: oklch(0.55 0.15 160 / 0.5);
-  --link-accent: oklch(0.74 0.1 225);
-  --link-accent-strong: oklch(0.82 0.08 210);
+  --link-accent: oklch(0.8 0.13 230);
+  --link-accent-strong: oklch(0.88 0.1 205);
 }
 
 @theme inline {
@@ -222,7 +236,9 @@
       color 180ms ease,
       text-decoration-color 180ms ease,
       border-color 180ms ease,
-      opacity 180ms ease;
+      opacity 180ms ease,
+      text-shadow 180ms ease,
+      filter 180ms ease;
   }
 
   .site-link {
@@ -231,7 +247,8 @@
 
   .site-link:hover,
   .site-link:focus-visible {
-    color: var(--link-accent);
+    color: var(--link-accent-strong) !important;
+    text-shadow: 0 0 16px color-mix(in oklab, var(--link-accent) 26%, transparent);
   }
 
   .site-link-muted {
@@ -240,11 +257,12 @@
 
   .site-link-muted:hover,
   .site-link-muted:focus-visible {
-    color: var(--link-accent);
+    color: var(--link-accent-strong) !important;
+    text-shadow: 0 0 16px color-mix(in oklab, var(--link-accent) 22%, transparent);
   }
 
   .site-link-inline {
-    color: var(--link-accent);
+    color: var(--link-accent) !important;
     text-decoration-line: underline;
     text-decoration-thickness: 1.5px;
     text-underline-offset: 0.22em;
@@ -254,17 +272,20 @@
 
   .site-link-inline:hover,
   .site-link-inline:focus-visible {
-    color: var(--link-accent-strong);
+    color: var(--link-accent-strong) !important;
+    text-decoration-thickness: 2px;
     text-decoration-color: color-mix(in oklab, var(--link-accent-strong) 72%, transparent);
+    text-shadow: 0 0 16px color-mix(in oklab, var(--link-accent) 24%, transparent);
   }
 
   .site-link-strong {
-    color: var(--link-accent);
+    color: var(--link-accent) !important;
   }
 
   .site-link-strong:hover,
   .site-link-strong:focus-visible {
-    color: var(--link-accent-strong);
+    color: var(--link-accent-strong) !important;
+    text-shadow: 0 0 18px color-mix(in oklab, var(--link-accent) 30%, transparent);
   }
 
   .site-link:focus-visible,
