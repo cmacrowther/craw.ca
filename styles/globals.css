@@ -29,11 +29,11 @@ body {
   inset: 0;
   z-index: 10;
   pointer-events: none;
+  /* Explicit 4-stop syntax avoids Android/Chromium bugs with the two-value shorthand. */
   background:
-    repeating-linear-gradient(0deg, rgba(255,255,255,0.10) 0 2px, transparent 2px 8px),
-    repeating-linear-gradient(90deg, rgba(255,255,255,0.10) 0 2px, transparent 2px 8px);
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.10) 0px, rgba(255,255,255,0.10) 2px, transparent 2px, transparent 8px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.10) 0px, rgba(255,255,255,0.10) 2px, transparent 2px, transparent 8px);
   mix-blend-mode: lighten;
-  pointer-events: none;
 }
 
 @import 'tailwindcss';
