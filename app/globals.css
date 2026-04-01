@@ -41,11 +41,12 @@
   z-index: 9;
   pointer-events: none;
   /* Normal blend: lines dim proportionally instead of fully crushing white text.
-     At 45% opacity, white text stays ~78% bright on average (vs 0% with multiply). */
+     At 45% opacity, white text stays ~78% bright on average (vs 0% with multiply).
+     Explicit 4-stop syntax avoids Android/Chromium bugs with the two-value shorthand
+     and CSS custom properties inside gradient stop positions. */
   background:
-    repeating-linear-gradient(0deg, rgba(0,0,0,0.65) 0 1px, transparent 1px var(--pixel-cell)),
-    repeating-linear-gradient(90deg, rgba(0,0,0,0.65) 0 1px, transparent 1px var(--pixel-cell));
-  mix-blend-mode: normal;
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.45) 0px, rgba(0,0,0,0.45) 1px, transparent 1px, transparent 2px),
+    repeating-linear-gradient(90deg, rgba(0,0,0,0.45) 0px, rgba(0,0,0,0.45) 1px, transparent 1px, transparent 2px);
 }
 
 .project-difference {
@@ -62,6 +63,17 @@
 
 
 @media (max-width: 768px) {
+  /* Switch to background-size tiling on mobile: Android handles the tile compositor
+     more reliably than fractional stops inside repeating-linear-gradient.
+     background-size controls the cell; gradient stops stay at whole-pixel 1px. */
+  .pixel-overlay {
+    background-image:
+      linear-gradient(rgba(0,0,0,0.45) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.45) 1px, transparent 1px);
+    background-size: 2px 2px;
+    background-repeat: repeat;
+  }
+
   /* Mobile canvas background fixes */
   canvas {
     display: block !important;
@@ -877,7 +889,7 @@
     /* Slot mask SVG pattern */
     url('/crt-slot-mask.svg') repeat,
     /* Uniform animated scanlines */
-    linear-gradient(0deg, rgba(255,255,255,0.10) 0 50%, transparent 50% 100%),
+    linear-gradient(0deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.10) 50%, transparent 50%, transparent 100%),
     /* Extreme vignette and glow */
     linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.35) 100%),
     radial-gradient(ellipse at center, rgba(0,0,0,0.85) 0%, rgba(0,0,0,1) 100%),
