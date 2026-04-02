@@ -28,22 +28,26 @@ function FloatingParticles() {
   useFrame((state) => {
     if (meshRef.current) {
       const time = state.clock.elapsedTime
-      
+
       // Rotate the entire particle system very slowly
       meshRef.current.rotation.y = time * 0.02
       meshRef.current.rotation.x = time * 0.01
-      
-      // Individual particle floating animation
-      const positions = meshRef.current.geometry.attributes.position.array as Float32Array
-      
-      for (let i = 0; i < 200; i++) {
-        const i3 = i * 3
-        // Add gentle floating motion to each particle
-        positions[i3 + 1] += Math.sin(time * 0.2 + i * 0.1) * 0.001 // y movement
-        positions[i3] += Math.cos(time * 0.15 + i * 0.05) * 0.0005   // x movement
+
+      // Skip per-particle floating on mobile — uploading a GPU buffer every frame
+      // for 200 particles is expensive; the slow rotation alone looks fine.
+      if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+        // Individual particle floating animation
+        const positions = meshRef.current.geometry.attributes.position.array as Float32Array
+
+        for (let i = 0; i < 200; i++) {
+          const i3 = i * 3
+          // Add gentle floating motion to each particle
+          positions[i3 + 1] += Math.sin(time * 0.2 + i * 0.1) * 0.001 // y movement
+          positions[i3] += Math.cos(time * 0.15 + i * 0.05) * 0.0005   // x movement
+        }
+
+        meshRef.current.geometry.attributes.position.needsUpdate = true
       }
-      
-      meshRef.current.geometry.attributes.position.needsUpdate = true
     }
   })
 
@@ -105,12 +109,13 @@ interface ParticleBackgroundProps {
 
 export function ParticleBackground({ className = "" }: ParticleBackgroundProps) {
   const { theme } = useTheme()
-  
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+
   return (
     <div className={`absolute inset-0 pointer-events-none ${className}`}>
       <Canvas
         camera={{ position: [0, 0, 15], fov: 75 }}
-        gl={{ alpha: true, antialias: true }}
+        gl={{ alpha: true, antialias: !isMobile }}
         onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
         style={{ background: "transparent" }}
       >
