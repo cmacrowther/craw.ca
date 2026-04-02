@@ -78,7 +78,7 @@ export function HeroSection() {
             className="animated-gradient-text"
             key={theme}
             style={{
-              background: animatedGradient,
+              backgroundImage: animatedGradient,
               backgroundSize: '1200% 1200%',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',

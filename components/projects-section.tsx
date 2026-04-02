@@ -37,7 +37,7 @@ export function ProjectsSection() {
             <span
               className="animate-fade-down relative mb-4 inline-flex items-center overflow-hidden rounded-full px-4 py-2 text-sm font-medium text-white"
               style={{
-                background: "linear-gradient(135deg, #a78bfa 0%, #ec4899 25%, #8b5cf6 50%, #06b6d4 75%, #10b981 100%)",
+                backgroundImage: "linear-gradient(135deg, #a78bfa 0%, #ec4899 25%, #8b5cf6 50%, #06b6d4 75%, #10b981 100%)",
                 backgroundSize: "300% 300%",
                 animation: "gradient-xy 4s ease-in-out infinite",
               }}
@@ -79,10 +79,11 @@ export function ProjectsSection() {
                   data-stagger
                   href={`/projects/${project.slug}`}
                   aria-label={`Open ${project.title} project page`}
-                  className="group relative block h-[400px] overflow-hidden rounded-3xl transition-all duration-500 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-4"
+                  className="group relative block h-[400px] overflow-hidden rounded-3xl transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-4"
                   style={{
                     boxShadow: "0 4px 24px 0 rgba(0,0,0,0.10)",
                     willChange: "transform",
+                    borderInline: "1px solid black"
                   }}
                 >
                   <div className="absolute inset-0 h-full w-full" style={{ transform: "translateZ(0)", willChange: "transform" }}>
@@ -99,7 +100,7 @@ export function ProjectsSection() {
                           className="h-full w-full object-cover"
                           quality="medium"
                         />
-                        <div className="pixel-overlay pointer-events-none h-full w-full rounded-3xl" style={{ borderRadius: "inherit" }} />
+                        <div className="pixel-overlay pointer-events-none h-full w-full" style={{ borderRadius: "inherit" }} />
                       </>
                     ) : (
                       <OptimizedImage
@@ -116,11 +117,11 @@ export function ProjectsSection() {
 
                     <div
                       aria-hidden="true"
-                      className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[100%] rounded-b-3xl"
+                      className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[100%]"
                       style={{
-                        background: `linear-gradient(to top, rgba(2,6,23,0.97) 0%, rgba(2,6,23,0.92) 16%, rgba(2,6,23,0.76) 32%, rgba(2,6,23,0.34) 58%, rgba(2,6,23,0.00) 100%), ${project.accent.spotlight}`,
-                        backgroundPosition: "center bottom, center 120%",
-                        backgroundSize: "100% 100%, 145% 145%",
+                        backgroundImage: "linear-gradient(to top, rgba(2,6,23,0.97) 0%, rgba(2,6,23,0.92) 16%, rgba(2,6,23,0.76) 32%, rgba(2,6,23,0.34) 58%, rgba(2,6,23,0.00) 100%)",
+                        backgroundPosition: "center bottom",
+                        backgroundSize: "100% 100%",
                         backgroundRepeat: "no-repeat",
                         willChange: "opacity",
                       }}
@@ -169,18 +170,6 @@ export function ProjectsSection() {
                             +{project.technologies.length - 3}
                           </Badge>
                         )}
-                      </div>
-
-                      <div className="flex flex-wrap gap-2">
-                        <Badge variant="outline" className="border-white/30 bg-white/10 text-xs text-white/85 backdrop-blur-sm">
-                          {project.releaseDate}
-                        </Badge>
-                        <Badge variant="outline" className="border-white/30 bg-white/10 text-xs text-white/85 backdrop-blur-sm">
-                          {projectStateLabels[project.projectState]}
-                        </Badge>
-                        <Badge variant="outline" className="border-white/30 bg-white/10 text-xs text-white/85 backdrop-blur-sm">
-                          {distributionLabels[project.distribution]}
-                        </Badge>
                       </div>
                     </div>
 
