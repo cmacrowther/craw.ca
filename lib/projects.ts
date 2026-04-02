@@ -236,6 +236,29 @@ export const projects: Project[] = [
     },
   },
   {
+    id: 9,
+    slug: "puckdrop",
+    title: "PuckDrop",
+    shortDescription: "NHL livescores, statistics, and a game predictions leaderboard for hockey fans.",
+    longDescription:
+      "PuckDrop is a web app for following the NHL in real time. It brings together live scores and detailed statistics alongside a predictions game where users can call the outcome of upcoming matchups and earn their spot on a shared leaderboard.",
+    projectStory:
+      "PuckDrop started from a desire to have a single place that made NHL data feel approachable and fun rather than dense and utilitarian. Adding a predictions layer turned passive spectating into something competitive without requiring deep fantasy knowledge. The challenge became combining live data, user accounts, and leaderboard state into an experience that felt snappy enough to check during intermissions and compelling enough to revisit every game night.",
+    buildFocus: "Real-time sports data paired with a lightweight predictions and leaderboard loop that keeps fans engaged across the season.",
+    experienceGoal: "Give hockey fans a fast, enjoyable place to follow the league and compete with friends on game outcomes.",
+    video: "/puckdrop.webm",
+    technologies: ["Next.js", "TypeScript"],
+    categories: ["web"],
+    projectState: "ongoing",
+    distribution: "closed-source",
+    releaseDate: "2026",
+    accent: {
+      badgeGradient: "linear-gradient(135deg, #38bdf8 0%, #0ea5e9 45%, #1d4ed8 100%)",
+      spotlight: "radial-gradient(circle, rgba(56,189,248,0.26) 0%, rgba(14,165,233,0.18) 45%, rgba(0,0,0,0) 74%)",
+      surfaceGradient: "linear-gradient(135deg, rgba(56,189,248,0.2) 0%, rgba(14,165,233,0.14) 50%, rgba(29,78,216,0.18) 100%)",
+    },
+  },
+  {
     id: 8,
     slug: "gobert-ui",
     title: "Gobert",

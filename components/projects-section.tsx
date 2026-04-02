@@ -1,17 +1,13 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
-import { ArrowUpRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/use-scroll-animation-optimized";
-import { distributionLabels, projectCategories, projectStateLabels, projectsByReleaseDate } from "@/lib/projects";
+import { projectCategories, projectsByReleaseDate } from "@/lib/projects";
 
 import { LazyLoadWrapper } from "./lazy-load-wrapper";
-import { OptimizedImage } from "./optimized-image";
-import { OptimizedVideo } from "./optimized-video";
+import { ProjectShowcaseCard } from "./project-showcase-card";
 
 export function ProjectsSection() {
   const [selectedCategory, setSelectedCategory] = useState<(typeof projectCategories)[number]["id"]>("all");
@@ -74,110 +70,12 @@ export function ProjectsSection() {
           <div ref={gridRef} className="mx-auto max-w-7xl">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {filteredProjects.map((project) => (
-                <Link
+                <ProjectShowcaseCard
                   key={project.id}
-                  data-stagger
-                  href={`/projects/${project.slug}`}
-                  aria-label={`Open ${project.title} project page`}
-                  className="group relative block h-[400px] overflow-hidden rounded-3xl transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-4"
-                  style={{
-                    boxShadow: "0 4px 24px 0 rgba(0,0,0,0.10)",
-                    willChange: "transform",
-                    borderInline: "1px solid black"
-                  }}
-                >
-                  <div className="absolute inset-0 h-full w-full" style={{ transform: "translateZ(0)", willChange: "transform" }}>
-                    {project.video ? (
-                      <>
-                        <OptimizedVideo
-                          src={project.video}
-                          poster={project.image || "/placeholder.jpg"}
-                          alt={project.title}
-                          autoPlay
-                          loop
-                          muted
-                          preload="metadata"
-                          className="h-full w-full object-cover"
-                          quality="medium"
-                        />
-                        <div className="pixel-overlay pointer-events-none h-full w-full" style={{ borderRadius: "inherit" }} />
-                      </>
-                    ) : (
-                      <OptimizedImage
-                        src={project.image || "/placeholder.jpg"}
-                        alt={project.title}
-                        fill
-                        className="object-cover"
-                        quality={75}
-                        loading="lazy"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        priority={project.id === 1}
-                      />
-                    )}
-
-                    <div
-                      aria-hidden="true"
-                      className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[100%]"
-                      style={{
-                        backgroundImage: "linear-gradient(to top, rgba(2,6,23,0.97) 0%, rgba(2,6,23,0.92) 16%, rgba(2,6,23,0.76) 32%, rgba(2,6,23,0.34) 58%, rgba(2,6,23,0.00) 100%)",
-                        backgroundPosition: "center bottom",
-                        backgroundSize: "100% 100%",
-                        backgroundRepeat: "no-repeat",
-                        willChange: "opacity",
-                      }}
-                    />
-                  </div>
-
-                  <div className="relative z-20 h-full p-6">
-
-                    <div className="absolute bottom-6 left-6 right-6">
-                      <div className="mb-4">
-                        <h3
-                          className="text-xl font-bold text-white transition-colors md:text-2xl"
-                          style={{
-                            display: "-webkit-box",
-                            WebkitBoxOrient: "vertical",
-                            WebkitLineClamp: 2,
-                            overflow: "hidden",
-                            lineHeight: "1.2",
-                          }}
-                        >
-                          {project.title}
-                        </h3>
-
-                        <p
-                          className="text-sm leading-relaxed text-white/80"
-                          style={{
-                            display: "-webkit-box",
-                            WebkitBoxOrient: "vertical",
-                            WebkitLineClamp: 2,
-                            overflow: "hidden",
-                            lineHeight: "1.25rem",
-                          }}
-                        >
-                          {project.shortDescription}
-                        </p>
-                      </div>
-
-                      <div className="mb-3 flex flex-wrap gap-1">
-                        {project.technologies.slice(0, 3).map((tech) => (
-                          <Badge key={tech} variant="secondary" className="border border-white/20 bg-white/20 text-xs text-white/90 backdrop-blur-sm">
-                            {tech}
-                          </Badge>
-                        ))}
-                        {project.technologies.length > 3 && (
-                          <Badge variant="outline" className="border-white/30 bg-white/10 text-xs text-white/80 backdrop-blur-sm">
-                            +{project.technologies.length - 3}
-                          </Badge>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full border border-white/30 bg-white/20 opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
-                      <ArrowUpRight className="h-4 w-4 text-white" />
-                    </div>
-                  </div>
-                </Link>
+                  project={project}
+                  priority={project.id === 1}
+                  stagger
+                />
               ))}
             </div>
           </div>
