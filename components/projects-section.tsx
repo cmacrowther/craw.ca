@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/use-scroll-animation-optimized";
-import { projectCategories, projectsByReleaseDate } from "@/lib/projects";
+import { getProjectsForFilter, isProjectHighlightedForFilter, projectCategories } from "@/lib/projects";
 
 import { LazyLoadWrapper } from "./lazy-load-wrapper";
 import { ProjectShowcaseCard } from "./project-showcase-card";
@@ -20,10 +20,7 @@ export function ProjectsSection() {
     childSelector: "[data-stagger]",
   });
 
-  const filteredProjects =
-    selectedCategory === "all"
-      ? projectsByReleaseDate
-      : projectsByReleaseDate.filter((project) => project.categories.includes(selectedCategory));
+  const filteredProjects = getProjectsForFilter(selectedCategory);
 
   return (
     <LazyLoadWrapper minHeight="400px">
@@ -69,11 +66,12 @@ export function ProjectsSection() {
 
           <div ref={gridRef} className="mx-auto max-w-7xl">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {filteredProjects.map((project) => (
+              {filteredProjects.map((project, index) => (
                 <ProjectShowcaseCard
                   key={project.id}
                   project={project}
-                  priority={project.id === 1}
+                  priority={index === 0}
+                  highlighted={isProjectHighlightedForFilter(project, selectedCategory)}
                   stagger
                 />
               ))}

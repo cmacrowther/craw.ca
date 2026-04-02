@@ -29,6 +29,7 @@ export interface Project {
   githubUrl?: string;
   liveUrl?: string;
   categories: ProjectCategory[];
+  highlightCategories?: Array<ProjectCategory | "all">;
   projectState: ProjectState;
   distribution: ProjectDistribution;
   releaseDate: string;
@@ -82,6 +83,7 @@ export const projects: Project[] = [
     technologies: ["Next.js", "TypeScript", "Socket.IO"],
     liveUrl: "https://tuneiq.craw.ca/",
     categories: ["games", "music", "web"],
+    highlightCategories: ["music"],
     projectState: "feature-complete",
     distribution: "closed-source",
     releaseDate: "2025",
@@ -107,6 +109,7 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/cmacrowther/songwriter",
     liveUrl: "https://music.craw.ca",
     categories: ["music", "web", "tool"],
+    highlightCategories: ["tool"],
     projectState: "feature-complete",
     distribution: "open-source",
     releaseDate: "2024",
@@ -119,8 +122,8 @@ export const projects: Project[] = [
   {
     id: 3,
     slug: "heather-band-website",
-    title: "Heather Band Website",
-    shortDescription: "Editorial-style band website designed to feel atmospheric, current, and human.",
+    title: "Heather",
+    shortDescription: "Editorial-style band website designed to feel atmospheric and human, with a touch of rock n' roll edge.",
     longDescription:
       "Heather Band Website is a static site created for my band, designed to feel atmospheric without becoming difficult to use. The layout pairs straightforward navigation with a visual direction that supports the band's identity and gives the music space to breathe.",
     projectStory:
@@ -154,6 +157,7 @@ export const projects: Project[] = [
     video: "/basket-case-video.webm",
     technologies: ["Unity", "C#", "Virtual Reality", "Hand Tracking"],
     categories: ["games"],
+    highlightCategories: ["games"],
     projectState: "archived",
     distribution: "closed-source",
     releaseDate: "2023",
@@ -202,6 +206,7 @@ export const projects: Project[] = [
     technologies: ["Socket.IO", "Express", "Three.js", "Mobile Controls"],
     liveUrl: "https://jelly.craw.ca",
     categories: ["games", "web"],
+    highlightCategories: ["games"],
     projectState: "ongoing",
     distribution: "closed-source",
     releaseDate: "2025",
@@ -226,6 +231,7 @@ export const projects: Project[] = [
     technologies: ["Python", "Next.js", "Flask"],
     githubUrl: "https://gitlab.com/cmacrowther/waxtrax",
     categories: ["music", "tool"],
+    highlightCategories: ["music"],
     projectState: "paused",
     distribution: "open-source",
     releaseDate: "2025",
@@ -249,6 +255,7 @@ export const projects: Project[] = [
     video: "/puckdrop.webm",
     technologies: ["Next.js", "TypeScript"],
     categories: ["web"],
+    highlightCategories: ["web"],
     projectState: "ongoing",
     distribution: "closed-source",
     releaseDate: "2026",
@@ -275,6 +282,7 @@ export const projects: Project[] = [
     technologies: ["OpenClaw", "LLM", "Artificial Intelligence", "Next.js", "Tailwind", "React Three Fiber"],
     githubUrl: "https://github.com/cmacrowther/gobert",
     categories: ["tool", "web", "ai"],
+    highlightCategories: ["all", "ai"],
     projectState: "paused",
     distribution: "open-source",
     releaseDate: "2026",
@@ -297,6 +305,21 @@ function getProjectReleaseSortValue(project: Pick<Project, "releaseDate" | "proj
 }
 
 export const projectsByReleaseDate = [...projects].sort((a, b) => getProjectReleaseSortValue(b) - getProjectReleaseSortValue(a));
+export type ProjectFilter = (typeof projectCategories)[number]["id"];
+
+export function isProjectHighlightedForFilter(project: Project, filter: ProjectFilter) {
+  return project.highlightCategories?.includes(filter) ?? false;
+}
+
+export function getProjectsForFilter(filter: ProjectFilter) {
+  if (filter === "all") {
+    return projectsByReleaseDate;
+  }
+
+  return projectsByReleaseDate
+    .filter((project) => project.categories.includes(filter))
+    .sort((a, b) => Number(isProjectHighlightedForFilter(b, filter)) - Number(isProjectHighlightedForFilter(a, filter)));
+}
 
 export function getProjectBySlug(slug: string) {
   return projects.find((project) => project.slug === slug);

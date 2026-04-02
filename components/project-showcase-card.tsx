@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Sparkles } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { type Project } from "@/lib/projects";
@@ -13,6 +13,7 @@ type ProjectShowcaseCardProps = {
   project: Project;
   priority?: boolean;
   stagger?: boolean;
+  highlighted?: boolean;
   className?: string;
 };
 
@@ -20,6 +21,7 @@ export function ProjectShowcaseCard({
   project,
   priority = false,
   stagger = false,
+  highlighted = false,
   className = "",
 }: ProjectShowcaseCardProps) {
   return (
@@ -77,6 +79,16 @@ export function ProjectShowcaseCard({
       </div>
 
       <div className="relative z-20 h-full p-6">
+        {highlighted && (
+          <div
+            className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold text-white shadow-lg"
+            style={{ background: project.accent.badgeGradient }}
+          >
+            <Sparkles className="h-3.5 w-3.5" />
+            Highlight
+          </div>
+        )}
+
         <div className="absolute bottom-6 left-6 right-6">
           <div className="mb-4">
             <h3
