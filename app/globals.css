@@ -701,9 +701,17 @@
   .splitting-animation .char {
     animation-duration: 0.5s;
   }
-  
+
   .action-button-animate {
     animation-duration: 0.5s;
+  }
+
+  /* Freeze gradient cycling on mobile — badges stay coloured, just static */
+  .animate-gradient-badge,
+  .animate-gradient-badge-light,
+  .animate-gradient-icon {
+    animation: none;
+    background-position: 0% 50%;
   }
 }
 
@@ -1070,6 +1078,12 @@
   .arcade-screen-glass {
     opacity: 0.8;
     animation: none;
+  }
+
+  /* Stop the idle float animation on mobile — the static 3D tilt is preserved */
+  .arcade-screen-shell {
+    animation: none;
+    will-change: auto;
   }
 }
 

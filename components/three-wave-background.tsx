@@ -17,6 +17,7 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
     let scene: THREE.Scene;
     let mesh: THREE.InstancedMesh;
     let count = 0;
+    let lastFrameTime = 0;
 
     const isMobile = window.innerWidth < 768;
     const SEPARATION = isMobile ? 90 : 45;
@@ -106,13 +107,23 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
         scrollY = window.scrollY || window.pageYOffset;
         targetFov = 100 + Math.min(16, scrollY * 0.032);
       };
-      window.addEventListener('scroll', handleScroll);
+      window.addEventListener('scroll', handleScroll, { passive: true });
 
       // Reusable objects
       const dummy = new THREE.Object3D();
       const colorInstance = new THREE.Color();
 
       function animate() {
+        // Throttle to 30fps on mobile to reduce CPU/GPU load during scroll
+        const now = performance.now();
+        const targetFPS = isMobile ? 30 : 60;
+        const frameInterval = 1000 / targetFPS;
+        if (now - lastFrameTime < frameInterval) {
+          animationId = requestAnimationFrame(animate);
+          return;
+        }
+        lastFrameTime = now;
+
         let i = 0;
 
         for (let ix = 0; ix < AMOUNTX; ix++) {
