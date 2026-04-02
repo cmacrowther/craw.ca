@@ -242,6 +242,32 @@ export const projects: Project[] = [
     },
   },
   {
+    id: 11,
+    slug: "referee",
+    title: "REFEREE",
+    shortDescription: "On-device AI upscaling service that lets developers ship 360p streams while users with RTX hardware see 4K.",
+    longDescription:
+      "REFEREE is a desktop service that runs silently in the background and transforms how video is delivered on the web. Developers integrate with a few lines of code and serve low-bitrate streams — REFEREE intercepts them on the user's machine, runs a hardware-accelerated pipeline through FFmpeg and NVEncC, applies NVIDIA RTX Tensor Core upscaling, frame generation, and HDR conversion in real time, and hands back a 4K-quality HLS stream before the player even notices. No frames leave the machine. No server-side transcoding. The quality scales with the user's hardware, and so does the savings on bandwidth, CDN egress, and storage.",
+    projectStory:
+      "REFEREE came from a simple frustration: delivering high-resolution video at scale is expensive, and the compute needed to produce it already exists in hundreds of millions of consumer GPUs sitting idle while people watch TV. The idea of pushing that work onto the edge — literally the user's own desk — and letting RTX Tensor Cores do what they were built for felt like an obvious inversion of the standard streaming model. Building it meant designing a local service that could intercept streams transparently, manage per-session GPU pipelines with automatic cleanup, and expose a REST API simple enough for any web developer to drop in. The hardest part was not the upscaling itself — NVEncC handles that brilliantly — but making the whole system feel invisible: low latency, reliable teardown, and zero friction for the end user.",
+    buildFocus: "A hardware-accelerated local streaming pipeline that sits between web players and origin servers, enhancing quality on-device using NVIDIA RTX without any server-side changes.",
+    experienceGoal: "Make 4K-quality video playback a client-side capability that any web developer can unlock, without paying to encode, store, or serve it.",
+    video: "/referee.webm",
+    technologies: ["Electron", "TypeScript", "FFmpeg", "NVEncC", "NVIDIA RTX", "HLS", "Node.js"],
+    githubUrl: "https://github.com/cmacrowther/referee",
+    liveUrl: "https://referee.craw.ca/",
+    categories: ["tool", "ai"],
+    highlightCategories: ["all", "tool", "ai"],
+    projectState: "ongoing",
+    distribution: "open-source",
+    releaseDate: "2026",
+    accent: {
+      badgeGradient: "linear-gradient(135deg, #f97316 0%, #ff6b35 45%, #fbbf24 100%)",
+      spotlight: "radial-gradient(circle, rgba(249,115,22,0.32) 0%, rgba(255,107,53,0.22) 45%, rgba(0,0,0,0) 74%)",
+      surfaceGradient: "linear-gradient(135deg, rgba(249,115,22,0.26) 0%, rgba(255,107,53,0.18) 50%, rgba(251,191,36,0.2) 100%)",
+    },
+  },
+  {
     id: 10,
     slug: "referee-demo",
     title: "REFEREE Demo",
