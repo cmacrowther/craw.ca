@@ -242,6 +242,32 @@ export const projects: Project[] = [
     },
   },
   {
+    id: 10,
+    slug: "referee-demo",
+    title: "REFEREE Demo",
+    shortDescription: "Live demo and docs for an on-device AI upscaler that upgrades 360p streams to 4K using NVIDIA RTX hardware.",
+    longDescription:
+      "REFEREE Demo is the documentation and live demo site for REFEREE, an on-device AI upscaling service that lets developers ship low-bitrate video streams while users with NVIDIA RTX hardware enjoy 4K-quality playback. The demo features an interactive web player with a before/after comparison slider — drag to reveal the difference between 360p source footage and the 4K-upscaled output produced by REFEREE in real time.",
+    projectStory:
+      "REFEREE started from a frustration with the bandwidth and storage costs of serving high-resolution video. The core idea — offload quality to the user's hardware rather than the server — sounds simple, but building a local service that intercepts streams, runs a hardware-accelerated pipeline through FFmpeg and NVEncC, and hands back enhanced output with minimal latency required solving a tightly coupled stack piece by piece. The demo site exists to make that invisible pipeline tangible: to let developers and curious users actually see the quality difference side by side before deciding whether to integrate.",
+    buildFocus: "A live before/after comparison player that makes the upscaling impact immediately tangible alongside clear integration documentation.",
+    experienceGoal: "Let developers and users see the quality gap REFEREE closes — from 360p source to 4K output — in a single drag of a slider.",
+    video: "/referee_demo.webm",
+    technologies: ["TypeScript", "Electron", "FFmpeg", "NVIDIA RTX"],
+    githubUrl: "https://github.com/cmacrowther/referee",
+    liveUrl: "https://referee.craw.ca/",
+    categories: ["web", "tool", "ai"],
+    highlightCategories: ["web", "ai"],
+    projectState: "ongoing",
+    distribution: "open-source",
+    releaseDate: "2026",
+    accent: {
+      badgeGradient: "linear-gradient(135deg, #f97316 0%, #ff6b35 45%, #fbbf24 100%)",
+      spotlight: "radial-gradient(circle, rgba(249,115,22,0.28) 0%, rgba(255,107,53,0.2) 45%, rgba(0,0,0,0) 74%)",
+      surfaceGradient: "linear-gradient(135deg, rgba(249,115,22,0.22) 0%, rgba(255,107,53,0.16) 50%, rgba(251,191,36,0.18) 100%)",
+    },
+  },
+  {
     id: 9,
     slug: "puckdrop",
     title: "PuckDrop",
