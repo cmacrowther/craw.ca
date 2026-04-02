@@ -87,7 +87,7 @@ export function AboutSection() {
           <h2 data-animate className="text-3xl pixel-mask-text sm:text-4xl lg:text-5xl font-heading font-bold mb-4">
             About Me
           </h2>
-          <p data-animate data-text="Creating digital experiences that make a difference" className="text-xl pixel-mask-text-small text-muted-foreground font-body max-w-2xl mx-auto">
+          <p data-animate className="text-xl text-muted-foreground font-body max-w-2xl mx-auto">
             Creating digital experiences that make a difference
           </p>
         </div>
@@ -101,7 +101,7 @@ export function AboutSection() {
                 <div data-animate className="relative">
                   <div className="absolute -left-6 top-0 w-1 h-full bg-gradient-to-b from-blue-500 to-purple-600 rounded-full opacity-60 hidden md:block"></div>
                   <div className="pl-0 md:pl-8">
-                    <p className="font-body pixel-mask-text-small text-xl leading-relaxed text-foreground">
+                    <p className="font-body text-xl leading-relaxed text-foreground">
                       I am a <span className="relative inline-block">
                         <span className="relative z-10 px-2 py-1 bg-gradient-to-r from-blue-500/15 to-purple-600/15 rounded-md font-medium">
                           full-stack developer
@@ -117,7 +117,7 @@ export function AboutSection() {
                 <div data-animate className="relative">
                   <div className="absolute -left-6 top-0 w-1 h-full bg-gradient-to-b from-purple-500 to-pink-600 rounded-full opacity-60 hidden md:block"></div>
                   <div className="pl-0 md:pl-8">
-                    <p className="font-body pixel-mask-text-small text-xl leading-relaxed text-foreground">
+                    <p className="font-body text-xl leading-relaxed text-foreground">
                       By day, I work with Java developing enterprise-level systems.
                       
                       By night, I set my focus on the
@@ -135,7 +135,7 @@ export function AboutSection() {
                 <div data-animate className="relative">
                   <div className="absolute -left-6 top-0 w-1 h-full bg-gradient-to-b from-pink-500 to-rose-600 rounded-full opacity-60 hidden md:block"></div>
                   <div className="pl-0 md:pl-8">
-                    <p className="font-body text-xl pixel-mask-text-small leading-relaxed text-foreground">
+                    <p className="font-body text-xl leading-relaxed text-foreground">
                       I've had the chance to work with a wide mix of languages and technologies, and I'm always eager to learn more. If you'd like a copy of my resume, 
                       <Link href="/#contact" className="site-link-strong relative inline font-semibold transition-colors duration-300 group ml-1">
                         <span className="relative z-10">shoot me a message!</span>

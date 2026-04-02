@@ -100,7 +100,7 @@ export function ContactSection() {
             </svg>
             Let's Connect
           </span>
-          <h2 data-animate className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-4">
+          <h2 data-animate className="text-3xl pixel-mask-text sm:text-4xl lg:text-5xl font-heading font-bold mb-4">
             Get In Touch
           </h2>
           <p data-animate className="text-lg text-muted-foreground font-body max-w-2xl mx-auto">
@@ -121,7 +121,7 @@ export function ContactSection() {
             <div data-animate className="space-y-4">
               <div className="flex items-center space-x-3">
                 <div className="flex-shrink-0">
-                  <Mail className="h-5 w-5 text-primary" />
+                  <Mail className="h-5 w-5" />
                 </div>
                 <div>
                   <p className="font-body text-sm text-muted-foreground">Email</p>
@@ -136,7 +136,7 @@ export function ContactSection() {
 
               <div className="flex items-center space-x-3">
                 <div className="flex-shrink-0">
-                  <Phone className="h-5 w-5 text-primary" />
+                  <Phone className="h-5 w-5" />
                 </div>
                 <div>
                   <p className="font-body text-sm text-muted-foreground">Phone</p>
@@ -151,7 +151,7 @@ export function ContactSection() {
 
               <div className="flex items-center space-x-3">
                 <div className="flex-shrink-0">
-                  <MapPin className="h-5 w-5 text-primary" />
+                  <MapPin className="h-5 w-5" />
                 </div>
                 <div>
                   <p className="font-body text-sm text-muted-foreground">Location</p>

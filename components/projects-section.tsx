@@ -48,7 +48,7 @@ export function ProjectsSection() {
               Portfolio Showcase
             </span>
 
-            <h2 data-animate className="mb-4 text-3xl font-heading font-bold sm:text-4xl lg:text-5xl">
+            <h2 data-animate className="mb-4 pixel-mask-text text-3xl font-heading font-bold sm:text-4xl lg:text-5xl">
               Featured Work
             </h2>
             <p data-animate className="mx-auto max-w-2xl font-body text-lg text-muted-foreground">
