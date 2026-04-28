@@ -1,11 +1,18 @@
 "use client"
 
 import Link from "next/link"
+import dynamic from "next/dynamic"
 import { Badge } from "@/components/ui/badge"
-import { ParticleBackground } from "./particle-background"
 import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/use-scroll-animation-optimized"
 import { LazyLoadWrapper } from "./lazy-load-wrapper"
 import { lazyComponent } from "./lazy-load-wrapper"
+
+// Lazy-load the 3D particle background — only mounts on the client and is
+// dynamically imported so it does not ship in the main bundle.
+const ParticleBackground = dynamic(
+  () => import("./particle-background").then((m) => ({ default: m.ParticleBackground })),
+  { ssr: false, loading: () => null }
+)
 
 // Lazy load 3D viewer to reduce initial bundle
 const GLBViewer = lazyComponent(

@@ -76,6 +76,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`dark ${spaceGrotesk.variable} ${dmSans.variable}`}>
       <head>
+        {/* Preconnect to Google Fonts for the JetBrains Mono stylesheet imported in globals.css */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+
         {/* Default theme-color meta for dynamic update */}
         <meta name="theme-color" content="#09090b" />
 

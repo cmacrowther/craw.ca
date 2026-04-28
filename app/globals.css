@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 @import "splitting/dist/splitting.css";
 @import "splitting/dist/splitting-cells.css";
 @import "tailwindcss";
@@ -54,6 +53,8 @@
   inset: 0;
   z-index: 9;
   pointer-events: none;
+  /* Isolate paints — the overlay never affects layout or other layers. */
+  contain: layout paint;
   /* Normal blend: lines dim proportionally instead of fully crushing white text.
      At 45% opacity, white text stays ~78% bright on average (vs 0% with multiply).
      Explicit 4-stop syntax avoids Android/Chromium bugs with the two-value shorthand
