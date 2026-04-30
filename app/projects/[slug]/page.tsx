@@ -107,6 +107,7 @@ function ProjectMedia({
           className="h-full w-full"
           mediaClassName={mediaClassName}
           quality={quality}
+          releaseOnExit
         />
         {withCrt && <div className="crt-effect pointer-events-none rounded-[2rem]" style={{ borderRadius: "inherit" }} />}
       </div>
@@ -428,8 +429,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             </div>
 
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {relatedProjects.map((relatedProject) => (
-                <ProjectShowcaseCard key={relatedProject.slug} project={relatedProject} />
+              {relatedProjects.map((relatedProject, index) => (
+                <ProjectShowcaseCard
+                  key={relatedProject.slug}
+                  project={relatedProject}
+                  index={index}
+                />
               ))}
             </div>
           </div>

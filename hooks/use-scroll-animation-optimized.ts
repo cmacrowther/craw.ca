@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 
+import { detectLowEndDevice } from './use-low-end-device';
+
 interface UseScrollAnimationOptions {
   threshold?: number;
   delay?: number;
@@ -185,29 +187,70 @@ export function useStaggeredAnimation(options: UseScrollAnimationOptions & {
       return;
     }
 
-    const children = element.querySelectorAll(childSelector);
-    
+    // Inline low-end detection (via shared helper) so this generic hook stays
+    // self-contained and does not pay React-render-cycle cost.
+    const { isLowEnd } = detectLowEndDevice();
+
+    // On low-end devices, halve the stagger and clamp total animation to
+    // ~400ms so the grid settles quickly instead of churning DOM for >1s.
+    const effectiveStagger = isLowEnd ? Math.max(20, Math.floor(stagger / 2)) : stagger;
+    const effectiveDuration = isLowEnd ? Math.min(duration, 400) : duration;
+
+    const children = Array.from(element.querySelectorAll(childSelector)) as HTMLElement[];
+
     // Set initial states
-    children.forEach((child: any) => {
+    children.forEach((child) => {
       child.style.opacity = '0';
       child.style.transform = 'translateY(20px)';
-      child.style.transition = `opacity ${duration}ms ${easing}, transform ${duration}ms ${easing}`;
+      child.style.transition = `opacity ${effectiveDuration}ms ${easing}, transform ${effectiveDuration}ms ${easing}`;
+      // Hint the compositor only for the duration of the stagger; cleared below.
+      child.style.willChange = 'opacity, transform';
     });
 
     let hasBeenTriggered = false;
+    let rafId = 0;
+    let startTimer: ReturnType<typeof setTimeout> | null = null;
+    let cleanupTimer: ReturnType<typeof setTimeout> | null = null;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting && !hasBeenTriggered) {
             hasBeenTriggered = true;
-            
-            setTimeout(() => {
-              children.forEach((child: any, index: number) => {
-                setTimeout(() => {
-                  child.style.opacity = '1';
-                  child.style.transform = 'translateY(0)';
-                }, index * stagger);
-              });
+
+            startTimer = setTimeout(() => {
+              const startTs = performance.now();
+
+              const tick = (now: number) => {
+                const elapsed = now - startTs;
+                // Reveal every child whose slot has arrived. Single rAF loop
+                // replaces N stacked setTimeouts to avoid timer churn.
+                let allDone = true;
+                for (let i = 0; i < children.length; i++) {
+                  const child = children[i];
+                  if (child.dataset.staggerRevealed === '1') continue;
+                  if (elapsed >= i * effectiveStagger) {
+                    child.style.opacity = '1';
+                    child.style.transform = 'translateY(0)';
+                    child.dataset.staggerRevealed = '1';
+                  } else {
+                    allDone = false;
+                  }
+                }
+                if (!allDone) {
+                  rafId = requestAnimationFrame(tick);
+                }
+              };
+              rafId = requestAnimationFrame(tick);
+
+              // After the full animation has run, drop the will-change hints
+              // so the cards do not hold permanent GPU layers.
+              const totalMs = (children.length - 1) * effectiveStagger + effectiveDuration + 50;
+              cleanupTimer = setTimeout(() => {
+                children.forEach((child) => {
+                  child.style.willChange = '';
+                });
+              }, totalMs);
             }, delay);
           }
         });
@@ -219,6 +262,9 @@ export function useStaggeredAnimation(options: UseScrollAnimationOptions & {
 
     return () => {
       observer.disconnect();
+      if (rafId) cancelAnimationFrame(rafId);
+      if (startTimer) clearTimeout(startTimer);
+      if (cleanupTimer) clearTimeout(cleanupTimer);
     };
   }, [threshold, delay, stagger, duration, easing, childSelector]);
 

@@ -73,6 +73,7 @@ export function ProjectsSection() {
                   priority={index === 0}
                   highlighted={isProjectHighlightedForFilter(project, selectedCategory)}
                   stagger
+                  index={index}
                 />
               ))}
             </div>

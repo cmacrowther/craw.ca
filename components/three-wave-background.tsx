@@ -4,12 +4,16 @@ import { useEffect, useRef } from "react"
 import { useTheme } from "next-themes"
 import * as THREE from "three"
 
+import { detectLowEndDevice } from "@/hooks/use-low-end-device"
+
 export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
   const threeRef = useRef<HTMLDivElement>(null)
   const { theme } = useTheme()
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
+
+    const { isLowEnd, prefersReducedMotion } = detectLowEndDevice();
 
     let renderer: THREE.WebGLRenderer | null = null;
     let animationId: number;
@@ -18,12 +22,17 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
     let mesh: THREE.InstancedMesh;
     let count = 0;
     let lastFrameTime = 0;
+    let isVisible = true;
+    let isPageVisible = typeof document !== 'undefined' ? !document.hidden : true;
 
     const isMobile = window.innerWidth < 768;
-    const SEPARATION = isMobile ? 90 : 45;
-    const AMOUNTX = isMobile ? 50 : 100;
-    const AMOUNTY = isMobile ? 20 : 35;
+    // Low-end devices get fewer particles (cuts per-frame instance updates
+    // roughly in half) and a tighter framerate cap.
+    const SEPARATION = isMobile || isLowEnd ? 90 : 45;
+    const AMOUNTX = isLowEnd ? 35 : isMobile ? 50 : 100;
+    const AMOUNTY = isLowEnd ? 14 : isMobile ? 20 : 35;
     const TOTAL_PARTICLES = AMOUNTX * AMOUNTY;
+    const targetFPS = prefersReducedMotion ? 0 : isLowEnd ? 24 : isMobile ? 30 : 60;
 
     // Scroll state
     let scrollY = 0, targetFov = 100;
@@ -114,11 +123,19 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
       const colorInstance = new THREE.Color();
 
       function animate() {
-        // Throttle to 30fps on mobile to reduce CPU/GPU load during scroll
+        // Skip work entirely while the canvas is offscreen or the tab is
+        // hidden — keep the rAF loop alive (cheap) so we resume instantly.
+        if (!isVisible || !isPageVisible) {
+          animationId = requestAnimationFrame(animate);
+          return;
+        }
+
+        // Throttle to the resolved target FPS to reduce CPU/GPU load.
+        // Always allow the first frame through so reduced-motion users (who
+        // have an effectively infinite frame interval) still see one render.
         const now = performance.now();
-        const targetFPS = isMobile ? 30 : 60;
         const frameInterval = 1000 / targetFPS;
-        if (now - lastFrameTime < frameInterval) {
+        if (lastFrameTime !== 0 && now - lastFrameTime < frameInterval) {
           animationId = requestAnimationFrame(animate);
           return;
         }
@@ -169,6 +186,32 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
       }
       animate();
 
+      // Reduced-motion users get a single static frame and no rAF loop.
+      if (prefersReducedMotion) {
+        cancelAnimationFrame(animationId);
+      }
+
+      // Pause the wave update when the canvas scrolls out of view so the
+      // expensive instance-matrix loop only runs when the user can actually
+      // see it.
+      let visibilityObserver: IntersectionObserver | null = null;
+      if (typeof IntersectionObserver !== 'undefined' && threeRef.current) {
+        visibilityObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              isVisible = entry.isIntersecting;
+            });
+          },
+          { threshold: 0 }
+        );
+        visibilityObserver.observe(threeRef.current);
+      }
+
+      const handleVisibilityChange = () => {
+        isPageVisible = !document.hidden;
+      };
+      document.addEventListener('visibilitychange', handleVisibilityChange);
+
       const handleResize = () => {
         const width = window.innerWidth;
         const height = window.innerHeight;
@@ -183,6 +226,8 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
       return () => {
         window.removeEventListener('resize', handleResize);
         window.removeEventListener('scroll', handleScroll);
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+        if (visibilityObserver) visibilityObserver.disconnect();
         if (renderer) {
           renderer.dispose();
           if (renderer.domElement && renderer.domElement.parentNode) {

@@ -109,7 +109,7 @@ export function AboutSection() {
                   <div className="absolute -left-6 top-0 w-1 h-full bg-gradient-to-b from-blue-500 to-purple-600 rounded-full opacity-60 hidden md:block"></div>
                   <div className="pl-0 md:pl-8">
                     <p className="font-body text-xl leading-relaxed text-foreground">
-                      I am a <span className="relative inline-block">
+                      I'm a <span className="relative inline-block">
                         <span className="relative z-10 px-2 py-1 bg-gradient-to-r from-blue-500/15 to-purple-600/15 rounded-md font-medium">
                           full-stack developer
                         </span>

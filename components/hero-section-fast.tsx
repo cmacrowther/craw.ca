@@ -107,7 +107,7 @@ export function HeroSection() {
           {showTyped && (
             <TypewriterEffect
               strings={[
-                "I am a full-stack developer from Canada.",
+                "I'm a full-stack developer from Canada.",
                 "Crafting modern web experiences.",
                 "By bridging design and engineering.",
               ]}

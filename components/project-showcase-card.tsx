@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowUpRight, Sparkles } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
+import { useLowEndDevice } from "@/hooks/use-low-end-device";
 import { type Project } from "@/lib/projects";
 
 import { OptimizedImage } from "./optimized-image";
@@ -15,6 +16,11 @@ type ProjectShowcaseCardProps = {
   stagger?: boolean;
   highlighted?: boolean;
   className?: string;
+  /**
+   * Position of the card within the grid; used to stagger video autoplay so
+   * the browser does not decode every video simultaneously on slow devices.
+   */
+  index?: number;
 };
 
 export function ProjectShowcaseCard({
@@ -23,7 +29,14 @@ export function ProjectShowcaseCard({
   stagger = false,
   highlighted = false,
   className = "",
+  index = 0,
 }: ProjectShowcaseCardProps) {
+  const { isLowEnd } = useLowEndDevice();
+  // Capable devices: ~250ms per slot (grid lights up over ~2s).
+  // Low-end devices: ~600ms per slot to keep simultaneous decoders to ~1–2.
+  const perCardMs = isLowEnd ? 600 : 250;
+  const autoPlayDelayMs = index * perCardMs;
+
   return (
     <Link
       href={`/projects/${project.slug}`}
@@ -49,6 +62,8 @@ export function ProjectShowcaseCard({
               preload="metadata"
               className="h-full w-full object-cover"
               quality="medium"
+              autoPlayDelay={autoPlayDelayMs}
+              releaseOnExit
             />
             <div className="pixel-overlay pointer-events-none h-full w-full" style={{ borderRadius: "inherit" }} />
           </>

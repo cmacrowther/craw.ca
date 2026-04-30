@@ -18,6 +18,18 @@ interface OptimizedVideoProps {
   height?: number
   fallbackGif?: string
   quality?: 'low' | 'medium' | 'high'
+  /**
+   * Delay (ms) before this video is allowed to begin autoplay. Useful for
+   * staggering autoplay across a grid so the browser does not decode every
+   * video simultaneously. Defaults to 0 (immediate, current behavior).
+   */
+  autoPlayDelay?: number
+  /**
+   * When true, fully release the decoded video buffer (clear `src` + `load()`)
+   * once the element scrolls out of view, and re-attach `src` on re-entry.
+   * The poster image keeps the slot visible across the gap.
+   */
+  releaseOnExit?: boolean
 }
 
 export function OptimizedVideo({
@@ -35,6 +47,8 @@ export function OptimizedVideo({
   height,
   fallbackGif,
   quality = 'medium',
+  autoPlayDelay = 0,
+  releaseOnExit = false,
 }: OptimizedVideoProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
@@ -42,6 +56,10 @@ export function OptimizedVideo({
   const [playAttempted, setPlayAttempted] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [showPlayButton, setShowPlayButton] = useState(false)
+  // When autoPlayDelay > 0 we suppress the HTML `autoplay` attr and any
+  // programmatic `.play()` calls until this flag flips, so the browser does
+  // not start decoding until the staggered slot opens.
+  const [autoPlayReady, setAutoPlayReady] = useState(autoPlayDelay <= 0)
   const videoRef = useRef<HTMLVideoElement>(null)
 
   // Check if device is mobile
@@ -67,6 +85,22 @@ export function OptimizedVideo({
     }
   }, [])
 
+  // Stagger gate: flip `autoPlayReady` true after the requested delay so the
+  // grid of cards does not light up every decoder simultaneously.
+  useEffect(() => {
+    if (autoPlayDelay <= 0) return
+    setAutoPlayReady(false)
+    const timer = setTimeout(() => {
+      const apply = () => setAutoPlayReady(true)
+      if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+        ;(window as any).requestIdleCallback(apply, { timeout: 1000 })
+      } else {
+        apply()
+      }
+    }, autoPlayDelay)
+    return () => clearTimeout(timer)
+  }, [autoPlayDelay])
+
   // Intersection Observer to only load video when visible
   useEffect(() => {
     if (!videoRef.current) return
@@ -74,14 +108,17 @@ export function OptimizedVideo({
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          const video = entry.target as HTMLVideoElement
           if (entry.isIntersecting) {
-            const video = entry.target as HTMLVideoElement
-            if (video.src === '') {
+            // Re-attach src if we previously released it.
+            if (!video.getAttribute('src') && (!video.currentSrc || releaseOnExit)) {
+              video.src = src
+              video.load()
+            } else if (video.src === '') {
               video.src = src
             }
             // If video is paused and should be playing, try to play
-            if (autoPlay && video.paused && useVideo) {
-              video.load()
+            if (autoPlay && autoPlayReady && video.paused && useVideo) {
               video.play().catch((error) => {
                 console.log('Autoplay failed on re-enter:', error)
                 if (isMobile) {
@@ -90,19 +127,27 @@ export function OptimizedVideo({
               })
             }
           } else {
-            const video = entry.target as HTMLVideoElement
-            if (autoPlay && video.currentTime > 0) {
+            if (autoPlay && !video.paused) {
               video.pause()
+            }
+            if (releaseOnExit && entry.intersectionRatio === 0) {
+              // Free the decoded video buffer; poster remains visible.
+              try {
+                video.removeAttribute('src')
+                video.load()
+              } catch {
+                // Ignore — some browsers throw on load() after detach.
+              }
             }
           }
         })
       },
-      { threshold: 0.1 }
+      { threshold: [0, 0.1, 0.25] }
     )
 
     observer.observe(videoRef.current)
     return () => observer.disconnect()
-  }, [src, autoPlay, muted, poster, isMobile, useVideo])
+  }, [src, autoPlay, autoPlayReady, muted, poster, isMobile, useVideo, releaseOnExit])
 
   if (hasError || !useVideo) {
     if (poster) {
@@ -146,7 +191,7 @@ export function OptimizedVideo({
       <video
         ref={videoRef}
         poster={poster}
-        autoPlay={autoPlay}
+        autoPlay={autoPlay && autoPlayReady}
         loop={loop}
         muted={muted}
         controls={controls}
@@ -173,7 +218,7 @@ export function OptimizedVideo({
         onPause={() => setIsPlaying(false)}
         onCanPlay={() => {
           // Try to play when video is ready (mobile compatibility)
-          if (autoPlay && muted && videoRef.current) {
+          if (autoPlay && autoPlayReady && muted && videoRef.current) {
             videoRef.current.play().catch((error) => {
               console.log('Autoplay failed:', error)
               // Only show play button on mobile if autoplay fails
