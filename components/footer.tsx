@@ -96,9 +96,6 @@ export function Footer() {
             <p className="font-body text-sm text-muted-foreground">
               © {new Date().getFullYear()} Colin Crowther. All rights reserved.
             </p>
-            <p className="font-body text-sm text-muted-foreground flex items-center">
-              Made with <Heart className="h-4 w-4 mx-1 text-red-500" /> using Next.js
-            </p>
           </div>
         </div>
       </div>
