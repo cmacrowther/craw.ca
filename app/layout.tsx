@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Geist, JetBrains_Mono } from "next/font/google"
+import { Geist, Inter, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
@@ -8,6 +8,13 @@ const geistSans = Geist({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-geist-sans",
+  preload: true,
+})
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
   preload: true,
 })
 
@@ -74,7 +81,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`dark ${geistSans.variable} ${jetBrainsMono.variable}`}>
+    <html lang="en" className={`dark ${geistSans.variable} ${inter.variable} ${jetBrainsMono.variable}`}>
       <head>
         {/* Default theme-color meta for dynamic update */}
         <meta name="theme-color" content="#09090b" />

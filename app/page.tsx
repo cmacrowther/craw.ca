@@ -9,6 +9,8 @@ const projectCards: ProjectCardData[] = projectsByReleaseDate.map((project) => (
   id: project.id,
   slug: project.slug,
   title: project.title,
+  logo: project.logo,
+  logoCardClassName: project.logoCardClassName,
   shortDescription: project.shortDescription,
   image: project.image,
   video: project.video,

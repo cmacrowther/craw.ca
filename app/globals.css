@@ -16,6 +16,13 @@
   --pixel-cell: 1px;
 }
 
+.proj-video-container :after {
+  background-image: linear-gradient(to top, rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.88) 16%, rgba(0,0,0,0.68) 32%, rgba(0,0,0,0.26) 58%, rgba(0,0,0,0.00) 100%), red;
+  background-position: center bottom;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
 .pixel-mask {
   mask-image:
     repeating-linear-gradient(0deg, #000 0 1px, transparent 1px var(--pixel-cell)),

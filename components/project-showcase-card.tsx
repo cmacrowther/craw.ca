@@ -122,7 +122,79 @@ export function ProjectShowcaseCard({
                 lineHeight: "1.2",
               }}
             >
-              {project.title}
+              {project.slug === "songwriterjs" && project.logo ? (
+                <span className="flex items-center gap-2">
+                  <span className="font-sans text-2xl font-light leading-none tracking-tight text-white md:text-[1.7rem]">
+                    Songwriter
+                  </span>
+                  <img
+                    src={project.logo}
+                    alt="JavaScript"
+                    className="h-7 w-auto object-contain md:h-8"
+                  />
+                </span>
+              ) : project.slug === "referee-docs" && project.logo ? (
+                <span className="flex items-center gap-2">
+                  <img
+                    src={project.logo}
+                    alt=""
+                    aria-hidden="true"
+                    className="h-9 w-auto object-contain md:h-10"
+                  />
+                  <span className="inline-flex items-center gap-2">
+                    <span className="font-[family-name:var(--font-inter)] text-2xl font-extrabold leading-none tracking-tight text-white md:text-[1.7rem]">
+                      RE<span className="text-[rgba(255,137,24,1)]">F</span>EREE
+                    </span>
+                    <span className="font-sans text-2xl font-bold leading-none tracking-tight text-white md:text-[1.7rem]">
+                      Docs
+                    </span>
+                  </span>
+                </span>
+              ) : project.slug === "referee" && project.logo ? (
+                <span className="flex items-center gap-2">
+                  <img
+                    src={project.logo}
+                    alt=""
+                    aria-hidden="true"
+                    className="h-9 w-auto object-contain md:h-10"
+                  />
+                  <span className="font-[family-name:var(--font-inter)] text-2xl font-extrabold leading-none tracking-tight text-white md:text-[1.7rem]">
+                    RE<span className="text-[rgba(255,137,24,1)]">F</span>EREE
+                  </span>
+                </span>
+              ) : project.slug === "wayfarer" && project.logo ? (
+                <span className="flex items-center gap-2">
+                  <img
+                    src={project.logo}
+                    alt=""
+                    aria-hidden="true"
+                    className="h-11 w-auto object-contain md:h-12"
+                  />
+                  <span className="font-mono text-2xl font-bold leading-none tracking-tight text-white md:text-[1.7rem]">
+                    wayfarer
+                  </span>
+                </span>
+              ) : project.slug === "gobert-ui" && project.logo ? (
+                <span className="flex items-center gap-2">
+                  <img
+                    src={project.logo}
+                    alt=""
+                    aria-hidden="true"
+                    className="h-8 w-auto object-contain"
+                  />
+                  <span className="font-sans text-2xl font-bold leading-none tracking-tight text-white md:text-[1.7rem]">
+                    Gobert.
+                  </span>
+                </span>
+              ) : project.logo ? (
+                <img
+                  src={project.logo}
+                  alt={project.title}
+                  className={`${project.logoCardClassName ?? "h-8 md:h-9"} w-auto max-w-full object-contain object-left`}
+                />
+              ) : (
+                project.title
+              )}
             </h3>
 
             <p

@@ -17,6 +17,8 @@ export interface Project {
   id: number;
   slug: string;
   title: string;
+  logo?: string;
+  logoCardClassName?: string;
   shortDescription: string;
   longDescription: string;
   projectStory: string;
@@ -41,6 +43,8 @@ export type ProjectCardData = Pick<
   | "id"
   | "slug"
   | "title"
+  | "logo"
+  | "logoCardClassName"
   | "shortDescription"
   | "image"
   | "video"
@@ -86,6 +90,8 @@ export const projects: Project[] = [
     id: 12,
     slug: "wayfarer",
     title: "Wayfarer",
+    logo: "/wayfarer.svg",
+    logoCardClassName: "h-11 md:h-12",
     shortDescription: "An offline-first personal start page with synced bookmarks, protected editing, and built-in search bangs.",
     longDescription:
       "Wayfarer is a personal browser start page that keeps bookmarks and Read Later items available locally first, then syncs changes to a user-owned Supabase or Firebase project. It combines protected editing, Google and bang searches, Selfh.st icons, and a resilient sync queue so the dashboard stays useful whether the browser is online or not.",
@@ -111,6 +117,8 @@ export const projects: Project[] = [
     id: 1,
     slug: "tuneiq",
     title: "TuneIQ",
+    logo: "/logo.png.png",
+    logoCardClassName: "h-10 md:h-11",
     shortDescription: "Real-time multiplayer music quiz with live rooms and leaderboard drama.",
     longDescription:
       "TuneIQ is a browser-based multiplayer music quiz built to capture the energy of a living-room party game. Players join shared rooms, answer rounds together in real time, and see scores, chat, and momentum shift instantly as the session unfolds.",
@@ -136,6 +144,7 @@ export const projects: Project[] = [
     id: 2,
     slug: "songwriterjs",
     title: "SongwriterJS",
+    logo: "/javascript-logo.png",
     shortDescription: "Artist-focused Gatsby template inspired by Spotify's songwriter presentation.",
     longDescription:
       "SongwriterJS is a Gatsby and Netlify CMS template for artists who want a polished songwriter page without rebuilding the stack from scratch. It combines credits, collaborators, releases, and previews into an editorial layout that feels focused on the work itself.",
@@ -162,6 +171,8 @@ export const projects: Project[] = [
     id: 3,
     slug: "heather-band-website",
     title: "Heather",
+    logo: "/heather.png",
+    logoCardClassName: "h-7 md:h-8",
     shortDescription: "Editorial-style band website designed to feel atmospheric and human, with a touch of rock n' roll edge.",
     longDescription:
       "Heather Band Website is a static site created for my band, designed to feel atmospheric without becoming difficult to use. The layout pairs straightforward navigation with a visual direction that supports the band's identity and gives the music space to breathe.",
@@ -186,6 +197,8 @@ export const projects: Project[] = [
     id: 4,
     slug: "basket-case",
     title: "Basket Case",
+    logo: "/basketcase.png",
+    logoCardClassName: "h-7 md:h-8",
     shortDescription: "VR paper toss game that turns a simple idea into something physical and playful.",
     longDescription:
       "Basket Case is a fully immersive VR game built in Unity and inspired by the classic Paper Toss loop. Motion controls and hand tracking turn each crumple, throw, and lucky bank shot into a tactile interaction that feels much bigger in virtual reality.",
@@ -284,6 +297,7 @@ export const projects: Project[] = [
     id: 11,
     slug: "referee",
     title: "REFEREE",
+    logo: "/referee.svg",
     shortDescription: "A desktop app that uses your NVIDIA or AMD GPU to silently upscale, denoise, and enhance any web stream in real time — and a single API call is all developers need to unlock it for their users.",
     longDescription:
       "REFEREE is a Windows and Linux desktop application that sits quietly in the background and uses your locally installed GPU to transform the web streams you watch in real time. Low-bitrate video becomes sharper, cleaner, and higher-fidelity through on-device AI — upscaling, denoise, frame generation, and HDR tone mapping — without a single frame leaving your machine or touching a server. For developers, integration is a few lines of JavaScript: point REFEREE at your stream and your entire audience with compatible hardware automatically gets a dramatically better picture. No re-encoding, no CDN upgrades, no per-user server cost. Also available as a self-hosted headless server and Docker image for those who prefer running it server-side.",
@@ -310,6 +324,7 @@ export const projects: Project[] = [
     id: 10,
     slug: "referee-docs",
     title: "REFEREE Docs",
+    logo: "/referee.svg",
     shortDescription: "The Next.js marketing and documentation site for REFEREE — featuring a live 480p-to-upscaled before/after demo and API integration docs for developers.",
     longDescription:
       "REFEREE Docs is the Next.js documentation and marketing site for the REFEREE desktop app. Visitors can experience the quality difference firsthand: an interactive demo streams a 480p source hosted by the site, and a comparison slider lets you drag between the raw footage and the REFEREE-upscaled output side by side. Developers who want to bring those same AI enhancements to their own platform will find full API integration documentation covering everything needed to make their web streams compatible with REFEREE's pipeline — giving their users access to AI-based upscaling, denoise, frame generation, and HDR tone mapping.",
@@ -337,6 +352,8 @@ export const projects: Project[] = [
     id: 9,
     slug: "puckdrop",
     title: "PuckDrop",
+    logo: "/puckdrop.svg",
+    logoCardClassName: "h-10 md:h-11",
     shortDescription: "NHL livescores, statistics, and a game predictions leaderboard for hockey fans.",
     longDescription:
       "PuckDrop is a web app for following the NHL in real time. It brings together live scores and detailed statistics alongside a predictions game where users can call the outcome of upcoming matchups and earn their spot on a shared leaderboard.",
@@ -361,6 +378,7 @@ export const projects: Project[] = [
     id: 8,
     slug: "gobert-ui",
     title: "Gobert",
+    logo: "/gobert-ui.png",
     shortDescription: "Open-source OpenClaw web interface built to give AI chat a more modern, polished feel.",
     longDescription:
       "Gobert is an open-source OpenClaw web interface built as a faster, more modern alternative to the clunky Clawdbot frontend that existed at the time. As OpenClaw started gaining popularity, I wanted to move quickly and ship an AI-first experience that felt closer to products like ChatGPT, Claude, and Gemini, with cleaner messaging UX, stronger visual hierarchy, and support for local or remote instances.",
