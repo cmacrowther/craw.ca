@@ -21,6 +21,7 @@ import {
   type Project,
 } from "@/lib/projects";
 import { ProjectPixelBackground } from "@/components/project-pixel-background";
+import { ProjectHeroWordmark } from "@/components/project-hero-wordmark";
 
 const siteUrl = "https://cmacrowther.com";
 
@@ -206,25 +207,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   </div>
 
                   <h1 className="mt-6 max-w-4xl font-heading text-4xl font-[700] leading-[1.04] tracking-[-0.045em] text-foreground sm:text-6xl lg:text-7xl">
-                    {project.slug === "jelly-jammers" && project.logo ? (
-                      <span className="inline-flex h-28 w-[34rem] max-w-full overflow-hidden rounded-2xl bg-neutral-950">
-                        <img
-                          src={project.logo}
-                          alt={project.title}
-                          className="h-full w-full object-cover object-center"
-                        />
-                      </span>
-                    ) : project.logo ? (
-                      <span className="inline-flex rounded-2xl bg-neutral-950 px-5 py-4 sm:px-6 sm:py-5">
-                        <img
-                          src={project.logo}
-                          alt={project.title}
-                          className="h-14 w-auto max-w-full object-contain object-left sm:h-16 lg:h-20"
-                        />
-                      </span>
-                    ) : (
-                      project.title
-                    )}
+                    <ProjectHeroWordmark project={project} />
                   </h1>
                   <p className="mt-6 max-w-3xl font-body text-lg font-[450] leading-8 text-muted-foreground sm:text-xl sm:leading-9">
                     {renderProjectCopy(project.longDescription, project.copyLinks)}

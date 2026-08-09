@@ -386,7 +386,6 @@ export const projects: Project[] = [
     buildFocus: "Designing a modern AI chat experience for OpenClaw with cleaner UX, stronger presentation, and faster iteration.",
     experienceGoal: "Make OpenClaw feel like a polished, current AI product that people would actually enjoy using.",
     copyLinks: [{ term: "OpenClaw", href: "https://openclaw.ai/" }],
-    image: "/gobert-ui.png",
     video: "/gobertui-video.mp4",
     technologies: ["OpenClaw", "LLM", "Artificial Intelligence", "Next.js", "Tailwind", "React Three Fiber"],
     githubUrl: "https://github.com/cmacrowther/gobert",

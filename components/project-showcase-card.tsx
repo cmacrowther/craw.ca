@@ -90,10 +90,12 @@ export function ProjectShowcaseCard({
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[100%]"
           style={{
-            backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.88) 16%, rgba(0,0,0,0.68) 32%, rgba(0,0,0,0.26) 58%, rgba(0,0,0,0) 100%), ${project.accent.surfaceGradient}`,
+            backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.4) 16%, rgba(0,0,0,0.3) 32%, rgba(0,0,0,0.26) 58%, rgba(0,0,0,0) 100%), ${project.accent.surfaceGradient}`,
             backgroundPosition: "center bottom",
             backgroundSize: "100% 100%",
             backgroundRepeat: "no-repeat",
+            mixBlendMode: "darken",
+            filter: "contrast(1.2) brightness(0.75) saturate(1.2)",
           }}
         />
       </div>
@@ -113,10 +115,9 @@ export function ProjectShowcaseCard({
           <div className="mb-4">
             <h3 className="flex h-12 w-full items-center overflow-hidden text-xl font-heading font-[600] leading-none text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.45)] transition-colors md:text-2xl">
               {project.slug === "tuneiq" ? (
-                <span className="flex min-w-0 items-center gap-2.5">
-                  <Music3 aria-hidden="true" className="size-7 shrink-0 stroke-[2.25] text-cyan-300" />
-                  <span className="font-[family-name:var(--font-space-grotesk)] text-[1.65rem] font-semibold leading-none tracking-[-0.035em] text-white">
-                    Tune<span className="text-sky-300">IQ</span>
+                <span className="flex min-w-0 items-center gap-3">
+                  <span className="font-sans text-[1.65rem] font-semibold leading-none tracking-[-0.035em] text-white">
+                    Tune<span className="px-0.5 text-sky-300 font-bold">IQ</span>
                   </span>
                 </span>
               ) : project.slug === "waxtrax" ? (
@@ -129,7 +130,7 @@ export function ProjectShowcaseCard({
                   <img
                     src={project.logo}
                     alt={project.title}
-                    className="h-full w-full object-cover object-[center_48%]"
+                    className="h-full w-full"
                   />
                 </span>
               ) : project.slug === "songwriterjs" && project.logo ? (
@@ -215,6 +216,7 @@ export function ProjectShowcaseCard({
                 WebkitLineClamp: 2,
                 overflow: "hidden",
                 lineHeight: "1.25rem",
+                textShadow: "text-shadow: 1px 1px 5px #060606",
               }}
             >
               {project.shortDescription}
