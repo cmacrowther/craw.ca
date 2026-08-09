@@ -4,13 +4,19 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/use-scroll-animation-optimized";
-import { getProjectsForFilter, isProjectHighlightedForFilter, projectCategories } from "@/lib/projects";
+import { useLowEndDevice } from "@/hooks/use-low-end-device";
+import { type ProjectCardData, type ProjectFilter, projectCategories } from "@/lib/projects";
 
 import { LazyLoadWrapper } from "./lazy-load-wrapper";
 import { ProjectShowcaseCard } from "./project-showcase-card";
 
-export function ProjectsSection() {
-  const [selectedCategory, setSelectedCategory] = useState<(typeof projectCategories)[number]["id"]>("all");
+type ProjectsSectionProps = {
+  projects: ProjectCardData[];
+};
+
+export function ProjectsSection({ projects }: ProjectsSectionProps) {
+  const [selectedCategory, setSelectedCategory] = useState<ProjectFilter>("all");
+  const { isLowEnd } = useLowEndDevice();
 
   const headerRef = useScrollAnimation({ delay: 100, stagger: 30 });
   const filtersRef = useScrollAnimation({ delay: 200, stagger: 50 });
@@ -20,7 +26,15 @@ export function ProjectsSection() {
     childSelector: "[data-stagger]",
   });
 
-  const filteredProjects = getProjectsForFilter(selectedCategory);
+  const filteredProjects = selectedCategory === "all"
+    ? projects
+    : projects
+        .filter((project) => project.categories.includes(selectedCategory))
+        .sort(
+          (a, b) =>
+            Number(b.highlightCategories?.includes(selectedCategory) ?? false) -
+            Number(a.highlightCategories?.includes(selectedCategory) ?? false),
+        );
 
   return (
     <LazyLoadWrapper minHeight="400px">
@@ -71,9 +85,10 @@ export function ProjectsSection() {
                   key={project.id}
                   project={project}
                   priority={index === 0}
-                  highlighted={isProjectHighlightedForFilter(project, selectedCategory)}
+                  highlighted={project.highlightCategories?.includes(selectedCategory) ?? false}
                   stagger
                   index={index}
+                  isLowEnd={isLowEnd}
                 />
               ))}
             </div>

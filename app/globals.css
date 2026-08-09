@@ -1,6 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap');
-@import "splitting/dist/splitting.css";
-@import "splitting/dist/splitting-cells.css";
 @import "tailwindcss";
 @import "tw-animate-css";
 /* Animated gradient for laptop icon in header */
@@ -13,21 +10,6 @@
   background-clip: text;
   color: transparent;
   display: inline-block;
-}
-/* Local font-face for Space Grotesk and DM Sans */
-@font-face {
-  font-family: 'Space Grotesk';
-  src: url('/fonts/space-grotesk.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'DM Sans';
-  src: url('/fonts/dm-sans.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
 }
 /* Pixel Screen Overlay Effect - Theme aware */
 :root {
@@ -104,13 +86,13 @@
   }
   
   /* Ensure contact section background container is properly sized on mobile */
-  #contact {
+  .contact-section {
     position: relative !important;
     overflow: hidden !important;
     min-height: 100vh !important;
   }
   
-  #contact > div:first-child {
+  .contact-section > div:first-child {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
@@ -124,7 +106,7 @@
 
 /* Desktop optimizations for contact section */
 @media (min-width: 1024px) {
-  #contact {
+  .contact-section {
     padding-bottom: 4rem !important; /* Reduce bottom padding on desktop */
   }
 }
@@ -210,6 +192,12 @@
   /* Added custom font variables for Space Grotesk and DM Sans */
   --font-heading: var(--font-space-grotesk);
   --font-body: var(--font-dm-sans);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+.deferred-rendering {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1000px;
 }
 
 @layer base {

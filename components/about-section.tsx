@@ -3,9 +3,8 @@
 import Link from "next/link"
 import dynamic from "next/dynamic"
 import { Badge } from "@/components/ui/badge"
+import { useMediaQuery, useNearViewport } from "@/hooks/use-near-viewport"
 import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/use-scroll-animation-optimized"
-import { LazyLoadWrapper } from "./lazy-load-wrapper"
-import { lazyComponent } from "./lazy-load-wrapper"
 
 // Lazy-load the 3D particle background — only mounts on the client and is
 // dynamically imported so it does not ship in the main bundle.
@@ -14,12 +13,16 @@ const ParticleBackground = dynamic(
   { ssr: false, loading: () => null }
 )
 
-// Lazy load 3D viewer to reduce initial bundle
-const GLBViewer = lazyComponent(
-  () => import('./glb-viewer').then(m => ({ default: m.GLBViewer })),
-  <div className="w-full h-80 bg-muted animate-pulse rounded-xl flex items-center justify-center">
-    <span className="text-muted-foreground">Loading 3D model...</span>
-  </div>
+function ModelFallback() {
+  return (
+    <div className="h-full w-full animate-pulse rounded-xl bg-muted" aria-hidden="true" />
+  )
+}
+
+// The module itself is only requested once About is close to the viewport.
+const GLBViewer = dynamic(
+  () => import('./glb-viewer').then(m => m.GLBViewer),
+  { ssr: false, loading: () => <ModelFallback /> },
 )
 
 const skills = [
@@ -54,6 +57,9 @@ const skills = [
 ]
 
 export function AboutSection() {
+  const { ref: sectionRef, isNearViewport } = useNearViewport<HTMLElement>("800px")
+  const isDesktop = useMediaQuery("(min-width: 768px)")
+
   // Animation refs
   const headerRef = useScrollAnimation({ delay: 100, stagger: 40 });
   const contentRef = useScrollAnimation({ delay: 200, stagger: 60 });
@@ -64,9 +70,9 @@ export function AboutSection() {
   });
 
   return (
-    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#111111] relative overflow-hidden">
+    <section ref={sectionRef} className="deferred-rendering py-20 px-4 sm:px-6 lg:px-8 bg-[#111111] relative overflow-hidden">
       {/* Particle background spanning the entire section */}
-      <ParticleBackground />
+      {isNearViewport && <ParticleBackground />}
       
       <div className="container mx-auto max-w-6xl relative z-10">
         <div ref={headerRef} className="text-center mb-16">
@@ -85,9 +91,11 @@ export function AboutSection() {
           {/* GLB viewer for mobile - positioned above header */}
           <div data-animate className="md:hidden pixel-mask flex justify-center mb-8">
             <div className="w-64 h-48" style={{ overflow: 'visible' }}>
-              <LazyLoadWrapper minHeight="192px">
+              {isNearViewport && isDesktop === false ? (
                 <GLBViewer modelUrl="/model.glb" className="rounded-lg" />
-              </LazyLoadWrapper>
+              ) : (
+                <ModelFallback />
+              )}
             </div>
           </div>
           
@@ -157,9 +165,11 @@ export function AboutSection() {
 
             <div data-animate className="lg:col-span-3 pixel-mask hidden md:flex justify-center items-center">
               <div className="w-full h-[450px] lg:h-[500px] xl:h-[550px] flex items-center justify-center" style={{ overflow: 'visible' }}>
-                <LazyLoadWrapper minHeight="450px">
+                {isNearViewport && isDesktop ? (
                   <GLBViewer modelUrl="/model.glb" className="rounded-lg" />
-                </LazyLoadWrapper>
+                ) : (
+                  <ModelFallback />
+                )}
               </div>
             </div>
           </div>

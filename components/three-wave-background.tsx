@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useTheme } from "next-themes"
 import * as THREE from "three"
 
@@ -8,12 +8,26 @@ import { detectLowEndDevice } from "@/hooks/use-low-end-device"
 
 export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
   const threeRef = useRef<HTMLDivElement>(null)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean | null>(null)
   const { theme } = useTheme()
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const updateMotionPreference = () => setPrefersReducedMotion(motionQuery.matches)
 
-    const { isLowEnd, prefersReducedMotion } = detectLowEndDevice();
+    updateMotionPreference()
+    motionQuery.addEventListener('change', updateMotionPreference)
+
+    return () => motionQuery.removeEventListener('change', updateMotionPreference)
+  }, [])
+
+  useEffect(() => {
+    // Do not initialize the dot matrix or its WebGL renderer when motion is
+    // reduced. Waiting until the preference is known also avoids a flash of
+    // the grid during hydration.
+    if (prefersReducedMotion !== false) return;
+
+    const { isLowEnd } = detectLowEndDevice();
 
     let renderer: THREE.WebGLRenderer | null = null;
     let animationId: number;
@@ -32,7 +46,7 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
     const AMOUNTX = isLowEnd ? 35 : isMobile ? 50 : 100;
     const AMOUNTY = isLowEnd ? 14 : isMobile ? 20 : 35;
     const TOTAL_PARTICLES = AMOUNTX * AMOUNTY;
-    const targetFPS = prefersReducedMotion ? 0 : isLowEnd ? 24 : isMobile ? 30 : 60;
+    const targetFPS = isLowEnd ? 24 : isMobile ? 30 : 60;
 
     // Scroll state
     let scrollY = 0, targetFov = 100;
@@ -120,8 +134,6 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
 
       // Reusable objects
       const dummy = new THREE.Object3D();
-      const colorInstance = new THREE.Color();
-
       function animate() {
         // Skip work entirely while the canvas is offscreen or the tab is
         // hidden — keep the rAF loop alive (cheap) so we resume instantly.
@@ -131,8 +143,6 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
         }
 
         // Throttle to the resolved target FPS to reduce CPU/GPU load.
-        // Always allow the first frame through so reduced-motion users (who
-        // have an effectively infinite frame interval) still see one render.
         const now = performance.now();
         const frameInterval = 1000 / targetFPS;
         if (lastFrameTime !== 0 && now - lastFrameTime < frameInterval) {
@@ -166,14 +176,11 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
             dummy.updateMatrix();
             mesh.setMatrixAt(i, dummy.matrix);
 
-            colorInstance.setRGB(originalColors[i*3], originalColors[i*3+1], originalColors[i*3+2]);
-            mesh.setColorAt(i, colorInstance);
             i++;
           }
         }
 
         mesh.instanceMatrix.needsUpdate = true;
-        if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
 
         camera.fov += (targetFov - camera.fov) * 0.04;
         camera.updateProjectionMatrix();
@@ -185,11 +192,6 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
         animationId = requestAnimationFrame(animate);
       }
       animate();
-
-      // Reduced-motion users get a single static frame and no rAF loop.
-      if (prefersReducedMotion) {
-        cancelAnimationFrame(animationId);
-      }
 
       // Pause the wave update when the canvas scrolls out of view so the
       // expensive instance-matrix loop only runs when the user can actually
@@ -237,7 +239,7 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
         cancelAnimationFrame(animationId);
       };
     }
-  }, [theme, wave]);
+  }, [prefersReducedMotion, theme, wave]);
 
   return (
     <div

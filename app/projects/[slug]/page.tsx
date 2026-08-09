@@ -98,7 +98,7 @@ function ProjectMedia({
       <div className={`relative overflow-hidden ${wrapperClassName}`}>
         <OptimizedVideo
           src={project.video}
-          poster={project.image || "/placeholder.jpg"}
+          poster={project.image}
           alt={project.title}
           autoPlay
           loop

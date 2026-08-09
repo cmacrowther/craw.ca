@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Space_Grotesk, DM_Sans } from "next/font/google"
+import { DM_Sans, JetBrains_Mono, Space_Grotesk } from "next/font/google"
 import "./globals.css"
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
@@ -8,14 +8,21 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-space-grotesk",
-  preload: false, // Don't preload to reduce initial load
+  preload: true,
 })
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-dm-sans",
-  preload: false, // Don't preload to reduce initial load
+  preload: false,
+})
+
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-jetbrains-mono",
+  preload: false,
 })
 
 export const metadata: Metadata = {
@@ -74,12 +81,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`dark ${spaceGrotesk.variable} ${dmSans.variable}`}>
+    <html lang="en" className={`dark ${spaceGrotesk.variable} ${dmSans.variable} ${jetBrainsMono.variable}`}>
       <head>
-        {/* Preconnect to Google Fonts for the JetBrains Mono stylesheet imported in globals.css */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-
         {/* Default theme-color meta for dynamic update */}
         <meta name="theme-color" content="#09090b" />
 

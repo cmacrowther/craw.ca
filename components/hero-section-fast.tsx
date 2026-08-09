@@ -14,6 +14,7 @@ const ThreeWaveBackground = dynamic(
 export function HeroSection() {
   const [isVisible, setIsVisible] = useState(false)
   const [showTyped, setShowTyped] = useState(false)
+  const [showBackground, setShowBackground] = useState(false)
   const { theme } = useTheme()
 
   // Choose gradient for animated text based on theme
@@ -26,6 +27,13 @@ export function HeroSection() {
     const timeout = setTimeout(() => setIsVisible(true), 10);
     return () => clearTimeout(timeout);
   }, []);
+
+  // Let the heading and navigation hydrate before requesting the large Three.js
+  // chunk. The background keeps the same fade treatment once it is ready.
+  useEffect(() => {
+    const timeout = window.setTimeout(() => setShowBackground(true), 250)
+    return () => window.clearTimeout(timeout)
+  }, [])
 
   // Show ReactTyped after fade-in transition (1.6s)
   useEffect(() => {
@@ -57,11 +65,11 @@ export function HeroSection() {
       <div
         className="absolute inset-0 z-0"
         style={{
-          opacity: isVisible ? 1 : 0,
+          opacity: isVisible && showBackground ? 1 : 0,
           transition: 'opacity 1.6s cubic-bezier(0.4,0,0.2,1)',
         }}
       >
-        <ThreeWaveBackground />
+        {showBackground && <ThreeWaveBackground />}
       </div>
 
       {/* Hero Headings Under Pixel Overlay */}
@@ -95,7 +103,7 @@ export function HeroSection() {
         <div
           className="text-3xl sm:text-4xl lg:text-4xl mx-auto leading-relaxed mt-4"
           style={{
-            fontFamily: 'JetBrains Mono, monospace',
+            fontFamily: 'var(--font-mono), monospace',
             fontWeight: 300,
             minHeight: '3.5em',
             color: theme === 'light' ? 'rgba(0,0,0,0.92)' : 'rgba(255,255,255,0.92)',

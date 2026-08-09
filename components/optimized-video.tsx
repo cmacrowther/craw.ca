@@ -53,36 +53,44 @@ export function OptimizedVideo({
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
   const [useVideo, setUseVideo] = useState(true)
-  const [playAttempted, setPlayAttempted] = useState(false)
+  const [showStillFrame, setShowStillFrame] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [showPlayButton, setShowPlayButton] = useState(false)
+  const [mediaPolicyReady, setMediaPolicyReady] = useState(false)
   // When autoPlayDelay > 0 we suppress the HTML `autoplay` attr and any
   // programmatic `.play()` calls until this flag flips, so the browser does
   // not start decoding until the staggered slot opens.
   const [autoPlayReady, setAutoPlayReady] = useState(autoPlayDelay <= 0)
   const videoRef = useRef<HTMLVideoElement>(null)
 
-  // Check if device is mobile
+  // Resolve autoplay/data-saving policy before attaching any video source.
+  // This prevents the first render from briefly fetching media that the user
+  // has explicitly asked the browser not to load.
   const [isMobile, setIsMobile] = useState(false)
   useEffect(() => {
     const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
     setIsMobile(mobile)
-    
+
+    let shouldUseVideo = true
+    let shouldShowStillFrame = false
+
     // On mobile, check for low-bandwidth or data saver mode
     if (mobile) {
       const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection
       if (connection && (connection.saveData || connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g')) {
-        setUseVideo(false)
+        shouldUseVideo = false
       }
     }
-  }, [])
 
-  // Check for reduced motion preference
-  useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReducedMotion) {
-      setUseVideo(false)
+      shouldUseVideo = false
+      shouldShowStillFrame = true
     }
+
+    setUseVideo(shouldUseVideo)
+    setShowStillFrame(shouldShowStillFrame)
+    setMediaPolicyReady(true)
   }, [])
 
   // Stagger gate: flip `autoPlayReady` true after the requested delay so the
@@ -103,7 +111,23 @@ export function OptimizedVideo({
 
   // Intersection Observer to only load video when visible
   useEffect(() => {
-    if (!videoRef.current) return
+    if (!videoRef.current || !mediaPolicyReady) return
+
+    const videoElement = videoRef.current
+
+    const attachSource = (video: HTMLVideoElement) => {
+      if (video.getAttribute('src')) return
+      video.preload = isMobile ? 'none' : preload
+      video.src = src
+      video.load()
+    }
+
+    // Older browsers without IntersectionObserver still get a functional
+    // video, just without viewport-aware loading.
+    if (typeof IntersectionObserver === 'undefined') {
+      attachSource(videoElement)
+      return
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -111,12 +135,7 @@ export function OptimizedVideo({
           const video = entry.target as HTMLVideoElement
           if (entry.isIntersecting) {
             // Re-attach src if we previously released it.
-            if (!video.getAttribute('src') && (!video.currentSrc || releaseOnExit)) {
-              video.src = src
-              video.load()
-            } else if (video.src === '') {
-              video.src = src
-            }
+            attachSource(video)
             // If video is paused and should be playing, try to play
             if (autoPlay && autoPlayReady && video.paused && useVideo) {
               video.play().catch((error) => {
@@ -142,14 +161,14 @@ export function OptimizedVideo({
           }
         })
       },
-      { threshold: [0, 0.1, 0.25] }
+      { threshold: [0, 0.1, 0.25], rootMargin: '300px 0px' }
     )
 
-    observer.observe(videoRef.current)
+    observer.observe(videoElement)
     return () => observer.disconnect()
-  }, [src, autoPlay, autoPlayReady, muted, poster, isMobile, useVideo, releaseOnExit])
+  }, [src, autoPlay, autoPlayReady, isMobile, useVideo, releaseOnExit, preload, mediaPolicyReady])
 
-  if (hasError || !useVideo) {
+  if (hasError) {
     if (poster) {
       return (
         <OptimizedImage
@@ -169,21 +188,60 @@ export function OptimizedVideo({
     )
   }
 
-  // Get the correct MIME type based on file extension
-  const getMimeType = (src: string): string => {
-    const extension = src.split('.').pop()?.toLowerCase()
-    switch (extension) {
-      case 'webm':
-        return 'video/webm'
-      case 'mp4':
-        return 'video/mp4'
-      case 'mov':
-        return 'video/quicktime'
-      case 'avi':
-        return 'video/x-msvideo'
-      default:
-        return 'video/mp4'
+  // Reduced motion should remove playback, not the project media itself. When
+  // no dedicated poster is available, a paused video renders its first frame
+  // as a still image. This avoids replacing video-backed cards with a flat
+  // placeholder while keeping the content motion-free.
+  if (!useVideo && showStillFrame) {
+    return (
+      <div className={`relative bg-muted ${className}`}>
+        <video
+          ref={videoRef}
+          src={src}
+          poster={poster}
+          muted
+          playsInline
+          preload="metadata"
+          aria-label={alt}
+          className={`h-full w-full object-cover ${mediaClassName}`.trim()}
+          width={width}
+          height={height}
+          onLoadedData={(event) => {
+            const video = event.currentTarget
+            video.pause()
+
+            // A tiny seek requests a decoded frame even when a browser would
+            // otherwise stop after loading only video metadata.
+            if (video.currentTime === 0 && Number.isFinite(video.duration) && video.duration > 0.1) {
+              video.currentTime = 0.1
+            }
+          }}
+          onError={() => setHasError(true)}
+        >
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    )
+  }
+
+  if (!useVideo) {
+    if (poster) {
+      return (
+        <OptimizedImage
+          src={poster}
+          alt={alt}
+          width={width}
+          height={height}
+          className={`${className} object-cover ${mediaClassName}`.trim()}
+          quality={80}
+        />
+      )
     }
+    return (
+      <div className={`bg-muted animate-pulse flex items-center justify-center ${className}`}>
+        <span className="text-muted-foreground">Video unavailable</span>
+      </div>
+    )
   }
 
   return (
@@ -195,7 +253,7 @@ export function OptimizedVideo({
         loop={loop}
         muted={muted}
         controls={controls}
-        preload={isMobile ? 'none' : preload} // Reduce preload on mobile
+        preload="none"
         playsInline
         webkit-playsinline="true" // iOS Safari specific
         x5-video-player-type="h5" // WeChat browser
@@ -229,7 +287,6 @@ export function OptimizedVideo({
           }
         }}
       >
-        <source src={src} type={getMimeType(src)} />
         Your browser does not support the video tag.
       </video>
       
@@ -239,7 +296,6 @@ export function OptimizedVideo({
           className="absolute inset-0 flex items-center justify-center bg-black/20 cursor-pointer"
           onClick={() => {
             if (videoRef.current) {
-              setPlayAttempted(true)
               setShowPlayButton(false)
               videoRef.current.play().catch(console.log)
             }

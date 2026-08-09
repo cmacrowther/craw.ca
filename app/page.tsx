@@ -1,10 +1,22 @@
 import { Header } from "@/components/header"
 import { HeroSection } from "@/components/hero-section-fast"
 import { ProjectsSection } from "@/components/projects-section"
-import { AboutSection } from "@/components/about-section"
-import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
-import { LazyLoadWrapper } from "@/components/lazy-load-wrapper"
+import { DeferredHomeSection } from "@/components/deferred-home-section"
+import { projectsByReleaseDate, type ProjectCardData } from "@/lib/projects"
+
+const projectCards: ProjectCardData[] = projectsByReleaseDate.map((project) => ({
+  id: project.id,
+  slug: project.slug,
+  title: project.title,
+  shortDescription: project.shortDescription,
+  image: project.image,
+  video: project.video,
+  technologies: project.technologies,
+  categories: project.categories,
+  highlightCategories: project.highlightCategories,
+  accent: project.accent,
+}))
 
 export default function HomePage() {
   return (
@@ -12,15 +24,9 @@ export default function HomePage() {
       <Header />
       <main>
         <HeroSection />
-        <LazyLoadWrapper minHeight="600px">
-          <ProjectsSection />
-        </LazyLoadWrapper>
-        <LazyLoadWrapper minHeight="500px">
-          <AboutSection />
-        </LazyLoadWrapper>
-        <LazyLoadWrapper minHeight="400px">
-          <ContactSection />
-        </LazyLoadWrapper>
+        <ProjectsSection projects={projectCards} />
+        <DeferredHomeSection section="about" minHeight={1100} />
+        <DeferredHomeSection section="contact" minHeight={800} />
       </main>
       <Footer />
     </div>

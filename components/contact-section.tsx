@@ -66,7 +66,7 @@ export function ContactSection() {
   }
 
   return (
-    <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 lg:py-16 relative overflow-hidden min-h-screen lg:min-h-0 bg-background">
+    <section className="contact-section deferred-rendering py-20 px-4 sm:px-6 lg:px-8 lg:py-16 relative overflow-hidden min-h-screen lg:min-h-0 bg-background">
       {/* Paper airplane background spanning the entire section */}
       <div 
         className="absolute inset-0 w-full h-full z-0"

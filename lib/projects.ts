@@ -36,6 +36,20 @@ export interface Project {
   accent: ProjectAccent;
 }
 
+export type ProjectCardData = Pick<
+  Project,
+  | "id"
+  | "slug"
+  | "title"
+  | "shortDescription"
+  | "image"
+  | "video"
+  | "technologies"
+  | "categories"
+  | "highlightCategories"
+  | "accent"
+>;
+
 export const categoryLabels: Record<ProjectCategory, string> = {
   web: "Web App",
   music: "Music",

@@ -325,4 +325,3 @@ export function GLBViewer({ modelUrl, className = "" }: GLBViewerProps) {
 }
 
 // Preload the model
-useGLTF.preload('/model.glb')

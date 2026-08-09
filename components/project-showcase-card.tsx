@@ -4,14 +4,13 @@ import Link from "next/link";
 import { ArrowUpRight, Sparkles } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import { useLowEndDevice } from "@/hooks/use-low-end-device";
-import { type Project } from "@/lib/projects";
+import { type ProjectCardData } from "@/lib/projects";
 
 import { OptimizedImage } from "./optimized-image";
 import { OptimizedVideo } from "./optimized-video";
 
 type ProjectShowcaseCardProps = {
-  project: Project;
+  project: ProjectCardData;
   priority?: boolean;
   stagger?: boolean;
   highlighted?: boolean;
@@ -21,6 +20,7 @@ type ProjectShowcaseCardProps = {
    * the browser does not decode every video simultaneously on slow devices.
    */
   index?: number;
+  isLowEnd?: boolean;
 };
 
 export function ProjectShowcaseCard({
@@ -30,8 +30,8 @@ export function ProjectShowcaseCard({
   highlighted = false,
   className = "",
   index = 0,
+  isLowEnd = false,
 }: ProjectShowcaseCardProps) {
-  const { isLowEnd } = useLowEndDevice();
   // Capable devices: ~250ms per slot (grid lights up over ~2s).
   // Low-end devices: ~600ms per slot to keep simultaneous decoders to ~1–2.
   const perCardMs = isLowEnd ? 600 : 250;
@@ -45,16 +45,15 @@ export function ProjectShowcaseCard({
       className={`group relative block h-[400px] overflow-hidden rounded-3xl transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-4 ${className}`.trim()}
       style={{
         boxShadow: "0 4px 24px 0 rgba(0,0,0,0.10)",
-        willChange: "transform",
         borderInline: "1px solid #111111",
       }}
     >
-      <div className="absolute inset-0 h-full w-full" style={{ transform: "translateZ(0)", willChange: "transform" }}>
+      <div className="absolute inset-0 h-full w-full">
         {project.video ? (
           <>
             <OptimizedVideo
               src={project.video}
-              poster={project.image || "/placeholder.jpg"}
+              poster={project.image}
               alt={project.title}
               autoPlay
               loop
@@ -88,7 +87,6 @@ export function ProjectShowcaseCard({
             backgroundPosition: "center bottom",
             backgroundSize: "100% 100%",
             backgroundRepeat: "no-repeat",
-            willChange: "opacity",
           }}
         />
       </div>
