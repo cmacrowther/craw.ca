@@ -35,7 +35,7 @@ const CardTitle = React.memo(function CardTitle({ className, ...props }: React.C
   return (
     <div
       data-slot="card-title"
-      className={cn("leading-none font-semibold", className)}
+      className={cn("font-heading leading-none font-[600]", className)}
       {...props}
     />
   )

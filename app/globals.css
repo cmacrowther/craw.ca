@@ -13,7 +13,7 @@
 }
 /* Pixel Screen Overlay Effect - Theme aware */
 :root {
-  --pixel-cell: 2px;
+  --pixel-cell: 1px;
 }
 
 .pixel-mask {
@@ -189,9 +189,9 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /* Added custom font variables for Space Grotesk and DM Sans */
-  --font-heading: var(--font-space-grotesk);
-  --font-body: var(--font-dm-sans);
+  --font-sans: var(--font-geist-sans);
+  --font-heading: var(--font-geist-sans);
+  --font-body: var(--font-geist-sans);
   --font-mono: var(--font-jetbrains-mono);
 }
 
@@ -206,82 +206,93 @@
   }
   body {
     @apply bg-background text-foreground font-sans;
+    font-kerning: normal;
+    font-synthesis: none;
   }
 
   /* Added typography classes for consistent heading and body text */
   .font-heading {
     font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: -0.025em;
   }
 
   .font-body {
     font-family: var(--font-body);
+    font-weight: 400;
   }
 
   .site-link,
   .site-link-muted,
   .site-link-inline,
   .site-link-strong {
+    color: #fff !important;
     transition:
-      color 180ms ease,
+      opacity 180ms ease,
       text-decoration-color 180ms ease,
       border-color 180ms ease,
-      opacity 180ms ease,
       text-shadow 180ms ease,
-      filter 180ms ease;
+      background-color 180ms ease;
   }
 
   .site-link {
-    color: inherit;
+    text-decoration-line: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 0.24em;
   }
 
   .site-link:hover,
   .site-link:focus-visible {
-    color: var(--link-accent-strong) !important;
-    text-shadow: 0 0 16px color-mix(in oklab, var(--link-accent) 26%, transparent);
+    color: #fff !important;
+    text-decoration-color: currentColor;
+    text-shadow: 0 0 18px rgb(255 255 255 / 0.28);
   }
 
   .site-link-muted {
-    color: var(--muted-foreground);
+    opacity: 0.72;
   }
 
   .site-link-muted:hover,
   .site-link-muted:focus-visible {
-    color: var(--link-accent-strong) !important;
-    text-shadow: 0 0 16px color-mix(in oklab, var(--link-accent) 22%, transparent);
+    color: #fff !important;
+    opacity: 1;
+    text-shadow: 0 0 16px rgb(255 255 255 / 0.22);
   }
 
   .site-link-inline {
-    color: var(--link-accent) !important;
     text-decoration-line: underline;
     text-decoration-thickness: 1.5px;
     text-underline-offset: 0.22em;
-    text-decoration-color: color-mix(in oklab, var(--link-accent) 40%, transparent);
+    text-decoration-color: rgb(255 255 255 / 0.6);
     text-decoration-skip-ink: auto;
   }
 
   .site-link-inline:hover,
   .site-link-inline:focus-visible {
-    color: var(--link-accent-strong) !important;
+    color: #fff !important;
     text-decoration-thickness: 2px;
-    text-decoration-color: color-mix(in oklab, var(--link-accent-strong) 72%, transparent);
-    text-shadow: 0 0 16px color-mix(in oklab, var(--link-accent) 24%, transparent);
+    text-decoration-color: currentColor;
+    text-shadow: 0 0 16px rgb(255 255 255 / 0.22);
   }
 
   .site-link-strong {
-    color: var(--link-accent) !important;
+    text-decoration-line: underline;
+    text-decoration-color: rgb(255 255 255 / 0.55);
+    text-underline-offset: 0.2em;
   }
 
   .site-link-strong:hover,
   .site-link-strong:focus-visible {
-    color: var(--link-accent-strong) !important;
-    text-shadow: 0 0 18px color-mix(in oklab, var(--link-accent) 30%, transparent);
+    color: #fff !important;
+    text-decoration-color: currentColor;
+    text-shadow: 0 0 18px rgb(255 255 255 / 0.3);
   }
 
   .site-link:focus-visible,
   .site-link-muted:focus-visible,
   .site-link-inline:focus-visible,
   .site-link-strong:focus-visible {
-    outline: 2px solid color-mix(in oklab, var(--link-accent) 48%, transparent);
+    outline: 2px solid #fff;
     outline-offset: 3px;
     border-radius: 0.2rem;
   }
@@ -746,152 +757,6 @@
   }
 }
 
-/* Project-page arcade monitor treatment */
-.arcade-screen-stage {
-  perspective: 2200px;
-  perspective-origin: center 25%;
-  padding: 0.75rem 0 3.5rem;
-}
-
-.arcade-screen-shell {
-  position: relative;
-  transform-style: preserve-3d;
-  transform-origin: center bottom;
-  will-change: transform;
-  animation: arcade-cabinet-idle 11s ease-in-out infinite;
-}
-
-.arcade-screen-shell::after {
-  content: "";
-  position: absolute;
-  left: 8%;
-  right: 12%;
-  bottom: -2.2rem;
-  height: clamp(1.8rem, 4vw, 3rem);
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at center, rgba(0, 0, 0, 0.58) 0%, rgba(0, 0, 0, 0.22) 42%, transparent 82%),
-    linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
-  filter: blur(18px);
-  opacity: 0.8;
-  pointer-events: none;
-  transform: translateZ(-120px) rotateX(82deg);
-}
-
-.arcade-screen-frame {
-  position: relative;
-  padding: clamp(0.8rem, 1.7vw, 1.1rem);
-  border-radius: clamp(2rem, 4vw, 2.75rem);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.12) 0%, rgba(148, 163, 184, 0.14) 12%, rgba(12, 14, 18, 0.98) 42%, rgba(4, 5, 7, 0.98) 100%);
-  box-shadow:
-    0 38px 110px rgba(0, 0, 0, 0.44),
-    0 14px 32px rgba(0, 0, 0, 0.24),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18),
-    inset 0 -26px 34px rgba(0, 0, 0, 0.42);
-  isolation: isolate;
-  transform: rotateX(14deg) rotateY(-6deg);
-  transform-origin: center bottom;
-  transform-style: preserve-3d;
-}
-
-.arcade-screen-frame::before {
-  content: "";
-  position: absolute;
-  inset: clamp(0.48rem, 1vw, 0.72rem);
-  z-index: 3;
-  border-radius: clamp(1.65rem, 3vw, 2.2rem);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    inset 0 18px 30px rgba(255, 255, 255, 0.05),
-    inset 0 -20px 32px rgba(0, 0, 0, 0.62);
-  pointer-events: none;
-}
-
-.arcade-screen-frame::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  border-radius: inherit;
-  background: linear-gradient(125deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.07) 16%, transparent 34%, transparent 72%, rgba(255, 255, 255, 0.08) 90%, rgba(255, 255, 255, 0.18) 100%);
-  mix-blend-mode: screen;
-  opacity: 0.55;
-  pointer-events: none;
-}
-
-.arcade-screen-viewport {
-  position: relative;
-  z-index: 1;
-  border-radius: clamp(1.5rem, 3vw, 2rem);
-  background: #020304;
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
-    inset 0 18px 30px rgba(255, 255, 255, 0.04),
-    inset 0 -28px 40px rgba(0, 0, 0, 0.6);
-}
-
-.arcade-screen-media {
-  transform: scale(1.08);
-  transform-origin: center center;
-  will-change: transform;
-}
-
-.arcade-screen-glass {
-  position: absolute;
-  inset: clamp(0.95rem, 1.9vw, 1.2rem);
-  z-index: 4;
-  border-radius: clamp(1.38rem, 2.8vw, 1.9rem);
-  background:
-    linear-gradient(115deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.22) 8%, rgba(255, 255, 255, 0.05) 18%, rgba(255, 255, 255, 0) 38%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.04) 12%, rgba(255, 255, 255, 0) 28%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0) 48%, rgba(255, 255, 255, 0.06) 68%, rgba(255, 255, 255, 0.18) 100%),
-    radial-gradient(circle at 18% 8%, rgba(255, 255, 255, 0.24), transparent 34%);
-  background-repeat: no-repeat;
-  background-size: 140% 100%, 100% 100%, 100% 100%, 100% 100%;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.05);
-  mix-blend-mode: screen;
-  opacity: 0.9;
-  animation: arcade-glare-shift 8s ease-in-out infinite;
-}
-
-.arcade-screen-frame .crt-effect {
-  transform: none;
-  opacity: 0.58;
-  filter: blur(0.35px) contrast(1.15) saturate(1.08);
-  box-shadow: inset 0 0 26px rgba(0, 0, 0, 0.32);
-}
-
-@keyframes arcade-cabinet-idle {
-  0%, 100% {
-    transform: translate3d(0, 0, 0) rotateZ(0deg);
-  }
-  25% {
-    transform: translate3d(-3px, -2px, 0) rotateZ(-0.28deg);
-  }
-  50% {
-    transform: translate3d(2px, 1px, 0) rotateZ(0.24deg);
-  }
-  75% {
-    transform: translate3d(-1px, 3px, 0) rotateZ(-0.18deg);
-  }
-}
-
-@keyframes arcade-glare-shift {
-  0%, 100% {
-    background-position: 0 0, 0 0, 0 0, 0 0;
-    opacity: 0.88;
-  }
-  50% {
-    background-position: 1.5rem 0, 0 0, -1rem 0, 0 0;
-    opacity: 0.96;
-  }
-}
-
 /* CRT Screen Effect */
 
 
@@ -1030,57 +895,6 @@
 
 #contact {
   contain-intrinsic-size: 1px 400px;
-}
-
-@media (max-width: 960px) {
-  .arcade-screen-stage {
-    padding-bottom: 2.5rem;
-  }
-
-  .arcade-screen-frame {
-    transform: rotateX(10deg) rotateY(-3deg);
-  }
-}
-
-@media (max-width: 640px) {
-  .arcade-screen-stage {
-    perspective: 1600px;
-    padding: 0.25rem 0 1.5rem;
-  }
-
-  .arcade-screen-media {
-    transform: scale(1.05);
-  }
-
-  .arcade-screen-shell::after {
-    left: 6%;
-    right: 10%;
-    bottom: -1.2rem;
-    filter: blur(14px);
-    opacity: 0.58;
-  }
-
-  .arcade-screen-frame {
-    transform: rotateX(7deg) rotateY(-1.5deg);
-  }
-
-  .arcade-screen-glass {
-    opacity: 0.8;
-    animation: none;
-  }
-
-  /* Stop the idle float animation on mobile — the static 3D tilt is preserved */
-  .arcade-screen-shell {
-    animation: none;
-    will-change: auto;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .arcade-screen-shell,
-  .arcade-screen-glass {
-    animation: none;
-  }
 }
 
 /* Force disable CRT effect on mobile for performance */

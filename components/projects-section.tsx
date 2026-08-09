@@ -41,21 +41,11 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
       <section id="projects" className="px-4 py-20 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-7xl">
           <div ref={headerRef} className="mb-16 text-center">
-            <span
-              className="animate-fade-down relative mb-4 inline-flex items-center overflow-hidden rounded-full px-4 py-2 text-sm font-medium text-white"
-              style={{
-                backgroundImage: "linear-gradient(135deg, #a78bfa 0%, #ec4899 25%, #8b5cf6 50%, #06b6d4 75%, #10b981 100%)",
-                backgroundSize: "300% 300%",
-                animation: "gradient-xy 4s ease-in-out infinite",
-              }}
-            >
-              <svg className="mr-2 h-4 w-4 animate-pulse" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
+            <span className="animate-fade-down mb-4 inline-flex items-center rounded-full bg-white px-4 py-2 text-sm font-medium tracking-[0.01em] text-black shadow-lg shadow-black/20">
               Portfolio Showcase
             </span>
 
-            <h2 data-animate className="mb-4 pixel-mask-text text-3xl font-heading font-bold sm:text-4xl lg:text-5xl">
+            <h2 data-animate className="mb-4 pixel-mask-text text-3xl font-heading font-[650] sm:text-4xl lg:text-5xl">
               Featured Work
             </h2>
             <p data-animate className="mx-auto max-w-2xl font-body text-lg text-muted-foreground">
@@ -69,9 +59,10 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                 key={category.id}
                 data-animate
                 variant={selectedCategory === category.id ? "default" : "outline"}
+                aria-pressed={selectedCategory === category.id}
                 onClick={() => setSelectedCategory(category.id)}
                 className="rounded-full px-6 py-2 transition-all duration-200"
-                style={{ animationDelay: `${index * 50}ms` }}
+                style={{ animationDelay: `${index * 50}ms`, borderWidth: 0 }}
               >
                 {category.label}
               </Button>

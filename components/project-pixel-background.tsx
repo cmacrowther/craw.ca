@@ -10,9 +10,12 @@ const ThreeWaveBackground = dynamic(
 
 export function ProjectPixelBackground() {
   return (
-    <div className="fixed inset-0 z-[-1] pointer-events-none">
-      <ThreeWaveBackground wave={false} />
-      <div className="pixel-overlay absolute inset-0 pointer-events-none" />
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-80 overflow-hidden opacity-80"
+      style={{ maskImage: "linear-gradient(to bottom, transparent, black 30%, black)" }}
+    >
+      <ThreeWaveBackground wave={false} transparent />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowUpRight, Sparkles } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
+import { useNearViewport } from "@/hooks/use-near-viewport";
 import { type ProjectCardData } from "@/lib/projects";
 
 import { OptimizedImage } from "./optimized-image";
@@ -32,6 +33,11 @@ export function ProjectShowcaseCard({
   index = 0,
   isLowEnd = false,
 }: ProjectShowcaseCardProps) {
+  // Keep the player itself out of the tree until the card is approaching the
+  // viewport. `preload="none"` alone still mounts a video element for every
+  // project card, while this prevents any video initialization off-screen.
+  const { ref: mediaRef, isNearViewport } = useNearViewport<HTMLDivElement>("400px");
+
   // Capable devices: ~250ms per slot (grid lights up over ~2s).
   // Low-end devices: ~600ms per slot to keep simultaneous decoders to ~1–2.
   const perCardMs = isLowEnd ? 600 : 250;
@@ -48,22 +54,24 @@ export function ProjectShowcaseCard({
         borderInline: "1px solid #111111",
       }}
     >
-      <div className="absolute inset-0 h-full w-full">
+      <div ref={mediaRef} className="absolute inset-0 h-full w-full">
         {project.video ? (
           <>
-            <OptimizedVideo
-              src={project.video}
-              poster={project.image}
-              alt={project.title}
-              autoPlay
-              loop
-              muted
-              preload="metadata"
-              className="h-full w-full object-cover"
-              quality="medium"
-              autoPlayDelay={autoPlayDelayMs}
-              releaseOnExit
-            />
+            {isNearViewport && (
+              <OptimizedVideo
+                src={project.video}
+                poster={project.image}
+                alt={project.title}
+                autoPlay
+                loop
+                muted
+                preload="metadata"
+                className="h-full w-full object-cover"
+                quality="medium"
+                autoPlayDelay={autoPlayDelayMs}
+                releaseOnExit
+              />
+            )}
             <div className="pixel-overlay pointer-events-none h-full w-full" style={{ borderRadius: "inherit" }} />
           </>
         ) : (
@@ -94,7 +102,7 @@ export function ProjectShowcaseCard({
       <div className="relative z-20 h-full p-6">
         {highlighted && (
           <div
-            className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold text-white shadow-lg"
+            className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium tracking-[0.01em] text-white shadow-lg"
             style={{ background: project.accent.badgeGradient }}
           >
             <Sparkles className="h-3.5 w-3.5" />
@@ -105,7 +113,7 @@ export function ProjectShowcaseCard({
         <div className="absolute bottom-6 left-6 right-6">
           <div className="mb-4">
             <h3
-              className="text-xl font-bold text-white transition-colors md:text-2xl"
+              className="text-xl font-heading font-[600] text-white transition-colors md:text-2xl"
               style={{
                 display: "-webkit-box",
                 WebkitBoxOrient: "vertical",

@@ -37,7 +37,7 @@ export function HeaderMobileMenu() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="site-link-muted block px-3 py-2 text-base font-body font-medium mobile-nav-item"
+                className="site-link-muted block px-3 py-2 text-base font-body font-medium tracking-[0.01em] mobile-nav-item"
                 onClick={() => setIsMenuOpen(false)}
                 style={{ "--mobile-delay": `${index * 0.1}s` } as React.CSSProperties}
               >

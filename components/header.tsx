@@ -21,7 +21,7 @@ export function Header() {
           <div className="flex justify-start">
             <Link
               href="/#home"
-              className="site-link text-xl font-heading font-bold flex items-center gap-2"
+              className="site-link text-xl font-heading font-[650] flex items-center gap-2"
               style={{ position: "relative" }}
             >
               <span className="header-text-only flex items-center gap-1">
@@ -41,7 +41,7 @@ export function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="site-link-muted text-sm font-body font-medium"
+                  className="site-link-muted text-sm font-body font-medium tracking-[0.01em]"
                 >
                   {item.name}
                 </Link>

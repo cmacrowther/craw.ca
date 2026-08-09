@@ -76,15 +76,7 @@ export function AboutSection() {
       
       <div className="container mx-auto max-w-6xl relative z-10">
         <div ref={headerRef} className="text-center mb-16">
-          <span 
-            className="inline-flex pixel-mask-text-small items-center px-4 py-2 text-sm font-medium rounded-full mb-4 text-white relative overflow-hidden animate-fade-down"
-            style={{
-              backgroundImage: 'linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%)',
-              backgroundSize: '300% 300%',
-              animation: 'gradient-xy 4s ease-in-out infinite',
-            }}
-          >
-            <div className="w-4 h-4 mr-2 flex items-center justify-center text-sm animate-wave">👋</div>
+          <span className="animate-fade-down mb-4 inline-flex items-center rounded-full bg-white px-4 py-2 text-sm font-medium tracking-[0.01em] text-black shadow-lg shadow-black/20">
             About the Human
           </span>
           
@@ -99,7 +91,7 @@ export function AboutSection() {
             </div>
           </div>
           
-          <h2 data-animate className="text-3xl pixel-mask-text sm:text-4xl lg:text-5xl font-heading font-bold mb-4">
+          <h2 data-animate className="text-3xl pixel-mask-text sm:text-4xl lg:text-5xl font-heading font-[650] mb-4">
             About Me
           </h2>
           <p data-animate className="text-xl text-muted-foreground font-body max-w-2xl mx-auto">
@@ -118,12 +110,12 @@ export function AboutSection() {
                   <div className="pl-0 md:pl-8">
                     <p className="font-body text-xl leading-relaxed text-foreground">
                       I'm a <span className="relative inline-block">
-                        <span className="relative z-10 px-2 py-1 bg-gradient-to-r from-blue-500/15 to-purple-600/15 rounded-md font-medium">
+                        <span className="relative z-10 px-2 py-1 bg-gradient-to-r from-blue-500/15 to-purple-600/15 rounded-md font-semibold">
                           full-stack developer
                         </span>
                       </span> with a creative edge, combining technical expertise with an eye for design. I believe the best software is not only functional but also 
-                      <span className="font-medium text-blue-600 dark:text-blue-400"> intuitive</span>, 
-                      <span className="font-medium text-purple-600 dark:text-purple-400"> accessible</span>, and guided by <span className="font-medium text-red-600 dark:text-red-400">core UX principles</span>.
+                      <span className="font-semibold text-blue-600 dark:text-blue-400"> intuitive</span>,
+                      <span className="font-semibold text-purple-600 dark:text-purple-400"> accessible</span>, and guided by <span className="font-semibold text-red-600 dark:text-red-400">core UX principles</span>.
                     </p>
                   </div>
                 </div>
@@ -137,7 +129,7 @@ export function AboutSection() {
                       
                       By night, I set my focus on the
                       <span className="relative inline-block mx-1">
-                        <span className="relative z-10 px-2 py-1 bg-gradient-to-r from-orange-500/15 to-red-500/15 rounded-md font-medium">
+                        <span className="relative z-10 px-2 py-1 bg-gradient-to-r from-orange-500/15 to-red-500/15 rounded-md font-semibold">
                           bleeding edge
                         </span>
                       </span>  
@@ -152,7 +144,7 @@ export function AboutSection() {
                   <div className="pl-0 md:pl-8">
                     <p className="font-body text-xl leading-relaxed text-foreground">
                       I've had the chance to work with a wide mix of languages and technologies, and I'm always eager to learn more. If you'd like a copy of my resume, 
-                      <Link href="/#contact" className="site-link-strong relative inline font-semibold transition-colors duration-300 group ml-1">
+                      <Link href="/#contact" className="site-link-strong relative inline font-medium transition-colors duration-300 group ml-1">
                         <span className="relative z-10">shoot me a message!</span>
                         <span className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-sky-400 to-cyan-300 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                         <span className="absolute bottom-0 left-0 w-full h-1 bg-sky-400/20 animate-pulse"></span>
@@ -177,7 +169,7 @@ export function AboutSection() {
           {/* Technology list section - separate from the main grid */}
           <div className="space-y-8">
             <div data-animate className="w-full md:w-1/2">
-              <p data-animate className="text-xl pixel-mask-text-small font-heading font-semibold mb-4 mt-12 md:mt-6">
+              <p data-animate className="text-xl pixel-mask-text-small font-heading font-[600] mb-4 mt-12 md:mt-6">
                 Technologies I have experience with:
               </p>
               <div ref={skillsRef} className="flex flex-wrap gap-2">

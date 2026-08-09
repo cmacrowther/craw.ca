@@ -265,7 +265,9 @@ function SparkleEffect() {
 }
 
 function Model({ url }: { url: string }) {
-  const { scene } = useGLTF(url)
+  // model.glb requires EXT_meshopt_compression. Configure its decoder
+  // explicitly, and skip Draco because this asset does not use it.
+  const { scene } = useGLTF(url, false, true)
   const meshRef = useRef<THREE.Group>(null)
 
   // Add bouncing and subtle movement animation
@@ -302,7 +304,12 @@ export function GLBViewer({ modelUrl, className = "" }: GLBViewerProps) {
       >
         <Suspense fallback={null}>
           <Model url={modelUrl} />
-          <SparkleEffect />
+        </Suspense>
+        <SparkleEffect />
+        {/* The HDR preset is decorative and fetched remotely. Keep it in its
+            own boundary so a slow or blocked request cannot prevent the GLB
+            from rendering. */}
+        <Suspense fallback={null}>
           <Environment preset="studio" />
         </Suspense>
         <ambientLight intensity={theme === 'light' ? 0.7 : 0.5} />
@@ -325,3 +332,4 @@ export function GLBViewer({ modelUrl, className = "" }: GLBViewerProps) {
 }
 
 // Preload the model
+useGLTF.preload("/model.glb", false, true)

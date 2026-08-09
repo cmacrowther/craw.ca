@@ -6,7 +6,7 @@ import * as THREE from "three"
 
 import { detectLowEndDevice } from "@/hooks/use-low-end-device"
 
-export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
+export function ThreeWaveBackground({ wave = true, transparent = false }: { wave?: boolean; transparent?: boolean }) {
   const threeRef = useRef<HTMLDivElement>(null)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean | null>(null)
   const { theme } = useTheme()
@@ -22,15 +22,15 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
   }, [])
 
   useEffect(() => {
-    // Do not initialize the dot matrix or its WebGL renderer when motion is
-    // reduced. Waiting until the preference is known also avoids a flash of
-    // the grid during hydration.
+    // Do not initialize the animated dot matrix or its WebGL renderer when
+    // motion is reduced. Waiting until the preference is known also avoids a
+    // flash of the grid during hydration.
     if (prefersReducedMotion !== false) return;
 
     const { isLowEnd } = detectLowEndDevice();
 
     let renderer: THREE.WebGLRenderer | null = null;
-    let animationId: number;
+    let animationId = 0;
     let camera: THREE.PerspectiveCamera;
     let scene: THREE.Scene;
     let mesh: THREE.InstancedMesh;
@@ -49,7 +49,7 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
     const targetFPS = isLowEnd ? 24 : isMobile ? 30 : 60;
 
     // Scroll state
-    let scrollY = 0, targetFov = 100;
+    let scrollY = 0, targetFov = wave ? 100 : 90;
 
     // Store original colors (baked with opacity)
     const originalColors = new Float32Array(TOTAL_PARTICLES * 3);
@@ -61,15 +61,21 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
     const bgG = ((bgColorHex >> 8) & 255) / 255;
     const bgB = (bgColorHex & 255) / 255;
 
-    const baseHue = isLightTheme ? 0 : 0.6;
-    const baseSaturation = isLightTheme ? 0 : 0.6;
-    const baseLightness = isLightTheme ? 0.1 : 0.65;
+    // Keep the grid deliberately close to the page palette: cool slate in
+    // dark mode and a soft charcoal in light mode.
+    const baseHue = isLightTheme ? 0 : 0.56;
+    const baseSaturation = isLightTheme ? 0 : 0.22;
+    const baseLightness = isLightTheme ? 0.24 : 0.5;
 
     if (threeRef.current) {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
+      const container = threeRef.current;
+      const getDimensions = () => ({
+        width: wave ? window.innerWidth : container.clientWidth || window.innerWidth,
+        height: wave ? window.innerHeight : container.clientHeight || window.innerHeight,
+      });
+      const { width, height } = getDimensions();
 
-      camera = new THREE.PerspectiveCamera(100, width / height, 1, 10000);
+      camera = new THREE.PerspectiveCamera(wave ? 100 : 90, width / height, 1, 10000);
       camera.position.y = 400;
       camera.position.z = 50;
       camera.rotation.y = 0.1;
@@ -77,7 +83,7 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
       scene = new THREE.Scene();
 
       // Optimized Geometry: Reduced segments
-      const geometry = new THREE.SphereGeometry(1.3, 10, 10);
+      const geometry = new THREE.SphereGeometry(0.9, 8, 8);
       // Material: Opaque, using vertex colors
       const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
       mesh = new THREE.InstancedMesh(geometry, material, TOTAL_PARTICLES);
@@ -89,22 +95,22 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
         for (let iy = 0; iy < AMOUNTY; iy++) {
           // Calculate base color
           if (isLightTheme) {
-            const lightness = baseLightness + 0.1 * Math.sin(iy / AMOUNTY * Math.PI);
-            tempColor.setHSL(0, 0, Math.max(0.05, lightness));
+            const lightness = baseLightness + 0.05 * Math.sin(iy / AMOUNTY * Math.PI);
+            tempColor.setHSL(0, 0, Math.max(0.12, lightness));
           } else {
             const t = ix / AMOUNTX;
-            tempColor.setHSL(baseHue - 0.2 * t, baseSaturation, baseLightness + 0.15 * Math.sin(iy / AMOUNTY * Math.PI));
+            tempColor.setHSL(baseHue - 0.06 * t, baseSaturation, baseLightness + 0.08 * Math.sin(iy / AMOUNTY * Math.PI));
           }
 
           // Calculate opacity
           const opacity = isLightTheme
-            ? 0.6 + 0.3 * Math.sin(iy / AMOUNTY * Math.PI)
-            : 0.45 + 0.25 * Math.sin(iy / AMOUNTY * Math.PI);
+            ? 0.28 + 0.14 * Math.sin(iy / AMOUNTY * Math.PI)
+            : 0.2 + 0.14 * Math.sin(iy / AMOUNTY * Math.PI);
 
           // Bake opacity: Color = Color * Alpha + Bg * (1 - Alpha)
-          const finalR = tempColor.r * opacity + bgR * (1 - opacity);
-          const finalG = tempColor.g * opacity + bgG * (1 - opacity);
-          const finalB = tempColor.b * opacity + bgB * (1 - opacity);
+          const finalR = transparent ? tempColor.r * opacity : tempColor.r * opacity + bgR * (1 - opacity);
+          const finalG = transparent ? tempColor.g * opacity : tempColor.g * opacity + bgG * (1 - opacity);
+          const finalB = transparent ? tempColor.b * opacity : tempColor.b * opacity + bgB * (1 - opacity);
 
           originalColors[i * 3] = finalR;
           originalColors[i * 3 + 1] = finalG;
@@ -117,11 +123,14 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
 
       scene.add(mesh);
 
-      const localRenderer = new THREE.WebGLRenderer({ alpha: false, antialias: false });
+      const localRenderer = new THREE.WebGLRenderer({ alpha: transparent, antialias: false });
       localRenderer.setSize(width, height, false);
-      localRenderer.setClearColor(bgColorHex, 1);
-      localRenderer.setPixelRatio(1);
-      threeRef.current.appendChild(localRenderer.domElement);
+      localRenderer.setClearColor(bgColorHex, transparent ? 0 : 1);
+      // The compact project-page strip needs its own native-resolution canvas
+      // so the dots stay crisp instead of being scaled up from a low-density
+      // viewport renderer.
+      localRenderer.setPixelRatio(wave ? 1 : Math.min(window.devicePixelRatio || 1, 2));
+      container.appendChild(localRenderer.domElement);
       localRenderer.domElement.style.width = '100%';
       localRenderer.domElement.style.height = '100%';
       renderer = localRenderer;
@@ -130,7 +139,9 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
         scrollY = window.scrollY || window.pageYOffset;
         targetFov = 100 + Math.min(16, scrollY * 0.032);
       };
-      window.addEventListener('scroll', handleScroll, { passive: true });
+      if (wave) {
+        window.addEventListener('scroll', handleScroll, { passive: true });
+      }
 
       // Reusable objects
       const dummy = new THREE.Object3D();
@@ -160,16 +171,16 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
             const zPosBase = iy * SEPARATION - (AMOUNTY * SEPARATION - 10);
 
             const yPos = wave
-              ? Math.sin((ix + count) * 0.45) * 16 +
-                Math.cos((iy + count) * 0.32) * 12
+              ? Math.sin((ix + count) * 0.32) * 7 +
+                Math.cos((iy + count) * 0.24) * 5
               : 0;
 
             const zPos = wave
-              ? (Math.sin((ix + count) * 0.18) + Math.cos((iy + count) * 0.22)) * 8 +
+              ? (Math.sin((ix + count) * 0.14) + Math.cos((iy + count) * 0.16)) * 3 +
                 zPosBase
               : zPosBase;
 
-            const scale = 1.2 + 0.45 * Math.sin((ix + count) * 0.25 + (iy + count) * 0.18);
+            const scale = 0.8 + 0.16 * Math.sin((ix + count) * 0.18 + (iy + count) * 0.14);
 
             dummy.position.set(xPos, yPos, zPos);
             dummy.scale.set(scale, scale, scale);
@@ -188,7 +199,7 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
         if (renderer) {
           renderer.render(scene, camera);
         }
-        count += 0.07;
+        count += 0.018;
         animationId = requestAnimationFrame(animate);
       }
       animate();
@@ -197,7 +208,7 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
       // expensive instance-matrix loop only runs when the user can actually
       // see it.
       let visibilityObserver: IntersectionObserver | null = null;
-      if (typeof IntersectionObserver !== 'undefined' && threeRef.current) {
+      if (typeof IntersectionObserver !== 'undefined') {
         visibilityObserver = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
@@ -206,7 +217,7 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
           },
           { threshold: 0 }
         );
-        visibilityObserver.observe(threeRef.current);
+        visibilityObserver.observe(container);
       }
 
       const handleVisibilityChange = () => {
@@ -215,19 +226,21 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
       document.addEventListener('visibilitychange', handleVisibilityChange);
 
       const handleResize = () => {
-        const width = window.innerWidth;
-        const height = window.innerHeight;
+        const { width, height } = getDimensions();
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
         if (renderer) {
           renderer.setSize(width, height, false);
+          renderer.render(scene, camera);
         }
       };
       window.addEventListener('resize', handleResize);
 
       return () => {
         window.removeEventListener('resize', handleResize);
-        window.removeEventListener('scroll', handleScroll);
+        if (wave) {
+          window.removeEventListener('scroll', handleScroll);
+        }
         document.removeEventListener('visibilitychange', handleVisibilityChange);
         if (visibilityObserver) visibilityObserver.disconnect();
         if (renderer) {
@@ -239,7 +252,7 @@ export function ThreeWaveBackground({ wave = true }: { wave?: boolean }) {
         cancelAnimationFrame(animationId);
       };
     }
-  }, [prefersReducedMotion, theme, wave]);
+  }, [prefersReducedMotion, theme, transparent, wave]);
 
   return (
     <div

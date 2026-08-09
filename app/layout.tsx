@@ -1,21 +1,14 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { DM_Sans, JetBrains_Mono, Space_Grotesk } from "next/font/google"
+import { Geist, JetBrains_Mono } from "next/font/google"
 import "./globals.css"
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
-const spaceGrotesk = Space_Grotesk({
+const geistSans = Geist({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-space-grotesk",
+  variable: "--font-geist-sans",
   preload: true,
-})
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-dm-sans",
-  preload: false,
 })
 
 const jetBrainsMono = JetBrains_Mono({
@@ -81,7 +74,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`dark ${spaceGrotesk.variable} ${dmSans.variable} ${jetBrainsMono.variable}`}>
+    <html lang="en" className={`dark ${geistSans.variable} ${jetBrainsMono.variable}`}>
       <head>
         {/* Default theme-color meta for dynamic update */}
         <meta name="theme-color" content="#09090b" />

@@ -9,7 +9,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand */}
           <div className="space-y-4">
-            <h3 className="text-lg font-heading font-semibold">Colin Crowther</h3>
+            <h3 className="text-lg font-heading font-[600]">Colin Crowther</h3>
             <p className="font-body text-sm text-muted-foreground leading-relaxed">
               I am a full-stack developer from Prince Edward Island, Canada. I specialize in creating digital experiences that make a difference, with a focus on performance, accessibility, and user experience.
             </p>
@@ -17,7 +17,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h4 className="text-sm font-heading font-semibold uppercase tracking-wider">Quick Links</h4>
+            <h4 className="text-sm font-heading font-[600] uppercase tracking-wider">Quick Links</h4>
             <nav className="flex flex-col space-y-2">
               <Link href="/#home" className="font-body text-sm site-link-muted">
                 Home
@@ -42,7 +42,7 @@ export function Footer() {
 
           {/* Social Links */}
           <div className="space-y-4">
-            <h4 className="text-sm font-heading font-semibold uppercase tracking-wider">Connect</h4>
+            <h4 className="text-sm font-heading font-[600] uppercase tracking-wider">Connect</h4>
             <div className="flex space-x-4">
               <a
                 href="https://github.com/cmacrowther"

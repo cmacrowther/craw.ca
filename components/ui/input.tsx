@@ -8,7 +8,7 @@ const Input = React.memo(function Input({ className, type, ...props }: React.Com
       type={type}
       data-slot="input"
       className={cn(
-        "flex h-9 w-full min-w-0 rounded-md border border-gray-300 bg-white dark:bg-gray-950 dark:border-gray-700 px-3 py-1 text-base shadow-sm transition-colors outline-none file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 dark:placeholder:text-gray-400 disabled:cursor-not-allowed disabled:opacity-50 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 dark:focus:border-blue-400 dark:focus:ring-blue-400 text-gray-900 dark:text-gray-100",
+        "flex h-9 w-full min-w-0 rounded-md border border-white/15 bg-background/80 px-3 py-1 text-base text-foreground shadow-inner shadow-black/20 transition-[color,background-color,border-color,box-shadow] outline-none file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground/70 hover:border-white/30 focus:border-white/60 focus:bg-background focus:ring-2 focus:ring-white/15 disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
       {...props}

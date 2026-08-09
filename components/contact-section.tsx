@@ -80,27 +80,10 @@ export function ContactSection() {
       
       <div className="container mx-auto max-w-6xl relative z-10">
         <div ref={headerRef} className="text-center mb-16">
-          <span 
-            className="inline-flex items-center px-4 py-2 text-sm font-medium rounded-full mb-4 text-white bg-gradient-to-r from-pink-500 via-yellow-400 to-green-400 bg-[length:200%_200%] animate-gradient-x relative overflow-hidden animate-fade-down shadow-lg"
-            style={{ backgroundSize: '200% 200%' }}
-          >
-            <svg 
-              className="w-4 h-4 mr-2 animate-pulse" 
-              xmlns="http://www.w3.org/2000/svg" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor"
-            >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" 
-              />
-            </svg>
+          <span className="animate-fade-down mb-4 inline-flex items-center rounded-full bg-white px-4 py-2 text-sm font-medium tracking-[0.01em] text-black shadow-lg shadow-black/20">
             Let's Connect
           </span>
-          <h2 data-animate className="text-3xl pixel-mask-text sm:text-4xl lg:text-5xl font-heading font-bold mb-4">
+          <h2 data-animate className="text-3xl pixel-mask-text sm:text-4xl lg:text-5xl font-heading font-[650] mb-4">
             Get In Touch
           </h2>
           <p data-animate className="text-lg text-muted-foreground font-body max-w-2xl mx-auto">
@@ -112,7 +95,7 @@ export function ContactSection() {
           {/* Contact Information */}
           <div className="space-y-8">
             <div data-animate>
-              <h3 className="text-2xl font-heading font-semibold mb-6">Let's Connect</h3>
+              <h3 className="text-2xl font-heading font-[600] mb-6">Let's Connect</h3>
               <p className="font-body text-base leading-relaxed text-muted-foreground mb-8">
                 I'm always interested in new opportunities and exciting projects. Whether you have a question or just want to say hi, feel free to reach out!
               </p>
@@ -168,14 +151,14 @@ export function ContactSection() {
                 <svg className="w-16 h-16 text-green-500 mb-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
-                <h3 className="text-2xl font-heading font-semibold mb-2">Message Sent!</h3>
+                <h3 className="text-2xl font-heading font-[600] mb-2">Message Sent!</h3>
                 <p className="text-muted-foreground text-center max-w-xs">Thank you for reaching out. I'll get back to you as soon as possible.</p>
               </div>
             ) : (
               <>
                 <CardHeader>
                   <div className="text-left w-full">
-                    <span className="font-heading text-lg font-semibold">Send a Message</span>
+                    <span className="font-heading text-lg font-[600]">Send a Message</span>
                     <span className="font-body text-sm text-muted-foreground block mt-1">Fill out the form below and I'll get back to you as soon as possible.</span>
                   </div>
                 </CardHeader>
