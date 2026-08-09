@@ -83,6 +83,31 @@ export const projectCategories = [
 
 export const projects: Project[] = [
   {
+    id: 12,
+    slug: "wayfarer",
+    title: "Wayfarer",
+    shortDescription: "An offline-first personal start page with synced bookmarks, protected editing, and built-in search bangs.",
+    longDescription:
+      "Wayfarer is a personal browser start page that keeps bookmarks and Read Later items available locally first, then syncs changes to a user-owned Supabase or Firebase project. It combines protected editing, Google and bang searches, Selfh.st icons, and a resilient sync queue so the dashboard stays useful whether the browser is online or not.",
+    projectStory:
+      "The goal was to make a personal start page feel dependable rather than disposable. I centered the build on local-first data: edits are written to IndexedDB immediately, with an idempotent queue handling cloud updates and incremental pulls when a connection is available. The cloud setup is designed to stay in the user's hands, with short-lived OAuth connectors that create or reuse their own Supabase or Firebase project without exposing secrets. That foundation made it possible to pair a quick, focused bookmark experience with sync that behaves gracefully across reconnects, tabs, and devices.",
+    buildFocus: "Offline-first bookmark data, conflict-resilient cloud sync, and a simple setup flow for user-owned Supabase or Firebase projects.",
+    experienceGoal: "Make a personal start page feel fast, private, and reliable—whether online, offline, or moving between browsers.",
+    video: "/wayfarer.mp4",
+    technologies: ["Next.js", "TypeScript", "IndexedDB", "Supabase", "Firebase"],
+    liveUrl: "https://wayfarer.craw.ca/",
+    categories: ["web", "tool"],
+    highlightCategories: ["all", "tool"],
+    projectState: "ongoing",
+    distribution: "open-source",
+    releaseDate: "2026",
+    accent: {
+      badgeGradient: "linear-gradient(135deg, #0f766e 0%, #14b8a6 48%, #38bdf8 100%)",
+      spotlight: "radial-gradient(circle, rgba(20,184,166,0.28) 0%, rgba(56,189,248,0.18) 45%, rgba(0,0,0,0) 74%)",
+      surfaceGradient: "linear-gradient(135deg, rgba(15,118,110,0.22) 0%, rgba(20,184,166,0.16) 50%, rgba(56,189,248,0.18) 100%)",
+    },
+  },
+  {
     id: 1,
     slug: "tuneiq",
     title: "TuneIQ",
