@@ -30,3 +30,9 @@ next-env.d.ts
 .claude
 .jules
 .codex
+
+# local browser test data and visual-check screenshots
+/chrome-test-profile/
+/local-*.png
+/production-*.png
+/viewer.png

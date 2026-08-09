@@ -30,6 +30,13 @@
   mask-composite: add !important;
 }
 
+/* Keep the interactive model in normal layout flow. The site-wide mobile
+   canvas rule is intended for decorative backgrounds and otherwise pulls the
+   GLB canvas out of its sized viewer container. */
+.glb-viewer canvas {
+  position: static !important;
+}
+
 .pixel-overlay {
   position: absolute;
   inset: 0;

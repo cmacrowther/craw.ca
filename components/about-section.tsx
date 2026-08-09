@@ -81,9 +81,9 @@ export function AboutSection() {
           </span>
           
           {/* GLB viewer for mobile - positioned above header */}
-          <div data-animate className="md:hidden pixel-mask flex justify-center mb-8">
+          <div data-animate className="md:hidden flex justify-center mb-8">
             <div className="w-64 h-48" style={{ overflow: 'visible' }}>
-              {isNearViewport && isDesktop === false ? (
+              {isDesktop === false ? (
                 <GLBViewer modelUrl="/model.glb" className="rounded-lg" />
               ) : (
                 <ModelFallback />
@@ -92,10 +92,10 @@ export function AboutSection() {
           </div>
           
           <h2 data-animate className="text-3xl pixel-mask-text sm:text-4xl lg:text-5xl font-heading font-[650] mb-4">
-            About Me
+            Meet the Developer
           </h2>
           <p data-animate className="text-xl text-muted-foreground font-body max-w-2xl mx-auto">
-            Creating digital experiences that make a difference
+            Creating digital experiences that make a difference.
           </p>
         </div>
 
@@ -155,9 +155,9 @@ export function AboutSection() {
               </div>
             </div>
 
-            <div data-animate className="lg:col-span-3 pixel-mask hidden md:flex justify-center items-center">
+            <div data-animate className="lg:col-span-3 hidden md:flex justify-center items-center">
               <div className="w-full h-[450px] lg:h-[500px] xl:h-[550px] flex items-center justify-center" style={{ overflow: 'visible' }}>
-                {isNearViewport && isDesktop ? (
+                {isDesktop ? (
                   <GLBViewer modelUrl="/model.glb" className="rounded-lg" />
                 ) : (
                   <ModelFallback />
