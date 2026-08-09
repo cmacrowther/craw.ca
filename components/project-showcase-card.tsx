@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import { ArrowUpRight, Music3, Sparkles } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { useNearViewport } from "@/hooks/use-near-viewport";
@@ -48,13 +48,12 @@ export function ProjectShowcaseCard({
       href={`/projects/${project.slug}`}
       data-stagger={stagger ? true : undefined}
       aria-label={`Open ${project.title} project page`}
-      className={`group relative block h-[400px] overflow-hidden rounded-3xl transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-4 ${className}`.trim()}
-      style={{
-        boxShadow: "0 4px 24px 0 rgba(0,0,0,0.10)",
-        borderInline: "1px solid #111111",
-      }}
+      className={`group relative isolate block h-[400px] overflow-hidden rounded-3xl bg-[#080808] transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-4 ${className}`.trim()}
     >
-      <div ref={mediaRef} className="absolute inset-0 h-full w-full">
+      <div
+        ref={mediaRef}
+        className="absolute inset-px overflow-hidden rounded-[calc(1.5rem-1px)]"
+      >
         {project.video ? (
           <>
             {isNearViewport && (
@@ -91,7 +90,7 @@ export function ProjectShowcaseCard({
           aria-hidden="true"
           className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[100%]"
           style={{
-            backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.88) 16%, rgba(0,0,0,0.68) 32%, rgba(0,0,0,0.26) 58%, rgba(0,0,0,0.00) 100%), ${project.accent.surfaceGradient}`,
+            backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.88) 16%, rgba(0,0,0,0.68) 32%, rgba(0,0,0,0.26) 58%, rgba(0,0,0,0) 100%), ${project.accent.surfaceGradient}`,
             backgroundPosition: "center bottom",
             backgroundSize: "100% 100%",
             backgroundRepeat: "no-repeat",
@@ -112,77 +111,88 @@ export function ProjectShowcaseCard({
 
         <div className="absolute bottom-6 left-6 right-6">
           <div className="mb-4">
-            <h3
-              className="text-xl font-heading font-[600] text-white transition-colors md:text-2xl"
-              style={{
-                display: "-webkit-box",
-                WebkitBoxOrient: "vertical",
-                WebkitLineClamp: 2,
-                overflow: "hidden",
-                lineHeight: "1.2",
-              }}
-            >
-              {project.slug === "songwriterjs" && project.logo ? (
-                <span className="flex items-center gap-2">
-                  <span className="font-sans text-2xl font-light leading-none tracking-tight text-white md:text-[1.7rem]">
+            <h3 className="flex h-12 w-full items-center overflow-hidden text-xl font-heading font-[600] leading-none text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.45)] transition-colors md:text-2xl">
+              {project.slug === "tuneiq" ? (
+                <span className="flex min-w-0 items-center gap-2.5">
+                  <Music3 aria-hidden="true" className="size-7 shrink-0 stroke-[2.25] text-cyan-300" />
+                  <span className="font-[family-name:var(--font-space-grotesk)] text-[1.65rem] font-semibold leading-none tracking-[-0.035em] text-white">
+                    Tune<span className="text-sky-300">IQ</span>
+                  </span>
+                </span>
+              ) : project.slug === "waxtrax" ? (
+                <span className="font-[family-name:var(--font-bungee)] text-[1.6rem] font-normal leading-none tracking-[-0.035em] text-white">
+                  <span className="bg-gradient-to-r from-pink-400 via-orange-400 to-amber-300 bg-clip-text text-transparent">wax</span>
+                  trax.
+                </span>
+              ) : project.slug === "jelly-jammers" && project.logo ? (
+                <span className="inline-flex h-11 w-[15rem] max-w-full overflow-hidden">
+                  <img
+                    src={project.logo}
+                    alt={project.title}
+                    className="h-full w-full object-cover object-[center_48%]"
+                  />
+                </span>
+              ) : project.slug === "songwriterjs" && project.logo ? (
+                <span className="flex min-w-0 items-center gap-2.5">
+                  <span className="font-sans text-[1.65rem] font-light leading-none tracking-[-0.035em] text-white">
                     Songwriter
                   </span>
                   <img
                     src={project.logo}
                     alt="JavaScript"
-                    className="h-7 w-auto object-contain md:h-8"
+                    className="size-7 shrink-0 object-contain"
                   />
                 </span>
               ) : project.slug === "referee-docs" && project.logo ? (
-                <span className="flex items-center gap-2">
+                <span className="flex min-w-0 items-center gap-2.5">
                   <img
                     src={project.logo}
                     alt=""
                     aria-hidden="true"
-                    className="h-9 w-auto object-contain md:h-10"
+                    className="h-10 w-auto shrink-0 object-contain"
                   />
-                  <span className="inline-flex items-center gap-2">
-                    <span className="font-[family-name:var(--font-inter)] text-2xl font-extrabold leading-none tracking-tight text-white md:text-[1.7rem]">
+                  <span className="inline-flex min-w-0 items-baseline gap-2">
+                    <span className="font-[family-name:var(--font-inter)] text-[1.6rem] font-extrabold leading-none tracking-[-0.045em] text-white">
                       RE<span className="text-[rgba(255,137,24,1)]">F</span>EREE
                     </span>
-                    <span className="font-sans text-2xl font-bold leading-none tracking-tight text-white md:text-[1.7rem]">
+                    <span className="font-sans text-[1.5rem] font-bold leading-none tracking-[-0.035em] text-white">
                       Docs
                     </span>
                   </span>
                 </span>
               ) : project.slug === "referee" && project.logo ? (
-                <span className="flex items-center gap-2">
+                <span className="flex min-w-0 items-center gap-2.5">
                   <img
                     src={project.logo}
                     alt=""
                     aria-hidden="true"
-                    className="h-9 w-auto object-contain md:h-10"
+                    className="h-10 w-auto shrink-0 object-contain"
                   />
-                  <span className="font-[family-name:var(--font-inter)] text-2xl font-extrabold leading-none tracking-tight text-white md:text-[1.7rem]">
+                  <span className="font-[family-name:var(--font-inter)] text-[1.65rem] font-extrabold leading-none tracking-[-0.045em] text-white">
                     RE<span className="text-[rgba(255,137,24,1)]">F</span>EREE
                   </span>
                 </span>
               ) : project.slug === "wayfarer" && project.logo ? (
-                <span className="flex items-center gap-2">
+                <span className="flex min-w-0 items-center gap-2.5">
                   <img
                     src={project.logo}
                     alt=""
                     aria-hidden="true"
-                    className="h-11 w-auto object-contain md:h-12"
+                    className="h-10 w-auto shrink-0 object-contain"
                   />
-                  <span className="font-mono text-2xl font-bold leading-none tracking-tight text-white md:text-[1.7rem]">
+                  <span className="font-mono text-[1.6rem] font-bold leading-none tracking-[-0.045em] text-white">
                     wayfarer
                   </span>
                 </span>
               ) : project.slug === "gobert-ui" && project.logo ? (
-                <span className="flex items-center gap-2">
+                <span className="flex min-w-0 items-center gap-2.5">
                   <img
                     src={project.logo}
                     alt=""
                     aria-hidden="true"
-                    className="h-8 w-auto object-contain"
+                    className="size-10 shrink-0 object-contain"
                   />
-                  <span className="font-sans text-2xl font-bold leading-none tracking-tight text-white md:text-[1.7rem]">
+                  <span className="font-sans text-[1.65rem] font-bold leading-none tracking-[-0.035em] text-white">
                     Gobert.
                   </span>
                 </span>
@@ -198,7 +208,7 @@ export function ProjectShowcaseCard({
             </h3>
 
             <p
-              className="text-sm leading-relaxed text-white/80"
+              className="text-sm text-white/85"
               style={{
                 display: "-webkit-box",
                 WebkitBoxOrient: "vertical",

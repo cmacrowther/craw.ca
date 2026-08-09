@@ -117,8 +117,6 @@ export const projects: Project[] = [
     id: 1,
     slug: "tuneiq",
     title: "TuneIQ",
-    logo: "/logo.png.png",
-    logoCardClassName: "h-10 md:h-11",
     shortDescription: "Real-time multiplayer music quiz with live rooms and leaderboard drama.",
     longDescription:
       "TuneIQ is a browser-based multiplayer music quiz built to capture the energy of a living-room party game. Players join shared rooms, answer rounds together in real time, and see scores, chat, and momentum shift instantly as the session unfolds.",
@@ -247,6 +245,7 @@ export const projects: Project[] = [
     id: 6,
     slug: "jelly-jammers",
     title: "Jelly Jammers",
+    logo: "/jelly-jammers.png",
     shortDescription: "Chaotic browser party game with mobile tilt controls and jelly-car collisions.",
     longDescription:
       "Jelly Jammers is a chaotic multiplayer web game inspired by the Jackbox controller model. Players use their phones as tilt-based controllers and smash jelly cars into each other in a browser party game built around responsive input and shared-state action.",
