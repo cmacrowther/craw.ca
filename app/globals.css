@@ -224,6 +224,23 @@
   }
 }
 
+@media (min-width: 1024px) {
+  .hero-primary-action,
+  .hero-secondary-action,
+  [data-slot="button"] {
+    --button-pixel-alpha: 0.018;
+  }
+
+  [data-slot="button"][data-size="sm"],
+  [data-slot="button"][data-size="icon"] {
+    --button-pixel-alpha: 0.012;
+  }
+
+  [data-slot="button"][data-size="lg"] {
+    --button-pixel-alpha: 0.025;
+  }
+}
+
 .hero-primary-action:focus-visible,
 .hero-secondary-action:focus-visible {
   outline: 2px solid #fff;
