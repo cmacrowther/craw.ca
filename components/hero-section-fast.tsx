@@ -12,33 +12,30 @@ const ThreeWaveBackground = dynamic(
   { ssr: false }
 )
 
-function PixelTerminalMark() {
+function HeroDesignArtifact() {
   return (
-    <svg
-      viewBox="0 0 192 160"
-      className="hero-build-log-mark"
-      aria-hidden="true"
-      focusable="false"
-      shapeRendering="crispEdges"
-    >
-      {/* Terminal frame */}
-      <rect x="12" y="12" width="168" height="8" fill="currentColor" />
-      <rect x="12" y="20" width="8" height="128" fill="currentColor" />
-      <rect x="172" y="20" width="8" height="128" fill="currentColor" />
-      <rect x="12" y="140" width="168" height="8" fill="currentColor" />
-      <rect x="20" y="40" width="152" height="8" fill="currentColor" />
+    <div className="hero-design-art" aria-hidden="true">
+      <span className="hero-design-grid" />
+      <span className="hero-design-guide hero-design-guide-x" />
+      <span className="hero-design-guide hero-design-guide-y" />
+      <span className="hero-design-frame-shadow" />
 
-      {/* Window controls */}
-      <rect x="32" y="28" width="8" height="8" fill="currentColor" />
-      <rect x="48" y="28" width="8" height="8" fill="currentColor" />
-      <rect x="64" y="28" width="8" height="8" fill="currentColor" />
+      <div className="hero-design-frame">
+        <span className="hero-design-orb" />
+        <span className="hero-design-bar" />
+        <span className="hero-design-line" />
+        <span className="hero-design-pixel hero-design-pixel-one" />
+        <span className="hero-design-pixel hero-design-pixel-two" />
+        <span className="hero-design-handle hero-design-handle-tl" />
+        <span className="hero-design-handle hero-design-handle-tr" />
+        <span className="hero-design-handle hero-design-handle-br" />
+        <span className="hero-design-handle hero-design-handle-bl" />
+      </div>
 
-      {/* Pixel prompt: >_ */}
-      <rect x="52" y="68" width="12" height="12" fill="currentColor" />
-      <rect x="64" y="80" width="12" height="12" fill="currentColor" />
-      <rect x="52" y="92" width="12" height="12" fill="currentColor" />
-      <rect x="96" y="92" width="40" height="12" fill="currentColor" />
-    </svg>
+      <span className="hero-design-satellite hero-design-satellite-one" />
+      <span className="hero-design-satellite hero-design-satellite-two" />
+      <span className="hero-design-satellite hero-design-satellite-three" />
+    </div>
   )
 }
 
@@ -142,30 +139,9 @@ export function HeroSection() {
             </div>
           </div>
 
-          <aside className="hero-build-log relative flex w-full max-w-xl justify-self-end overflow-hidden border border-white/20 bg-black/25 p-6 backdrop-blur-sm sm:p-8 lg:min-h-[29rem] lg:p-9">
-            <PixelTerminalMark />
-            <div className="relative z-10 flex h-full w-full flex-col">
-              <div className="mb-16 flex items-center justify-between font-mono text-[0.65rem] uppercase tracking-[0.16em] text-white/45">
-                <span>Build log</span>
-                <span>01 / 01</span>
-              </div>
-
-              <p className="max-w-[21rem] font-heading text-3xl font-medium leading-[1.03] tracking-[-0.045em] text-white sm:text-4xl lg:text-[3.35rem]">
-                Thoughtful interfaces, built to last.
-              </p>
-
-              <div className="mt-auto grid grid-cols-2 gap-5 border-t border-white/12 pt-5 font-mono text-[0.65rem] uppercase tracking-[0.14em] text-white/45">
-                <div>
-                  <p>Focus</p>
-                  <p className="mt-1.5 tracking-[0.04em] text-white/80">Web products</p>
-                </div>
-                <div>
-                  <p>Approach</p>
-                  <p className="mt-1.5 tracking-[0.04em] text-white/80">Design + code</p>
-                </div>
-              </div>
-            </div>
-          </aside>
+          <div className="hero-build-log relative flex w-full max-w-xl justify-self-end overflow-hidden border border-white/20 bg-black/25 p-6 backdrop-blur-sm sm:p-8 lg:min-h-[29rem] lg:p-9">
+            <HeroDesignArtifact />
+          </div>
         </div>
       </div>
 
