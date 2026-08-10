@@ -16,25 +16,15 @@ function HeroDesignArtifact() {
   return (
     <div className="hero-design-art" aria-hidden="true">
       <span className="hero-design-grid" />
-      <span className="hero-design-guide hero-design-guide-x" />
-      <span className="hero-design-guide hero-design-guide-y" />
-      <span className="hero-design-frame-shadow" />
-
-      <div className="hero-design-frame">
-        <span className="hero-design-orb" />
-        <span className="hero-design-bar" />
-        <span className="hero-design-line" />
-        <span className="hero-design-pixel hero-design-pixel-one" />
-        <span className="hero-design-pixel hero-design-pixel-two" />
-        <span className="hero-design-handle hero-design-handle-tl" />
-        <span className="hero-design-handle hero-design-handle-tr" />
-        <span className="hero-design-handle hero-design-handle-br" />
-        <span className="hero-design-handle hero-design-handle-bl" />
-      </div>
-
-      <span className="hero-design-satellite hero-design-satellite-one" />
-      <span className="hero-design-satellite hero-design-satellite-two" />
-      <span className="hero-design-satellite hero-design-satellite-three" />
+      <span className="hero-design-aura" />
+      <span className="hero-design-orbit">
+        <span className="hero-design-orbit-dot hero-design-orbit-dot-one" />
+        <span className="hero-design-orbit-dot hero-design-orbit-dot-two" />
+      </span>
+      <span className="hero-design-orb" />
+      <span className="hero-design-pixel hero-design-pixel-one" />
+      <span className="hero-design-pixel hero-design-pixel-two" />
+      <span className="hero-design-pixel hero-design-pixel-three" />
     </div>
   )
 }
@@ -89,13 +79,6 @@ export function HeroSection() {
           }}
         >
           <div className="max-w-4xl">
-            <div className="hero-kicker mb-7 flex items-center gap-3 font-mono text-[0.68rem] font-medium uppercase tracking-[0.18em] text-white/60 sm:text-xs">
-              <span className="hero-status-dot" aria-hidden="true" />
-              <span>Colin Crowther</span>
-              <span className="h-px w-8 bg-white/25" aria-hidden="true" />
-              <span>Canada</span>
-            </div>
-
             <h1 className="max-w-4xl font-heading text-5xl font-[650] leading-[0.94] tracking-[-0.055em] text-white/80 sm:text-6xl md:text-7xl lg:text-[5.35rem]">
               Digital work
               <br />
@@ -143,11 +126,6 @@ export function HeroSection() {
             <HeroDesignArtifact />
           </div>
         </div>
-      </div>
-
-      <div className="hero-scroll-cue absolute bottom-7 left-6 z-[2] hidden items-center gap-3 font-mono text-[0.65rem] uppercase tracking-[0.16em] text-white/45 sm:flex lg:left-12">
-        <span className="h-px w-9 bg-white/30" aria-hidden="true" />
-        <span>Scroll to explore</span>
       </div>
 
       {/* Keep the site-wide pixel texture over the whole hero, including its copy. */}
