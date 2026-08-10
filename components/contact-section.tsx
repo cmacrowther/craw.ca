@@ -3,13 +3,15 @@
 import type React from "react"
 
 import { useState } from "react"
+import { ArrowUpRight, Mail, MapPin, Phone, Send, Sparkles } from "lucide-react"
+
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Mail, MapPin, Phone } from "lucide-react"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation-optimized"
+
 import { PaperAirplaneBackground } from "./paper-airplane-background"
 
 export function ContactSection() {
@@ -19,220 +21,219 @@ export function ContactSection() {
     subject: "",
     message: "",
   })
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState<string|null>(null);
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [showSuccess, setShowSuccess] = useState(false)
 
-  // Animation refs
-  const headerRef = useScrollAnimation({ delay: 100, stagger: 40 });
-  const contentRef = useScrollAnimation({ delay: 200, stagger: 80 });
+  const headerRef = useScrollAnimation({ delay: 100, stagger: 40 })
+  const contentRef = useScrollAnimation({ delay: 200, stagger: 100 })
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-  setSuccess(false);
-    setError(null);
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault()
+    setLoading(true)
+    setError(null)
+
     try {
-      const res = await fetch("/api/contact", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setSuccess(true);
-        setShowSuccess(true);
-        setFormData({ name: "", email: "", subject: "", message: "" });
-        setTimeout(() => {
-          setShowSuccess(false);
-          setSuccess(false);
-        }, 3500);
+      })
+      const data = await response.json()
+
+      if (response.ok) {
+        setShowSuccess(true)
+        setFormData({ name: "", email: "", subject: "", message: "" })
+        setTimeout(() => setShowSuccess(false), 3500)
       } else {
-        setError(data.error || "Something went wrong. Please try again later.");
+        setError(data.error || "Something went wrong. Please try again later.")
       }
-    } catch (err) {
-      setError("Network error. Please try again later.");
+    } catch {
+      setError("Network error. Please try again later.")
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData((previous) => ({
+      ...previous,
+      [event.target.name]: event.target.value,
     }))
   }
 
   return (
-    <section className="contact-section deferred-rendering py-20 px-4 sm:px-6 lg:px-8 lg:py-16 relative overflow-hidden min-h-screen lg:min-h-0 bg-background">
-      {/* Paper airplane background spanning the entire section */}
-      <div 
-        className="absolute inset-0 w-full h-full z-0"
-        style={{
-          transform: 'translateZ(0)', // Force hardware acceleration
-          willChange: 'auto', // Prevent unnecessary composition layers
-        }}
+    <section className="contact-section deferred-rendering relative min-h-screen overflow-hidden bg-background px-4 py-24 sm:px-6 lg:min-h-0 lg:px-8 lg:py-32">
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_16%_28%,rgba(255,255,255,0.09),transparent_25rem),radial-gradient(circle_at_86%_74%,rgba(148,163,184,0.11),transparent_29rem)]"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 z-0 opacity-65"
+        style={{ transform: "translateZ(0)", willChange: "auto" }}
       >
         <PaperAirplaneBackground />
       </div>
-      
-      <div className="container mx-auto max-w-6xl relative z-10">
-        <div ref={headerRef} className="text-center mb-16">
-          <span className="animate-fade-down mb-4 inline-flex items-center rounded-full bg-white px-4 py-2 text-sm font-medium tracking-[0.01em] text-black shadow-lg shadow-black/20">
-            Let's Connect
+      <div aria-hidden="true" className="pixel-overlay absolute inset-0 z-[1] opacity-35" />
+
+      <div className="container relative z-10 mx-auto max-w-7xl">
+        <div ref={headerRef} className="mb-14 max-w-4xl sm:mb-20">
+          <span className="animate-fade-down mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white/80 shadow-lg shadow-black/20 backdrop-blur-sm">
+            <Sparkles className="size-3.5" />
+            Let&apos;s work together
           </span>
-          <h2 data-animate className="text-3xl pixel-mask-text sm:text-4xl lg:text-5xl font-heading font-[650] mb-4">
-            Get In Touch
+          <h2 data-animate className="mb-5 pixel-mask-text text-4xl font-heading font-[650] tracking-[-0.04em] sm:text-5xl lg:text-7xl">
+            Have an idea worth<br className="hidden sm:block" /> building?
           </h2>
-          <p data-animate className="text-lg text-muted-foreground font-body max-w-2xl mx-auto">
-            Have a project in mind or want to collaborate? I'd love to hear from you.
+          <p data-animate className="max-w-2xl font-body text-lg leading-relaxed text-muted-foreground sm:text-xl">
+            Bring the rough sketch, the tricky problem, or the half-formed thought. I&apos;d love to hear where you want to take it.
           </p>
         </div>
 
-        <div ref={contentRef} className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Information */}
-          <div className="space-y-8">
-            <div data-animate>
-              <h3 className="text-2xl font-heading font-[600] mb-6">Let's Connect</h3>
-              <p className="font-body text-base leading-relaxed text-muted-foreground mb-8">
-                I'm always interested in new opportunities and exciting projects. Whether you have a question or just want to say hi, feel free to reach out!
+        <div ref={contentRef} className="grid grid-cols-1 gap-6 lg:grid-cols-[0.88fr_1.12fr] lg:gap-8">
+          <aside
+            data-animate
+            className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-[#0d0d0d]/80 p-7 shadow-2xl shadow-black/25 backdrop-blur-sm sm:p-9"
+          >
+            <div
+              aria-hidden="true"
+              className="absolute -right-28 -top-28 size-72 rounded-full bg-white/[0.08] blur-3xl"
+            />
+            <div className="relative flex h-full flex-col">
+              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.16em] text-white/55">Direct line</p>
+              <h3 className="mb-4 max-w-sm text-3xl font-heading font-[650] tracking-[-0.04em] text-white sm:text-4xl">
+                Start with a simple hello.
+              </h3>
+              <p className="mb-9 max-w-md text-base leading-relaxed text-muted-foreground">
+                Whether it&apos;s a new product, a collaboration, or a question about something I&apos;ve made, I&apos;m always glad to connect.
               </p>
+
+              <a
+                href="mailto:cmacrowther@gmail.com"
+                className="group mb-7 inline-flex w-fit items-center gap-3 border-b border-white/25 pb-3 font-heading text-xl font-[600] tracking-[-0.025em] text-white transition-colors hover:border-white sm:text-2xl"
+              >
+                cmacrowther@gmail.com
+                <ArrowUpRight className="size-5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
+
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                <a
+                  href="tel:+19023930928"
+                  className="group rounded-2xl border border-white/10 bg-white/[0.045] p-4 transition-colors hover:border-white/25 hover:bg-white/[0.08]"
+                >
+                  <Phone className="mb-5 size-4 text-white/65" />
+                  <p className="mb-1 text-xs font-semibold uppercase tracking-[0.13em] text-white/45">Phone</p>
+                  <p className="text-sm text-white/90">+1 (902) 393-0928</p>
+                </a>
+                <div className="rounded-2xl border border-white/10 bg-white/[0.045] p-4">
+                  <MapPin className="mb-5 size-4 text-white/65" />
+                  <p className="mb-1 text-xs font-semibold uppercase tracking-[0.13em] text-white/45">Based in</p>
+                  <p className="text-sm text-white/90">Charlottetown, PEI</p>
+                </div>
+              </div>
+
+              <a
+                href="mailto:cmacrowther@gmail.com"
+                className="group mt-8 inline-flex items-center gap-2 text-sm font-semibold text-white/75 transition-colors hover:text-white"
+              >
+                Prefer your mail app instead?
+                <Mail className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+              </a>
             </div>
+          </aside>
 
-            <div data-animate className="space-y-4">
-              <div className="flex items-center space-x-3">
-                <div className="flex-shrink-0">
-                  <Mail className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="font-body text-sm text-muted-foreground">Email</p>
-                  <a
-                    href="mailto:hello@cmacrowther.com"
-                    className="font-body text-base site-link"
-                  >
-                    cmacrowther@gmail.com
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-3">
-                <div className="flex-shrink-0">
-                  <Phone className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="font-body text-sm text-muted-foreground">Phone</p>
-                  <a
-                    href="tel:+1234567890"
-                    className="font-body text-base site-link"
-                  >
-                    +1 (902) 393-0928   
-                  </a>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-3">
-                <div className="flex-shrink-0">
-                  <MapPin className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="font-body text-sm text-muted-foreground">Location</p>
-                  <p className="font-body text-base text-foreground">Charlottetown, PE </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Contact Form */}
-          <Card data-animate className="min-h-[400px]">
+          <Card data-animate className="min-h-[570px] gap-0 rounded-[2rem] border-white/15 bg-[#101010]/90 py-0 shadow-2xl shadow-black/30 backdrop-blur-md">
             {showSuccess ? (
-              <div className="flex flex-col items-center justify-center w-full h-full py-16 animate-fade-in">
-                <svg className="w-16 h-16 text-green-500 mb-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-                <h3 className="text-2xl font-heading font-[600] mb-2">Message Sent!</h3>
-                <p className="text-muted-foreground text-center max-w-xs">Thank you for reaching out. I'll get back to you as soon as possible.</p>
+              <div className="flex min-h-[570px] flex-col items-center justify-center px-8 py-16 text-center animate-in fade-in-0 zoom-in-95 duration-500">
+                <div className="mb-6 flex size-16 items-center justify-center rounded-full border border-white/20 bg-white text-black shadow-xl shadow-white/10">
+                  <svg className="size-8" fill="none" stroke="currentColor" strokeWidth="2.25" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m5 13 4 4L19 7" />
+                  </svg>
+                </div>
+                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/50">Message delivered</p>
+                <h3 className="mb-3 text-3xl font-heading font-[650] tracking-[-0.035em] text-white">Thanks for reaching out.</h3>
+                <p className="max-w-sm leading-relaxed text-muted-foreground">Your note is on its way. I&apos;ll be in touch soon.</p>
               </div>
             ) : (
               <>
-                <CardHeader>
-                  <div className="text-left w-full">
-                    <span className="font-heading text-lg font-[600]">Send a Message</span>
-                    <span className="font-body text-sm text-muted-foreground block mt-1">Fill out the form below and I'll get back to you as soon as possible.</span>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="border-b border-white/10 px-7 py-7 sm:px-9 sm:py-8">
+                  <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/55">New message</p>
+                  <h3 className="mb-2 text-2xl font-heading font-[650] tracking-[-0.03em] text-white sm:text-3xl">Tell me what&apos;s on your mind.</h3>
+                  <p className="max-w-lg text-sm leading-relaxed text-muted-foreground">A few details are all I need to start the conversation.</p>
+                </div>
+
+                <CardContent className="px-7 py-7 sm:px-9 sm:py-8">
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                       <div className="space-y-2">
-                        <Label htmlFor="name" className="font-body">
-                          Name
-                        </Label>
+                        <Label htmlFor="name" className="text-sm font-medium text-white/85">Name</Label>
                         <Input
                           id="name"
                           name="name"
                           value={formData.name}
                           onChange={handleChange}
+                          placeholder="Your name"
                           required
-                          className="font-body"
+                          className="h-11 rounded-xl px-4"
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="email" className="font-body">
-                          Email
-                        </Label>
+                        <Label htmlFor="email" className="text-sm font-medium text-white/85">Email</Label>
                         <Input
                           id="email"
                           name="email"
                           type="email"
                           value={formData.email}
                           onChange={handleChange}
+                          placeholder="you@example.com"
                           required
-                          className="font-body"
+                          className="h-11 rounded-xl px-4"
                         />
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="subject" className="font-body">
-                        Subject
-                      </Label>
+                      <Label htmlFor="subject" className="text-sm font-medium text-white/85">Subject</Label>
                       <Input
                         id="subject"
                         name="subject"
                         value={formData.subject}
                         onChange={handleChange}
+                        placeholder="What would you like to talk about?"
                         required
-                        className="font-body"
+                        className="h-11 rounded-xl px-4"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="message" className="font-body">
-                        Message
-                      </Label>
+                      <Label htmlFor="message" className="text-sm font-medium text-white/85">Message</Label>
                       <Textarea
                         id="message"
                         name="message"
-                        rows={5}
+                        rows={6}
                         value={formData.message}
                         onChange={handleChange}
+                        placeholder="Share a little context, a goal, or a good question."
                         required
-                        className="font-body"
+                        className="min-h-36 rounded-xl px-4 py-3"
                       />
                     </div>
-                    <Button type="submit" className="w-full">
-                      {loading ? "Sending..." : "Send Message"}
+                    <Button type="submit" disabled={loading} className="h-12 w-full rounded-xl text-sm font-semibold">
+                      {loading ? (
+                        "Sending message..."
+                      ) : (
+                        <>
+                          Send message
+                          <Send className="size-4" />
+                        </>
+                      )}
                     </Button>
-                    {error && <p className="text-red-600 text-sm pt-2">{error}</p>}
+                    {error && <p role="alert" className="pt-1 text-sm text-red-400">{error}</p>}
                   </form>
                 </CardContent>
               </>
             )}
           </Card>
         </div>
-      </div>
-      <div className="fixed inset-0 z-[-1] pointer-events-none">
-        <div className="pixel-overlay absolute inset-0 pointer-events-none" />
       </div>
     </section>
   )
