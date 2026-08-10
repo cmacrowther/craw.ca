@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { ArrowDown, ArrowUpRight } from "lucide-react"
 import { TypewriterEffect } from "@/components/ui/typewriter-effect"
 import dynamic from "next/dynamic"
@@ -32,6 +32,9 @@ export function HeroSection() {
   const [isVisible, setIsVisible] = useState(false)
   const [showTyped, setShowTyped] = useState(false)
   const [showBackground, setShowBackground] = useState(false)
+  const heroRef = useRef<HTMLElement>(null)
+  const pointerFrame = useRef<number | null>(null)
+  const pointerPosition = useRef({ x: 50, y: 50 })
 
   useEffect(() => {
     const timeout = window.setTimeout(() => setIsVisible(true), 10)
@@ -50,10 +53,56 @@ export function HeroSection() {
     return () => window.clearTimeout(timeout)
   }, [isVisible])
 
+  useEffect(() => {
+    return () => {
+      if (pointerFrame.current !== null) {
+        window.cancelAnimationFrame(pointerFrame.current)
+      }
+    }
+  }, [])
+
+  const updatePointerPosition = (clientX: number, clientY: number) => {
+    const hero = heroRef.current
+    if (!hero) return
+
+    const bounds = hero.getBoundingClientRect()
+    pointerPosition.current = {
+      x: ((clientX - bounds.left) / bounds.width) * 100,
+      y: ((clientY - bounds.top) / bounds.height) * 100,
+    }
+
+    if (pointerFrame.current !== null) return
+
+    pointerFrame.current = window.requestAnimationFrame(() => {
+      const section = heroRef.current
+      if (section) {
+        section.style.setProperty("--hero-pointer-x", `${pointerPosition.current.x}%`)
+        section.style.setProperty("--hero-pointer-y", `${pointerPosition.current.y}%`)
+      }
+      pointerFrame.current = null
+    })
+  }
+
   return (
     <section
       id="home"
+      ref={heroRef}
       className="hero-section relative isolate min-h-[calc(100svh-4rem)] overflow-hidden"
+      onPointerEnter={(event) => {
+        if (event.pointerType !== "mouse") return
+        event.currentTarget.style.setProperty("--hero-pointer-active", "1")
+        updatePointerPosition(event.clientX, event.clientY)
+      }}
+      onPointerMove={(event) => {
+        if (event.pointerType === "mouse") {
+          updatePointerPosition(event.clientX, event.clientY)
+        }
+      }}
+      onPointerLeave={(event) => {
+        if (event.pointerType === "mouse") {
+          event.currentTarget.style.setProperty("--hero-pointer-active", "0")
+        }
+      }}
     >
       <div
         className="absolute inset-0 z-0"
@@ -67,6 +116,7 @@ export function HeroSection() {
 
       <div className="hero-grid absolute inset-0 z-[1]" aria-hidden="true" />
       <div className="hero-glow absolute inset-0 z-[1]" aria-hidden="true" />
+      <div className="hero-cursor-light absolute inset-0 z-[1]" aria-hidden="true" />
 
       <div className="relative z-[2] mx-auto flex min-h-[calc(100svh-4rem)] max-w-7xl items-center px-6 py-16 sm:px-10 lg:px-12">
         <div

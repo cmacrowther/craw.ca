@@ -77,6 +77,19 @@
     linear-gradient(90deg, rgb(17 17 17 / 0.18), transparent 62%, rgb(17 17 17 / 0.34));
 }
 
+.hero-cursor-light {
+  opacity: var(--hero-pointer-active, 0);
+  background: radial-gradient(circle 17rem at var(--hero-pointer-x, 50%) var(--hero-pointer-y, 50%), rgb(255 255 255 / 0.1), transparent 68%);
+  transition: opacity 500ms ease;
+  will-change: background-position, opacity;
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .hero-cursor-light {
+    display: none;
+  }
+}
+
 .hero-status-dot {
   width: 0.45rem;
   height: 0.45rem;
