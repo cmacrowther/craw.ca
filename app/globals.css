@@ -25,10 +25,32 @@
 }
 
 .pixel-mask-text {
-  mask-image:
-    repeating-linear-gradient(0deg, #000 0 1px, transparent 1px var(--pixel-cell)),
-    repeating-linear-gradient(90deg, #000 0 1px, transparent 1px var(--pixel-cell)) !important;
-  mask-composite: add !important;
+  /* Keep every pixel present, but soften alternating cells. Smaller headings
+     retain more opacity; the larger display sizes can carry a stronger texture. */
+  --pixel-text-floor: 0.78;
+  --pixel-text-cell: clamp(2px, 0.055em, 4px);
+  -webkit-mask-image: repeating-conic-gradient(
+    #000 0 25%,
+    rgb(0 0 0 / var(--pixel-text-floor)) 0 50%
+  );
+  -webkit-mask-size: var(--pixel-text-cell) var(--pixel-text-cell);
+  mask-image: repeating-conic-gradient(
+    #000 0 25%,
+    rgb(0 0 0 / var(--pixel-text-floor)) 0 50%
+  );
+  mask-size: var(--pixel-text-cell) var(--pixel-text-cell);
+}
+
+@media (min-width: 640px) {
+  .pixel-mask-text {
+    --pixel-text-floor: 0.68;
+  }
+}
+
+@media (min-width: 1024px) {
+  .pixel-mask-text {
+    --pixel-text-floor: 0.58;
+  }
 }
 
 /* Keep the interactive model in normal layout flow. The site-wide mobile
@@ -111,6 +133,8 @@
 
 .hero-primary-action,
 .hero-secondary-action {
+  --button-pixel-alpha: 0.045;
+  --button-pixel-color: 255 255 255;
   display: inline-flex;
   min-height: 3.25rem;
   align-items: center;
@@ -120,12 +144,15 @@
   font-size: 0.84rem;
   font-weight: 600;
   letter-spacing: 0.025em;
+  line-height: 1.15;
+  text-rendering: geometricPrecision;
   transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
 }
 
 .hero-primary-action {
+  --button-pixel-color: 17 17 17;
   border: 1px solid #fff;
-  background: #fff;
+  background-color: #fff;
   color: #111;
   box-shadow: 0 10px 30px rgb(0 0 0 / 0.18);
 }
@@ -133,23 +160,68 @@
 .hero-primary-action:hover,
 .hero-primary-action:focus-visible {
   transform: translateY(-2px);
-  background: #f4f4f5;
+  background-color: #f4f4f5;
   border-color: #f4f4f5;
   box-shadow: 0 14px 34px rgb(0 0 0 / 0.28), 0 0 28px rgb(255 255 255 / 0.12);
 }
 
 .hero-secondary-action {
   border: 1px solid rgb(255 255 255 / 0.26);
-  background: rgb(17 17 17 / 0.22);
+  background-color: rgb(17 17 17 / 0.62);
   color: rgb(255 255 255 / 0.88);
+  text-shadow: 0 1px 8px rgb(0 0 0 / 0.55);
+  backdrop-filter: blur(6px);
 }
 
 .hero-secondary-action:hover,
 .hero-secondary-action:focus-visible {
   transform: translateY(-2px);
   border-color: rgb(255 255 255 / 0.7);
-  background: rgb(255 255 255 / 0.1);
+  background-color: rgb(255 255 255 / 0.1);
   color: #fff;
+}
+
+/* Pixel texture belongs to the control surface, leaving small labels and icons
+   crisp. Texture strength scales with the control size. */
+:where(.hero-primary-action, .hero-secondary-action, [data-slot="button"]) {
+  --button-pixel-alpha: 0.05;
+  --button-pixel-color: 255 255 255;
+  background-image: repeating-conic-gradient(
+    rgb(var(--button-pixel-color) / var(--button-pixel-alpha)) 0 25%,
+    transparent 0 50%
+  );
+  background-position: 0 0;
+  background-size: 2px 2px;
+}
+
+.hero-primary-action,
+[data-slot="button"][data-variant="default"],
+[data-slot="button"][data-variant="destructive"],
+[data-slot="button"][data-variant="secondary"] {
+  --button-pixel-color: 17 17 17;
+}
+
+[data-slot="button"][data-size="sm"],
+[data-slot="button"][data-size="icon"] {
+  --button-pixel-alpha: 0.03;
+}
+
+[data-slot="button"][data-size="lg"] {
+  --button-pixel-alpha: 0.07;
+}
+
+[data-slot="button"][data-variant="link"] {
+  background-image: none;
+}
+
+@media (max-width: 639px) {
+  .hero-primary-action,
+  .hero-secondary-action {
+    min-height: 3.5rem;
+    font-size: 0.9rem;
+    font-weight: 650;
+    letter-spacing: 0.015em;
+  }
 }
 
 .hero-primary-action:focus-visible,
