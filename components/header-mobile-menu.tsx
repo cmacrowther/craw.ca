@@ -56,9 +56,9 @@ export function HeaderMobileMenu() {
           aria-modal="true"
           aria-label="Site navigation"
         >
-          <div className="pixel-overlay" aria-hidden="true" />
-          <div className="relative z-10 flex flex-1 flex-col">
-            <div className="flex items-center justify-between">
+          <div className="pixel-overlay" aria-hidden="true" style={{ zIndex: 20 }} />
+          <div className="relative flex flex-1 flex-col">
+            <div className="relative z-10 flex items-center justify-between">
               <Link href="/#home" className="site-link text-lg font-heading font-[650]" onClick={() => setIsMenuOpen(false)}>
                 CRAW
               </Link>
@@ -67,7 +67,7 @@ export function HeaderMobileMenu() {
               </Button>
             </div>
 
-            <nav className="flex flex-1 flex-col justify-center" aria-label="Mobile navigation">
+            <nav className="relative z-10 flex flex-1 flex-col justify-center" aria-label="Mobile navigation">
               <div className="space-y-2">
                 {navigation.map((item, index) => (
                   <Link
@@ -83,7 +83,7 @@ export function HeaderMobileMenu() {
               </div>
             </nav>
 
-            <div className="flex items-center gap-2 border-t border-white/15 pt-5 mobile-actions">
+            <div className="relative z-10 flex items-center gap-2 border-t border-white/15 pt-5 mobile-actions">
               <a href="https://github.com/cmacrowther" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="mobile-action-icon">
                 <Button variant="ghost" size="sm"><SiGithub className="size-4" /></Button>
               </a>
