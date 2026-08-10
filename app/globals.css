@@ -492,6 +492,160 @@
   50% { transform: translate(-0.65rem, 0.65rem); }
 }
 
+/* Freestanding flat colour composition for the hero's right side. */
+.hero-art-stage {
+  position: relative;
+  min-height: 22rem;
+  overflow: visible;
+}
+
+.hero-art-grid {
+  position: absolute;
+  top: 13%;
+  left: 8%;
+  width: 72%;
+  height: 66%;
+  opacity: 0.36;
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.34) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.34) 1px, transparent 1px);
+  background-size: 1.75rem 1.75rem;
+  transform: rotate(-5deg);
+}
+
+.hero-art-shape,
+.hero-art-pixel {
+  position: absolute;
+  display: block;
+}
+
+.hero-art-shape-blue {
+  top: 19%;
+  left: 20%;
+  z-index: 2;
+  width: 12.5rem;
+  aspect-ratio: 1;
+  background: #60a5fa;
+  transform: rotate(-10deg);
+  animation: hero-art-blue-float 11s ease-in-out infinite;
+}
+
+.hero-art-shape-blue::after {
+  position: absolute;
+  top: 26%;
+  left: 26%;
+  width: 48%;
+  aspect-ratio: 1;
+  content: "";
+  background: #111111;
+  border-radius: 50%;
+}
+
+.hero-art-shape-pink {
+  top: 8%;
+  right: 8%;
+  z-index: 3;
+  width: 7.75rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #fb7185;
+  animation: hero-art-pink-bob 7s ease-in-out infinite;
+}
+
+.hero-art-shape-yellow {
+  right: 7%;
+  bottom: 15%;
+  z-index: 4;
+  width: 6.5rem;
+  aspect-ratio: 1;
+  background: #fbbf24;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  animation: hero-art-yellow-turn 9s ease-in-out infinite;
+}
+
+.hero-art-shape-purple {
+  bottom: 13%;
+  left: 7%;
+  z-index: 3;
+  width: 10rem;
+  height: 3.75rem;
+  border-radius: 999px;
+  background: #a78bfa;
+  transform: rotate(18deg);
+  animation: hero-art-purple-slide 8s ease-in-out infinite;
+}
+
+.hero-art-pixel {
+  z-index: 5;
+  width: 0.85rem;
+  height: 0.85rem;
+  background: #fff;
+}
+
+.hero-art-pixel-one {
+  top: 18%;
+  left: 12%;
+  animation: hero-art-pixel-bob 5.5s ease-in-out infinite;
+}
+
+.hero-art-pixel-two {
+  top: 45%;
+  right: 5%;
+  width: 0.55rem;
+  height: 0.55rem;
+  background: #fb7185;
+  animation: hero-art-pixel-bob 6.5s ease-in-out -2s infinite;
+}
+
+.hero-art-pixel-three {
+  bottom: 10%;
+  left: 43%;
+  width: 0.55rem;
+  height: 0.55rem;
+  background: #fbbf24;
+  animation: hero-art-pixel-bob 5.8s ease-in-out -1s infinite;
+}
+
+.hero-art-pixel-four {
+  top: 12%;
+  left: 58%;
+  width: 0.42rem;
+  height: 0.42rem;
+  background: #a78bfa;
+  animation: hero-art-pixel-bob 7.2s ease-in-out -3.5s infinite;
+}
+
+@keyframes hero-art-blue-float {
+  0%, 100% { transform: translate(0, 0) rotate(-10deg); }
+  50% { transform: translate(-0.7rem, -0.9rem) rotate(-5deg); }
+}
+
+@keyframes hero-art-pink-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(1.1rem); }
+}
+
+@keyframes hero-art-yellow-turn {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-0.5rem, -0.5rem) rotate(8deg); }
+}
+
+@keyframes hero-art-purple-slide {
+  0%, 100% { transform: translateX(0) rotate(18deg); }
+  50% { transform: translateX(1rem) rotate(13deg); }
+}
+
+@keyframes hero-art-pixel-bob {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(0.45rem, -0.55rem); }
+}
+
+@media (min-width: 1024px) {
+  .hero-art-stage {
+    min-height: 29rem;
+  }
+}
+
 .hero-build-log::before,
 .hero-build-log::after {
   position: absolute;
@@ -528,7 +682,9 @@
   .hero-design-orb,
   .hero-design-bar,
   .hero-design-pixel,
-  .hero-design-satellite {
+  .hero-design-satellite,
+  .hero-art-shape,
+  .hero-art-pixel {
     animation: none;
   }
 }

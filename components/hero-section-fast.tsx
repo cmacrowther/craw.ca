@@ -12,19 +12,18 @@ const ThreeWaveBackground = dynamic(
   { ssr: false }
 )
 
-function HeroDesignArtifact() {
+function HeroColorComposition() {
   return (
-    <div className="hero-design-art" aria-hidden="true">
-      <span className="hero-design-grid" />
-      <span className="hero-design-aura" />
-      <span className="hero-design-orbit">
-        <span className="hero-design-orbit-dot hero-design-orbit-dot-one" />
-        <span className="hero-design-orbit-dot hero-design-orbit-dot-two" />
-      </span>
-      <span className="hero-design-orb" />
-      <span className="hero-design-pixel hero-design-pixel-one" />
-      <span className="hero-design-pixel hero-design-pixel-two" />
-      <span className="hero-design-pixel hero-design-pixel-three" />
+    <div className="hero-art-stage" aria-hidden="true">
+      <span className="hero-art-grid" />
+      <span className="hero-art-shape hero-art-shape-blue" />
+      <span className="hero-art-shape hero-art-shape-pink" />
+      <span className="hero-art-shape hero-art-shape-yellow" />
+      <span className="hero-art-shape hero-art-shape-purple" />
+      <span className="hero-art-pixel hero-art-pixel-one" />
+      <span className="hero-art-pixel hero-art-pixel-two" />
+      <span className="hero-art-pixel hero-art-pixel-three" />
+      <span className="hero-art-pixel hero-art-pixel-four" />
     </div>
   )
 }
@@ -122,8 +121,8 @@ export function HeroSection() {
             </div>
           </div>
 
-          <div className="hero-build-log relative flex w-full max-w-xl justify-self-end overflow-hidden border border-white/20 bg-black/25 p-6 backdrop-blur-sm sm:p-8 lg:min-h-[29rem] lg:p-9">
-            <HeroDesignArtifact />
+          <div className="w-full max-w-xl justify-self-end">
+            <HeroColorComposition />
           </div>
         </div>
       </div>
