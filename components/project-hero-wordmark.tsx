@@ -10,6 +10,22 @@ const wordmarkFrame =
   "inline-flex max-w-full items-center py-4 sm:py-5";
 
 export function ProjectHeroWordmark({ project }: ProjectHeroWordmarkProps) {
+  if (project.slug === "aurea" && project.logo) {
+    return (
+      <span className={`${wordmarkFrame} gap-3 sm:gap-4`}>
+        <img
+          src={project.logo}
+          alt=""
+          aria-hidden="true"
+          className="h-14 w-auto shrink-0 object-contain sm:h-16 lg:h-20"
+        />
+        <span className="font-[family-name:var(--font-bitter)] text-4xl font-[600] leading-none tracking-[-0.04em] text-white sm:text-6xl lg:text-7xl">
+          Aurea
+        </span>
+      </span>
+    );
+  }
+
   if (project.slug === "tuneiq") {
     return (
       <span className={`${wordmarkFrame} gap-3 sm:gap-4`}>

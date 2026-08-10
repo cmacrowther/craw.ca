@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Bungee, Geist, Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google"
+import { Bitter, Bungee, Geist, Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google"
 import "./globals.css"
 import { SpeedInsights } from '@vercel/speed-insights/next'
 
@@ -23,6 +23,14 @@ const bungee = Bungee({
   weight: "400",
   display: "swap",
   variable: "--font-bungee",
+  preload: true,
+})
+
+const bitter = Bitter({
+  subsets: ["latin"],
+  weight: "600",
+  display: "swap",
+  variable: "--font-bitter",
   preload: true,
 })
 
@@ -96,7 +104,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`dark ${geistSans.variable} ${inter.variable} ${bungee.variable} ${spaceGrotesk.variable} ${jetBrainsMono.variable}`}>
+    <html lang="en" className={`dark ${geistSans.variable} ${inter.variable} ${bungee.variable} ${bitter.variable} ${spaceGrotesk.variable} ${jetBrainsMono.variable}`}>
       <head>
         {/* Default theme-color meta for dynamic update */}
         <meta name="theme-color" content="#09090b" />

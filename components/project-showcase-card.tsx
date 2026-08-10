@@ -114,7 +114,19 @@ export function ProjectShowcaseCard({
         <div className="absolute bottom-6 left-6 right-6">
           <div className="mb-4">
             <h3 className="flex h-12 w-full items-center overflow-hidden text-xl font-heading font-[600] leading-none text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.45)] transition-colors md:text-2xl">
-              {project.slug === "tuneiq" ? (
+              {project.slug === "aurea" && project.logo ? (
+                <span className="flex min-w-0 items-center gap-2.5">
+                  <img
+                    src={project.logo}
+                    alt=""
+                    aria-hidden="true"
+                    className="h-10 w-auto shrink-0 object-contain"
+                  />
+                  <span className="font-[family-name:var(--font-bitter)] text-[1.65rem] font-[600] leading-none tracking-[-0.035em] text-white">
+                    Aurea
+                  </span>
+                </span>
+              ) : project.slug === "tuneiq" ? (
                 <span className="flex min-w-0 items-center gap-3">
                   <span className="font-sans text-[1.65rem] font-semibold leading-none tracking-[-0.035em] text-white">
                     Tune<span className="px-0.5 text-sky-300 font-bold">IQ</span>

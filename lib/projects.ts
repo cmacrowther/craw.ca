@@ -87,6 +87,32 @@ export const projectCategories = [
 
 export const projects: Project[] = [
   {
+    id: 13,
+    slug: "aurea",
+    title: "Aurea",
+    logo: "/aurea.svg",
+    shortDescription: "A golden-ratio social gallery for short-form video and live photos, designed as an endless media loop.",
+    longDescription:
+      "Aurea is a social media platform for uploading and discovering short-form videos and live photos. Its gallery is composed around the golden ratio, creating a flowing, asymmetric feed where every piece of media leads naturally into the next in a continuous loop.",
+    projectStory:
+      "The idea was to give a familiar social feed a more intentional sense of rhythm. Rather than stacking identical posts in a conventional scroll, I used golden-ratio proportions to make the gallery feel editorial and alive while preserving the immediacy people expect from short-form media. Underneath that experience is a Cloudflare-native backend that keeps uploads, media storage, and relational data close to the edge.",
+    buildFocus: "A continuous golden-ratio gallery backed by a Cloudflare Worker, with D1 relational data and R2 media uploads.",
+    experienceGoal: "Make discovering short-form media feel like moving through an endless, carefully composed visual stream.",
+    video: "/aurea-video.webm",
+    technologies: ["React", "TypeScript", "Vite", "Hono", "Cloudflare Workers", "D1", "R2", "Prisma"],
+    liveUrl: "https://aurea.craw.ca/",
+    categories: ["web"],
+    highlightCategories: ["all", "web"],
+    projectState: "ongoing",
+    distribution: "closed-source",
+    releaseDate: "2026",
+    accent: {
+      badgeGradient: "linear-gradient(135deg, #facc15 0%, #f59e0b 48%, #f97316 100%)",
+      spotlight: "radial-gradient(circle, rgba(250,204,21,0.3) 0%, rgba(245,158,11,0.2) 45%, rgba(0,0,0,0) 74%)",
+      surfaceGradient: "linear-gradient(135deg, rgba(250,204,21,0.22) 0%, rgba(245,158,11,0.16) 50%, rgba(249,115,22,0.18) 100%)",
+    },
+  },
+  {
     id: 12,
     slug: "wayfarer",
     title: "Wayfarer",
@@ -99,7 +125,7 @@ export const projects: Project[] = [
       "The goal was to make a personal start page feel dependable rather than disposable. I centered the build on local-first data: edits are written to IndexedDB immediately, with an idempotent queue handling cloud updates and incremental pulls when a connection is available. The cloud setup is designed to stay in the user's hands, with short-lived OAuth connectors that create or reuse their own Supabase or Firebase project without exposing secrets. That foundation made it possible to pair a quick, focused bookmark experience with sync that behaves gracefully across reconnects, tabs, and devices.",
     buildFocus: "Offline-first bookmark data, conflict-resilient cloud sync, and a simple setup flow for user-owned Supabase or Firebase projects.",
     experienceGoal: "Make a personal start page feel fast, private, and reliable—whether online, offline, or moving between browsers.",
-    video: "/wayfarer.mp4",
+    video: "/wayfarer-video.webm",
     technologies: ["Next.js", "TypeScript", "IndexedDB", "Supabase", "Firebase"],
     liveUrl: "https://wayfarer.craw.ca/",
     categories: ["web", "tool"],
