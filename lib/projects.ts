@@ -85,6 +85,10 @@ export const projectCategories = [
   { id: "other", label: "Other" },
 ] as const;
 
+// The homepage is intentionally curated around these three projects. Keep this
+// separate from category highlights, which are used when browsing the archive.
+export const featuredProjectSlugs = ["referee", "aurea", "wayfarer"] as const;
+
 export const projects: Project[] = [
   {
     id: 13,
