@@ -6,7 +6,6 @@ import { useState } from "react"
 import { ArrowUpRight, Mail, MapPin, Phone, Send, Sparkles } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
@@ -91,16 +90,9 @@ export function ContactSection() {
           </p>
         </div>
 
-        <div ref={contentRef} className="grid grid-cols-1 gap-6 lg:grid-cols-[0.88fr_1.12fr] lg:gap-8">
-          <aside
-            data-animate
-            className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-[#0d0d0d]/80 p-7 shadow-2xl shadow-black/25 backdrop-blur-sm sm:p-9"
-          >
-            <div
-              aria-hidden="true"
-              className="absolute -right-28 -top-28 size-72 rounded-full bg-white/[0.08] blur-3xl"
-            />
-            <div className="relative flex h-full flex-col">
+        <div ref={contentRef} className="grid grid-cols-1 gap-14 lg:grid-cols-[0.88fr_1.12fr] lg:gap-20">
+          <aside data-animate className="max-w-xl py-3 lg:py-8">
+            <div className="border-l border-white/30 pl-5 sm:pl-8">
               <p className="mb-4 text-xs font-semibold uppercase tracking-[0.16em] text-white/55">Direct line</p>
               <h3 className="mb-4 max-w-sm text-3xl font-heading font-[650] tracking-[-0.04em] text-white sm:text-4xl">
                 Start with a simple hello.
@@ -117,17 +109,17 @@ export function ContactSection() {
                 <ArrowUpRight className="size-5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </a>
 
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+              <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                 <a
                   href="tel:+19023930928"
-                  className="group rounded-2xl border border-white/10 bg-white/[0.045] p-4 transition-colors hover:border-white/25 hover:bg-white/[0.08]"
+                  className="group border-l border-white/15 pl-4 transition-colors hover:border-white/65"
                 >
-                  <Phone className="mb-5 size-4 text-white/65" />
+                  <Phone className="mb-4 size-4 text-white/65" />
                   <p className="mb-1 text-xs font-semibold uppercase tracking-[0.13em] text-white/45">Phone</p>
                   <p className="text-sm text-white/90">+1 (902) 393-0928</p>
                 </a>
-                <div className="rounded-2xl border border-white/10 bg-white/[0.045] p-4">
-                  <MapPin className="mb-5 size-4 text-white/65" />
+                <div className="border-l border-white/15 pl-4">
+                  <MapPin className="mb-4 size-4 text-white/65" />
                   <p className="mb-1 text-xs font-semibold uppercase tracking-[0.13em] text-white/45">Based in</p>
                   <p className="text-sm text-white/90">Charlottetown, PEI</p>
                 </div>
@@ -143,10 +135,10 @@ export function ContactSection() {
             </div>
           </aside>
 
-          <Card data-animate className="min-h-[570px] gap-0 rounded-[2rem] border-white/15 bg-[#101010]/90 py-0 shadow-2xl shadow-black/30 backdrop-blur-md">
+          <div data-animate className="min-h-[570px] max-w-2xl lg:justify-self-end">
             {showSuccess ? (
-              <div className="flex min-h-[570px] flex-col items-center justify-center px-8 py-16 text-center animate-in fade-in-0 zoom-in-95 duration-500">
-                <div className="mb-6 flex size-16 items-center justify-center rounded-full border border-white/20 bg-white text-black shadow-xl shadow-white/10">
+              <div className="flex min-h-[570px] flex-col items-center justify-center py-16 text-center animate-in fade-in-0 zoom-in-95 duration-500">
+                <div className="mb-6 flex size-16 items-center justify-center rounded-full bg-white text-black shadow-xl shadow-white/10">
                   <svg className="size-8" fill="none" stroke="currentColor" strokeWidth="2.25" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" d="m5 13 4 4L19 7" />
                   </svg>
@@ -157,82 +149,80 @@ export function ContactSection() {
               </div>
             ) : (
               <>
-                <div className="border-b border-white/10 px-7 py-7 sm:px-9 sm:py-8">
+                <div className="mb-9 border-b border-white/15 pb-7">
                   <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/55">New message</p>
                   <h3 className="mb-2 text-2xl font-heading font-[650] tracking-[-0.03em] text-white sm:text-3xl">Tell me what&apos;s on your mind.</h3>
                   <p className="max-w-lg text-sm leading-relaxed text-muted-foreground">A few details are all I need to start the conversation.</p>
                 </div>
 
-                <CardContent className="px-7 py-7 sm:px-9 sm:py-8">
-                  <form onSubmit={handleSubmit} className="space-y-5">
-                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                      <div className="space-y-2">
-                        <Label htmlFor="name" className="text-sm font-medium text-white/85">Name</Label>
-                        <Input
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          placeholder="Your name"
-                          required
-                          className="h-11 rounded-xl px-4"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="email" className="text-sm font-medium text-white/85">Email</Label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          placeholder="you@example.com"
-                          required
-                          className="h-11 rounded-xl px-4"
-                        />
-                      </div>
-                    </div>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <div className="space-y-2">
-                      <Label htmlFor="subject" className="text-sm font-medium text-white/85">Subject</Label>
+                      <Label htmlFor="name" className="text-sm font-medium text-white/85">Name</Label>
                       <Input
-                        id="subject"
-                        name="subject"
-                        value={formData.subject}
+                        id="name"
+                        name="name"
+                        value={formData.name}
                         onChange={handleChange}
-                        placeholder="What would you like to talk about?"
+                        placeholder="Your name"
                         required
-                        className="h-11 rounded-xl px-4"
+                        className="h-12 rounded-none border-x-0 border-t-0 border-b-white/25 bg-transparent px-0 shadow-none hover:border-b-white/55 focus:border-b-white focus:bg-transparent"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="message" className="text-sm font-medium text-white/85">Message</Label>
-                      <Textarea
-                        id="message"
-                        name="message"
-                        rows={6}
-                        value={formData.message}
+                      <Label htmlFor="email" className="text-sm font-medium text-white/85">Email</Label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={formData.email}
                         onChange={handleChange}
-                        placeholder="Share a little context, a goal, or a good question."
+                        placeholder="you@example.com"
                         required
-                        className="min-h-36 rounded-xl px-4 py-3"
+                        className="h-12 rounded-none border-x-0 border-t-0 border-b-white/25 bg-transparent px-0 shadow-none hover:border-b-white/55 focus:border-b-white focus:bg-transparent"
                       />
                     </div>
-                    <Button type="submit" disabled={loading} className="h-12 w-full rounded-xl text-sm font-semibold">
-                      {loading ? (
-                        "Sending message..."
-                      ) : (
-                        <>
-                          Send message
-                          <Send className="size-4" />
-                        </>
-                      )}
-                    </Button>
-                    {error && <p role="alert" className="pt-1 text-sm text-red-400">{error}</p>}
-                  </form>
-                </CardContent>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="subject" className="text-sm font-medium text-white/85">Subject</Label>
+                    <Input
+                      id="subject"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      placeholder="What would you like to talk about?"
+                      required
+                      className="h-12 rounded-none border-x-0 border-t-0 border-b-white/25 bg-transparent px-0 shadow-none hover:border-b-white/55 focus:border-b-white focus:bg-transparent"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="message" className="text-sm font-medium text-white/85">Message</Label>
+                    <Textarea
+                      id="message"
+                      name="message"
+                      rows={6}
+                      value={formData.message}
+                      onChange={handleChange}
+                      placeholder="Share a little context, a goal, or a good question."
+                      required
+                      className="min-h-36 rounded-none border-x-0 border-t-0 border-b-white/25 bg-transparent px-0 py-3 shadow-none hover:border-b-white/55 focus:border-b-white focus:bg-transparent"
+                    />
+                  </div>
+                  <Button type="submit" disabled={loading} className="mt-2 h-12 rounded-full px-6 text-sm font-semibold">
+                    {loading ? (
+                      "Sending message..."
+                    ) : (
+                      <>
+                        Send message
+                        <Send className="size-4" />
+                      </>
+                    )}
+                  </Button>
+                  {error && <p role="alert" className="pt-1 text-sm text-red-400">{error}</p>}
+                </form>
               </>
             )}
-          </Card>
+          </div>
         </div>
       </div>
     </section>
