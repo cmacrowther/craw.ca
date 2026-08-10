@@ -118,7 +118,7 @@ export function HeroSection() {
       <div className="hero-glow absolute inset-0 z-[1]" aria-hidden="true" />
       <div className="hero-cursor-light absolute inset-0 z-[1]" aria-hidden="true" />
 
-      <div className="relative z-[2] mx-auto flex min-h-[calc(100svh-4rem)] max-w-7xl items-center px-6 py-16 sm:px-10 lg:px-12">
+      <div className="relative z-[2] mx-auto flex min-h-[calc(100svh-4rem)] max-w-7xl items-center px-4 py-16 sm:px-6 lg:px-8">
         <div
           className="grid w-full items-center gap-12 lg:grid-cols-[minmax(0,1.16fr)_minmax(24rem,0.84fr)] lg:gap-16"
           style={{

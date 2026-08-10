@@ -15,7 +15,7 @@ const navigation = [
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/20 bg-white/10 dark:bg-black/10 backdrop-blur-md supports-[backdrop-filter]:bg-white/10 dark:supports-[backdrop-filter]:bg-black/10 shadow-lg shadow-black/5 header-entrance">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between md:grid md:grid-cols-3 md:justify-items-stretch">
           {/* Logo */}
           <div className="flex justify-start">

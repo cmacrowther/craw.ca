@@ -65,7 +65,7 @@ export function ContactSection() {
     <section className="contact-section deferred-rendering relative min-h-screen overflow-hidden bg-background px-4 py-24 sm:px-6 lg:min-h-0 lg:px-8 lg:py-32">
       <div
         aria-hidden="true"
-        className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_16%_28%,rgba(255,255,255,0.09),transparent_25rem),radial-gradient(circle_at_86%_74%,rgba(148,163,184,0.11),transparent_29rem)]"
+        className="absolute inset-0 z-0"
       />
       <div
         aria-hidden="true"
@@ -90,29 +90,28 @@ export function ContactSection() {
           </p>
         </div>
 
-        <div ref={contentRef} className="grid grid-cols-1 gap-14 lg:grid-cols-[0.88fr_1.12fr] lg:gap-20">
-          <aside data-animate className="max-w-xl py-3 lg:py-8">
-            <div className="border-l border-white/30 pl-5 sm:pl-8">
-              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.16em] text-white/55">Direct line</p>
-              <h3 className="mb-4 max-w-sm text-3xl font-heading font-[650] tracking-[-0.04em] text-white sm:text-4xl">
+        <div ref={contentRef} className="grid grid-cols-1 items-start gap-14 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:gap-20 xl:gap-28">
+          <aside data-animate className="max-w-md pt-2 lg:pt-8">
+            <div>
+              <h3 className="mb-4 max-w-xs text-2xl font-heading font-[650] leading-tight tracking-[-0.035em] text-white sm:text-3xl">
                 Start with a simple hello.
               </h3>
-              <p className="mb-9 max-w-md text-base leading-relaxed text-muted-foreground">
+              <p className="mb-8 text-base leading-relaxed text-muted-foreground">
                 Whether it&apos;s a new product, a collaboration, or a question about something I&apos;ve made, I&apos;m always glad to connect.
               </p>
 
               <a
-                href="mailto:cmacrowther@gmail.com"
+                href="mailto:colin@craw.ca"
                 className="group mb-7 inline-flex w-fit items-center gap-3 border-b border-white/25 pb-3 font-heading text-xl font-[600] tracking-[-0.025em] text-white transition-colors hover:border-white sm:text-2xl"
               >
-                cmacrowther@gmail.com
+                colin@craw.ca
                 <ArrowUpRight className="size-5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </a>
 
-              <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+              <div className="grid gap-6 pt-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                 <a
                   href="tel:+19023930928"
-                  className="group border-l border-white/15 pl-4 transition-colors hover:border-white/65"
+                  className="group"
                 >
                   <Phone className="mb-4 size-4 text-white/65" />
                   <p className="mb-1 text-xs font-semibold uppercase tracking-[0.13em] text-white/45">Phone</p>
@@ -126,7 +125,7 @@ export function ContactSection() {
               </div>
 
               <a
-                href="mailto:cmacrowther@gmail.com"
+                href="mailto:colin@craw.ca"
                 className="group mt-8 inline-flex items-center gap-2 text-sm font-semibold text-white/75 transition-colors hover:text-white"
               >
                 Prefer your mail app instead?
@@ -135,9 +134,9 @@ export function ContactSection() {
             </div>
           </aside>
 
-          <div data-animate className="min-h-[570px] max-w-2xl lg:justify-self-end">
+          <div data-animate className="w-full max-w-2xl lg:justify-self-end">
             {showSuccess ? (
-              <div className="flex min-h-[570px] flex-col items-center justify-center py-16 text-center animate-in fade-in-0 zoom-in-95 duration-500">
+              <div className="flex min-h-[570px] flex-col items-center justify-center rounded-3xl border border-white/10 bg-black/20 px-6 py-16 text-center shadow-2xl shadow-black/20 backdrop-blur-sm animate-in fade-in-0 zoom-in-95 duration-500 sm:px-10">
                 <div className="mb-6 flex size-16 items-center justify-center rounded-full bg-white text-black shadow-xl shadow-white/10">
                   <svg className="size-8" fill="none" stroke="currentColor" strokeWidth="2.25" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" d="m5 13 4 4L19 7" />
@@ -149,13 +148,13 @@ export function ContactSection() {
               </div>
             ) : (
               <>
-                <div className="mb-9 border-b border-white/15 pb-7">
-                  <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/55">New message</p>
-                  <h3 className="mb-2 text-2xl font-heading font-[650] tracking-[-0.03em] text-white sm:text-3xl">Tell me what&apos;s on your mind.</h3>
+                <div className="rounded-3xl border border-white/10 bg-black/20 p-6 shadow-2xl shadow-black/20 backdrop-blur-sm sm:p-8 lg:p-10">
+                  <div className="mb-8 max-w-lg">
+                    <h3 className="mb-3 text-2xl font-heading font-[650] leading-tight tracking-[-0.035em] text-white sm:text-3xl">Tell me what&apos;s on your mind.</h3>
                   <p className="max-w-lg text-sm leading-relaxed text-muted-foreground">A few details are all I need to start the conversation.</p>
-                </div>
+                  </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                  <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <div className="space-y-2">
                       <Label htmlFor="name" className="text-sm font-medium text-white/85">Name</Label>
@@ -218,8 +217,9 @@ export function ContactSection() {
                       </>
                     )}
                   </Button>
-                  {error && <p role="alert" className="pt-1 text-sm text-red-400">{error}</p>}
-                </form>
+                    {error && <p role="alert" className="pt-1 text-sm text-red-400">{error}</p>}
+                  </form>
+                </div>
               </>
             )}
           </div>

@@ -88,7 +88,7 @@ export function AboutSection() {
 
         <div ref={contentRef} className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_0.92fr] lg:gap-8">
           <div data-animate className="max-w-xl py-3 lg:py-8 lg:pr-6">
-            <div className="border-l border-white/30 pl-5 sm:pl-8">
+            <div>
               <p className="mb-5 text-xs font-semibold uppercase tracking-[0.16em] text-white/55">The approach</p>
               <div className="space-y-6 text-base leading-relaxed text-muted-foreground sm:text-lg">
                 <p>
@@ -124,9 +124,7 @@ export function AboutSection() {
               <p className="mb-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-white/55">In the studio</p>
               <p className="text-sm font-medium text-white/90">Design-minded developer</p>
             </div>
-            <div className="absolute bottom-6 right-6 z-10 rounded-full border border-white/15 bg-black/20 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-white/60 backdrop-blur-sm sm:bottom-8 sm:right-8">
-              3D / interactive
-            </div>
+
             <div className="relative z-[1] h-[360px] w-full sm:h-[460px] lg:absolute lg:inset-0 lg:h-full">
               {isNearViewport && isDesktop !== null ? <GLBViewer modelUrl="/model.glb" /> : <ModelFallback />}
             </div>
