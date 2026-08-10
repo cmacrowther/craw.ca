@@ -1,8 +1,9 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Github, Linkedin, Mail, Container } from "lucide-react"
-import GitLab from "@/components/ui/gitlab-icon"
 import { Badge } from "@/components/ui/badge"
+import { FaLinkedin } from "react-icons/fa"
+import { HiOutlineMail } from "react-icons/hi"
+import { SiDocker, SiGithub, SiGitlab } from "react-icons/si"
 import { HeaderMobileMenu } from "./header-mobile-menu"
 
 const navigation = [
@@ -54,27 +55,27 @@ export function Header() {
             <div className="hidden md:flex items-center space-x-4">
               <a href="https://github.com/cmacrowther" target="_blank" rel="noopener noreferrer">
                 <Button variant="ghost" size="sm">
-                  <Github className="h-4 w-4" />
+                  <SiGithub className="size-4" />
                 </Button>
               </a>
               <a href="https://gitlab.com/cmacrowther" target="_blank" rel="noopener noreferrer">
                 <Button variant="ghost" size="sm">
-                  <GitLab className="h-4 w-4" />
+                  <SiGitlab className="size-4" />
                 </Button>
               </a>
               <a href="https://www.linkedin.com/in/colincrowther/" target="_blank" rel="noopener noreferrer">
                 <Button variant="ghost" size="sm">
-                  <Linkedin className="h-4 w-4" />
+                  <FaLinkedin className="size-4" />
                 </Button>
               </a>
               <a href="https://hub.docker.com/u/cmacrowther" target="_blank" rel="noopener noreferrer">
                 <Button variant="ghost" size="sm">
-                  <Container className="h-4 w-4" />
+                  <SiDocker className="size-4" />
                 </Button>
               </a>
               <a href="mailto:hello@cmacrowther.com">
                 <Button variant="ghost" size="sm">
-                  <Mail className="h-4 w-4" />
+                  <HiOutlineMail className="size-4" />
                 </Button>
               </a>
             </div>

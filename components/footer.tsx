@@ -1,6 +1,7 @@
 import Link from "next/link"
-import { Github, Linkedin, Mail, Heart, Container } from "lucide-react"
-import GitLab from "@/components/ui/gitlab-icon"
+import { FaLinkedin } from "react-icons/fa"
+import { HiOutlineMail } from "react-icons/hi"
+import { SiDocker, SiGithub, SiGitlab } from "react-icons/si"
 
 export function Footer() {
   return (
@@ -50,7 +51,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="site-link-muted"
               >
-                <Github className="h-5 w-5" />
+                <SiGithub className="size-5" />
                 <span className="sr-only">GitHub</span>
               </a>
               <a
@@ -59,7 +60,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="site-link-muted"
               >
-                <GitLab className="h-5 w-5" />
+                <SiGitlab className="size-5" />
                 <span className="sr-only">GitLab</span>
               </a>
               <a
@@ -68,7 +69,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="site-link-muted"
               >
-                <Linkedin className="h-5 w-5" />
+                <FaLinkedin className="size-5" />
                 <span className="sr-only">LinkedIn</span>
               </a>
               <a
@@ -77,14 +78,14 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="site-link-muted"
               >
-                <Container className="h-5 w-5" />
+                <SiDocker className="size-5" />
                 <span className="sr-only">Docker Hub</span>
               </a>
               <a
                 href="mailto:hello@cmacrowther.com"
                 className="site-link-muted"
               >
-                <Mail className="h-5 w-5" />
+                <HiOutlineMail className="size-5" />
                 <span className="sr-only">Email</span>
               </a>
             </div>
