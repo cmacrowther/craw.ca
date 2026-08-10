@@ -2,26 +2,23 @@
 
 import Link from "next/link"
 import dynamic from "next/dynamic"
+import { ArrowUpRight, Sparkles } from "lucide-react"
+
 import { Badge } from "@/components/ui/badge"
 import { useMediaQuery, useNearViewport } from "@/hooks/use-near-viewport"
 import { useScrollAnimation, useStaggeredAnimation } from "@/hooks/use-scroll-animation-optimized"
 
-// Lazy-load the 3D particle background — only mounts on the client and is
-// dynamically imported so it does not ship in the main bundle.
 const ParticleBackground = dynamic(
-  () => import("./particle-background").then((m) => ({ default: m.ParticleBackground })),
-  { ssr: false, loading: () => null }
+  () => import("./particle-background").then((module) => ({ default: module.ParticleBackground })),
+  { ssr: false, loading: () => null },
 )
 
 function ModelFallback() {
-  return (
-    <div className="h-full w-full animate-pulse rounded-xl bg-muted" aria-hidden="true" />
-  )
+  return <div className="h-full w-full animate-pulse rounded-[calc(2rem-1px)] bg-white/[0.06]" aria-hidden="true" />
 }
 
-// The module itself is only requested once About is close to the viewport.
 const GLBViewer = dynamic(
-  () => import('./glb-viewer').then(m => m.GLBViewer),
+  () => import("./glb-viewer").then((module) => module.GLBViewer),
   { ssr: false, loading: () => <ModelFallback /> },
 )
 
@@ -60,136 +57,106 @@ export function AboutSection() {
   const { ref: sectionRef, isNearViewport } = useNearViewport<HTMLElement>("800px")
   const isDesktop = useMediaQuery("(min-width: 768px)")
 
-  // Animation refs
-  const headerRef = useScrollAnimation({ delay: 100, stagger: 40 });
-  const contentRef = useScrollAnimation({ delay: 200, stagger: 60 });
-  const skillsRef = useStaggeredAnimation({ 
-    delay: 300, 
-    stagger: 30, 
-    childSelector: '[data-stagger]' 
-  });
+  const headerRef = useScrollAnimation({ delay: 100, stagger: 40 })
+  const contentRef = useScrollAnimation({ delay: 200, stagger: 90 })
+  const skillsRef = useStaggeredAnimation({
+    delay: 300,
+    stagger: 30,
+    childSelector: "[data-stagger]",
+  })
 
   return (
-    <section ref={sectionRef} className="deferred-rendering py-20 px-4 sm:px-6 lg:px-8 bg-[#111111] relative overflow-hidden">
-      {/* Particle background spanning the entire section */}
+    <section ref={sectionRef} className="deferred-rendering relative overflow-hidden bg-[#111111] px-4 py-24 sm:px-6 lg:px-8 lg:py-32">
+      {/* Keep the moving particle field as a living layer behind the content. */}
       {isNearViewport && <ParticleBackground />}
-      
-      <div className="container mx-auto max-w-6xl relative z-10">
-        <div ref={headerRef} className="text-center mb-16">
-          <span className="animate-fade-down mb-4 inline-flex items-center rounded-full bg-white px-4 py-2 text-sm font-medium tracking-[0.01em] text-black shadow-lg shadow-black/20">
-            About the Human
+      {/* The pixel texture is intentionally retained, now scoped to the section. */}
+      <div aria-hidden="true" className="pixel-overlay absolute inset-0 z-[1] opacity-25" />
+
+      <div className="container relative z-10 mx-auto max-w-7xl">
+        <div ref={headerRef} className="mb-14 max-w-4xl sm:mb-20">
+          <span className="animate-fade-down mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white/80 shadow-lg shadow-black/20 backdrop-blur-sm">
+            <Sparkles className="size-3.5" />
+            About the human
           </span>
-          
-          {/* GLB viewer for mobile - positioned above header */}
-          <div data-animate className="md:hidden flex justify-center mb-8">
-            <div className="w-64 h-48" style={{ overflow: 'visible' }}>
-              {isDesktop === false ? (
-                <GLBViewer modelUrl="/model.glb" className="rounded-lg" />
-              ) : (
-                <ModelFallback />
-              )}
-            </div>
-          </div>
-          
-          <h2 data-animate className="text-3xl pixel-mask-text sm:text-4xl lg:text-5xl font-heading font-[650] mb-4">
-            Meet the Developer
+          <h2 data-animate className="mb-5 pixel-mask-text text-4xl font-heading font-[650] tracking-[-0.04em] sm:text-5xl lg:text-7xl">
+            Building software<br className="hidden sm:block" /> with a creative edge.
           </h2>
-          <p data-animate className="text-xl text-muted-foreground font-body max-w-2xl mx-auto">
-            Creating digital experiences that make a difference.
+          <p data-animate className="max-w-2xl font-body text-lg leading-relaxed text-muted-foreground sm:text-xl">
+            I combine full-stack engineering with a sharp eye for the experience on the other side of the screen.
           </p>
         </div>
 
-        <div ref={contentRef} className="space-y-6 md:space-y-12">
-          {/* Main content grid - paragraphs and GLB model */}
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
-            <div className="lg:col-span-2 space-y-8">
-              <div className="prose prose-lg dark:prose-invert max-w-none space-y-8">
-                {/* Enhanced paragraph 1 with visual accent */}
-                <div data-animate className="relative">
-                  <div className="absolute -left-6 top-0 w-1 h-full bg-gradient-to-b from-blue-500 to-purple-600 rounded-full opacity-60 hidden md:block"></div>
-                  <div className="pl-0 md:pl-8">
-                    <p className="font-body text-xl leading-relaxed text-foreground">
-                      I'm a <span className="relative inline-block">
-                        <span className="relative z-10 px-2 py-1 bg-gradient-to-r from-blue-500/15 to-purple-600/15 rounded-md font-semibold">
-                          full-stack developer
-                        </span>
-                      </span> with a creative edge, combining technical expertise with an eye for design. I believe the best software is not only functional but also 
-                      <span className="font-semibold text-blue-600 dark:text-blue-400"> intuitive</span>,
-                      <span className="font-semibold text-purple-600 dark:text-purple-400"> accessible</span>, and guided by <span className="font-semibold text-red-600 dark:text-red-400">core UX principles</span>.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Enhanced paragraph 2 with different styling */}
-                <div data-animate className="relative">
-                  <div className="absolute -left-6 top-0 w-1 h-full bg-gradient-to-b from-purple-500 to-pink-600 rounded-full opacity-60 hidden md:block"></div>
-                  <div className="pl-0 md:pl-8">
-                    <p className="font-body text-xl leading-relaxed text-foreground">
-                      By day, I work with Java developing enterprise-level systems.
-                      
-                      By night, I set my focus on the
-                      <span className="relative inline-block mx-1">
-                        <span className="relative z-10 px-2 py-1 bg-gradient-to-r from-orange-500/15 to-red-500/15 rounded-md font-semibold">
-                          bleeding edge
-                        </span>
-                      </span>  
-                      , exploring modern frameworks, and bringing new concepts to life.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Enhanced paragraph 3 with call-to-action styling */}
-                <div data-animate className="relative">
-                  <div className="absolute -left-6 top-0 w-1 h-full bg-gradient-to-b from-pink-500 to-rose-600 rounded-full opacity-60 hidden md:block"></div>
-                  <div className="pl-0 md:pl-8">
-                    <p className="font-body text-xl leading-relaxed text-foreground">
-                      I've had the chance to work with a wide mix of languages and technologies, and I'm always eager to learn more. If you'd like a copy of my resume, 
-                      <Link href="/#contact" className="site-link-strong relative inline font-medium transition-colors duration-300 group ml-1">
-                        <span className="relative z-10">shoot me a message!</span>
-                        <span className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-sky-400 to-cyan-300 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-                        <span className="absolute bottom-0 left-0 w-full h-1 bg-sky-400/20 animate-pulse"></span>
-                      </Link>
-                    </p>
-                  </div>
-                </div>
+        <div ref={contentRef} className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_0.92fr] lg:gap-8">
+          <div data-animate className="max-w-xl py-3 lg:py-8 lg:pr-6">
+            <div className="border-l border-white/30 pl-5 sm:pl-8">
+              <p className="mb-5 text-xs font-semibold uppercase tracking-[0.16em] text-white/55">The approach</p>
+              <div className="space-y-6 text-base leading-relaxed text-muted-foreground sm:text-lg">
+                <p>
+                  I&apos;m a <span className="font-semibold text-white">full-stack developer</span> with a creative edge, combining technical depth with an eye for design. The best software is not only functional—it&apos;s intuitive, accessible, and considered from the first interaction onward.
+                </p>
+                <p>
+                  By day, I build enterprise systems with Java. By night, I explore modern frameworks, prototype new ideas, and turn interesting concepts into polished experiences.
+                </p>
+                <p>
+                  I&apos;ve worked across a wide mix of languages and platforms, and I&apos;m always looking for the next thing to learn. If you&apos;d like a copy of my résumé, let&apos;s talk.
+                </p>
               </div>
-            </div>
 
-            <div data-animate className="lg:col-span-3 hidden md:flex justify-center items-center">
-              <div className="w-full h-[450px] lg:h-[500px] xl:h-[550px] flex items-center justify-center" style={{ overflow: 'visible' }}>
-                {isDesktop ? (
-                  <GLBViewer modelUrl="/model.glb" className="rounded-lg" />
-                ) : (
-                  <ModelFallback />
-                )}
-              </div>
+              <Link
+                href="/#contact"
+                className="group mt-9 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-black"
+              >
+                Start a conversation
+                <ArrowUpRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </Link>
             </div>
           </div>
 
-          {/* Technology list section - separate from the main grid */}
-          <div className="space-y-8">
-            <div data-animate className="w-full md:w-1/2">
-              <p data-animate className="text-xl pixel-mask-text-small font-heading font-[600] mb-4 mt-12 md:mt-6">
-                Technologies I have experience with:
-              </p>
-              <div ref={skillsRef} className="flex flex-wrap gap-2">
-                {skills.map((skill, index) => (
-                  <Badge 
-                    key={index} 
-                    data-stagger 
-                    variant="outline" 
-                    className="text-sm"
-                  >
-                    {skill}
-                  </Badge>
-                ))}
-              </div>
+          <div
+            data-animate
+            className="relative min-h-[360px] sm:min-h-[460px] lg:min-h-0"
+          >
+            <div aria-hidden="true" className="absolute left-1/2 top-[8%] h-[82%] w-px bg-gradient-to-b from-transparent via-white/25 to-transparent" />
+            <div aria-hidden="true" className="absolute left-[8%] right-[8%] top-1/2 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+            <div aria-hidden="true" className="absolute left-[20%] top-[20%] size-44 rounded-full bg-cyan-300/[0.09] blur-3xl" />
+            <div aria-hidden="true" className="absolute bottom-[16%] right-[18%] size-40 rounded-full bg-violet-400/[0.09] blur-3xl" />
+            <div className="absolute left-6 top-6 z-10 sm:left-8 sm:top-8">
+              <p className="mb-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-white/55">In the studio</p>
+              <p className="text-sm font-medium text-white/90">Design-minded developer</p>
+            </div>
+            <div className="absolute bottom-6 right-6 z-10 rounded-full border border-white/15 bg-black/20 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-white/60 backdrop-blur-sm sm:bottom-8 sm:right-8">
+              3D / interactive
+            </div>
+            <div className="relative z-[1] h-[360px] w-full sm:h-[460px] lg:absolute lg:inset-0 lg:h-full">
+              {isNearViewport && isDesktop !== null ? <GLBViewer modelUrl="/model.glb" /> : <ModelFallback />}
             </div>
           </div>
         </div>
-      </div>
-      <div className="fixed inset-0 z-[-1] pointer-events-none">
-        <div className="pixel-overlay absolute inset-0 pointer-events-none" />
+
+        <div
+          data-animate
+          className="mt-16 border-t border-white/15 pt-8 sm:mt-20 sm:pt-10"
+        >
+          <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-white/55">The toolkit</p>
+              <h3 className="text-2xl font-heading font-[650] tracking-[-0.03em] text-white sm:text-3xl">Technologies I&apos;ve worked with</h3>
+            </div>
+            <p className="max-w-sm text-sm leading-relaxed text-muted-foreground sm:text-right">A mix of durable enterprise foundations and the tools I use to move quickly on the web.</p>
+          </div>
+          <div ref={skillsRef} className="flex flex-wrap gap-2">
+            {skills.map((skill) => (
+              <Badge
+                key={skill}
+                data-stagger
+                variant="outline"
+                className="rounded-full border-white/15 bg-white/[0.035] px-3 py-1.5 text-sm text-white/80 transition-colors hover:border-white/35 hover:bg-white/[0.09] hover:text-white"
+              >
+                {skill}
+              </Badge>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   )
