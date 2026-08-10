@@ -242,8 +242,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           <div className="container mx-auto max-w-7xl">
             <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)]">
               <div className="relative">
-                <div className="absolute inset-0 rounded-[1rem] bg-card dark:bg-neutral-900 project-lighter" />
-                <div className="relative h-full rounded-[1rem] border border-border/60 bg-card/90 p-6 shadow-2xl shadow-black/10 backdrop-blur-sm sm:p-8">
+                <div className="absolute inset-0 rounded-2xl bg-card dark:bg-neutral-900 project-lighter" />
+                <div className="relative h-full rounded-2xl border border-border/30 bg-card/30 p-6 shadow-2xl shadow-black/10 backdrop-blur-sm sm:p-8">
                   <div className="mb-6 flex items-center gap-4">
                     <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-black/5 dark:bg-white/[0.08]">
                       <Sparkles className="h-5 w-5 text-foreground" />
@@ -271,12 +271,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               </div>
 
               <div className="relative">
-                <div className="absolute inset-0 rounded-[2rem] bg-card dark:bg-neutral-900 project-lighter" />
-              <div className="relative h-full rounded-[2rem] border border-border/60 bg-card/90 p-6 shadow-2xl shadow-black/10 backdrop-blur-sm sm:p-8">
-                <div className="mb-6">
-                  <p className="font-body text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">Technology Stack</p>
-                  <h2 className="mt-3 font-heading text-2xl font-[650] tracking-[-0.025em] text-foreground">Built with</h2>
-                </div>
+                <div className="absolute inset-0 rounded-2xl bg-card dark:bg-neutral-900 project-lighter" />
+                <div className="relative h-full rounded-2xl border border-border/60 bg-card/30 p-6 shadow-2xl shadow-black/10 backdrop-blur-sm sm:p-8">
+                  <div className="mb-6">
+                    <p className="font-body text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">Technology Stack</p>
+                    <h2 className="mt-3 font-heading text-2xl font-[650] tracking-[-0.025em] text-foreground">Built with</h2>
+                  </div>
 
                 <div className="flex flex-wrap gap-2">
                   {project.technologies.map((tech) => (

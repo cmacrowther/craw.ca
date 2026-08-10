@@ -204,7 +204,7 @@ export const projects: Project[] = [
       "Because this was for my own band, the project lived right at the intersection of design taste and practical delivery. I wanted the site to feel like an extension of the music instead of a generic promo page, which meant paying close attention to mood, pacing, typography, and restraint. The story of the build was really about translating a creative identity into a web experience that still stayed fast, clear, and maintainable.",
     buildFocus: "A strong visual mood supported by simple information architecture and lightweight static delivery.",
     experienceGoal: "Give visitors a memorable sense of the band's identity within a clean, low-friction browsing experience.",
-    video: "/heather-video.webm",
+    video: "/heather-videos.webm",
     technologies: ["Gatsby", "React"],
     liveUrl: "https://heatherband.ca/",
     categories: ["music", "web"],
