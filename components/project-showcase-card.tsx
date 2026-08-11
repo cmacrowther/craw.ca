@@ -127,7 +127,7 @@ export function ProjectShowcaseCard({
 
         <div className={`absolute ${featured ? "bottom-7 left-6 right-6 sm:bottom-9 sm:left-9 sm:right-9" : "bottom-6 left-6 right-6"}`}>
           <div className={featured ? "mb-5 max-w-3xl" : "mb-4"}>
-            <h3 className={`flex w-full items-center overflow-hidden font-heading font-[600] leading-none text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.45)] transition-colors ${featuredTitleClass}`}>
+            <h3 className={`pixel-mask-text flex w-full items-center overflow-hidden font-heading font-[600] leading-none text-white drop-shadow-[0_2px_3px_rgba(0,0,0,0.45)] transition-colors ${featuredTitleClass}`}>
               {project.slug === "aurea" && project.logo ? (
                 <span className="flex min-w-0 items-center gap-2.5">
                   <img

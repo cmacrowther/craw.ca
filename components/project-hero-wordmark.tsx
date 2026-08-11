@@ -117,7 +117,7 @@ export function ProjectHeroWordmark({ project }: ProjectHeroWordmarkProps) {
 
   if (project.slug === "jelly-jammers" && project.logo) {
     return (
-      <span className="inline-flex max-w-full overflow-hidden rounded-2xl bg-neutral-950 px-3 py-3 sm:px-5 sm:py-4">
+      <span className="pixel-mask-text inline-flex max-w-full overflow-hidden rounded-2xl bg-neutral-950 px-3 py-3 sm:px-5 sm:py-4">
         <img
           src={project.logo}
           alt={project.title}
@@ -129,7 +129,7 @@ export function ProjectHeroWordmark({ project }: ProjectHeroWordmarkProps) {
 
   if (project.logo) {
     return (
-      <span className={wordmarkFrame}>
+      <span className={`${wordmarkFrame} pixel-mask-text`}>
         <img
           src={project.logo}
           alt={project.title}
