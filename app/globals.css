@@ -85,13 +85,25 @@
 }
 
 .hero-grid {
-  opacity: 0.2;
+  opacity: 0.34;
+  /* A single-axis mask on the wrapper makes the side fade reliable across
+     browsers. The grid itself is painted by the pseudo-element below. */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 24%, black 56%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 24%, black 56%, transparent 100%);
+}
+
+.hero-grid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   background-image:
     linear-gradient(rgb(255 255 255 / 0.055) 1px, transparent 1px),
     linear-gradient(90deg, rgb(255 255 255 / 0.055) 1px, transparent 1px);
   background-position: center;
   background-size: 4.5rem 4.5rem;
-  mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
+  /* Start fading the grid well before the lower edge. */
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 48%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 0%, black 48%, transparent 100%);
 }
 
 .hero-glow {

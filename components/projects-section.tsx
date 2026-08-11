@@ -64,7 +64,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
             </span>
 
             <h2 data-animate className="mb-5 pixel-mask-text text-4xl font-heading font-[650] tracking-[-0.04em] sm:text-5xl lg:text-7xl">
-              Major projects,<br className="hidden sm:block" /> built to be used.
+              Projects<br className="hidden sm:block" /> built to be used.
             </h2>
             <p data-animate className="max-w-xl font-body text-lg leading-relaxed text-muted-foreground sm:text-xl">
               Three ambitious products spanning real-time AI video, social media, and local-first software.

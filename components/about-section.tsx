@@ -121,8 +121,8 @@ export function AboutSection() {
             <div aria-hidden="true" className="absolute left-[20%] top-[20%] size-44 rounded-full bg-cyan-300/[0.09] blur-3xl" />
             <div aria-hidden="true" className="absolute bottom-[16%] right-[18%] size-40 rounded-full bg-violet-400/[0.09] blur-3xl" />
             <div className="absolute left-6 top-6 z-10 sm:left-8 sm:top-8">
-              <p className="mb-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-white/55">In the studio</p>
-              <p className="text-sm font-medium text-white/90">Design-minded developer</p>
+              <p className="mb-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-white/55">Design-minded developer</p>
+              <p className="text-sm font-medium text-white/90">Colin Crowther</p>
             </div>
 
             <div className="relative z-[1] h-[360px] w-full sm:h-[460px] lg:absolute lg:inset-0 lg:h-full">
