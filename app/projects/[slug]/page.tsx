@@ -144,7 +144,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <main className="relative isolate overflow-hidden bg-background">
         {project.video && (
           <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 -z-10">
-            <div className="relative aspect-video w-full overflow-hidden">
+            <div className="relative h-[70svh] w-full overflow-hidden sm:aspect-video sm:h-auto">
               <OptimizedVideo
                 src={project.video}
                 poster={project.image}
