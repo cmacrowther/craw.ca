@@ -114,7 +114,7 @@ export function AboutSection() {
 
           <div
             data-animate
-            className="relative min-h-[360px] sm:min-h-[460px] lg:min-h-0"
+            className="order-first relative min-h-[360px] sm:min-h-[460px] lg:order-none lg:min-h-0"
           >
             <div aria-hidden="true" className="absolute left-1/2 top-[8%] h-[82%] w-px bg-gradient-to-b from-transparent via-white/25 to-transparent" />
             <div aria-hidden="true" className="absolute left-[8%] right-[8%] top-1/2 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
