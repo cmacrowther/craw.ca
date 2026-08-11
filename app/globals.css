@@ -755,13 +755,32 @@
   50% { transform: translate(0.45rem, -0.55rem); }
 }
 
-/* On phones, keep the composition close to the hero copy instead of giving the
-   desktop-sized shapes a full extra panel of vertical space. */
+/* On phones, the colour composition becomes a quiet backdrop behind the copy
+   instead of taking up a separate row beneath it. */
 @media (max-width: 639px) {
+  .hero-copy {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-art-container {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: auto;
+    max-width: none;
+    pointer-events: none;
+    opacity: 0.32;
+  }
+
   .hero-art-stage {
-    width: min(100%, 23rem);
-    min-height: 17.5rem;
-    margin: -0.5rem auto 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(92vw, 25rem);
+    min-height: 21rem;
+    margin: 0;
+    transform: translate(-50%, -50%);
   }
 
   .hero-art-grid {

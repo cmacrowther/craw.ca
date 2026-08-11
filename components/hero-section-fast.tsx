@@ -127,7 +127,7 @@ export function HeroSection() {
             transition: "opacity 1s cubic-bezier(0.22,1,0.36,1), transform 1s cubic-bezier(0.22,1,0.36,1)",
           }}
         >
-          <div className="max-w-4xl">
+          <div className="hero-copy max-w-4xl">
             <h1 className="max-w-4xl font-heading text-5xl font-[650] leading-[0.94] tracking-[-0.055em] text-white/80 sm:text-6xl md:text-7xl lg:text-[5.35rem]">
               Digital work
               <br />
@@ -171,7 +171,7 @@ export function HeroSection() {
             </div>
           </div>
 
-          <div className="w-full max-w-xl justify-self-end">
+          <div className="hero-art-container w-full max-w-xl justify-self-end">
             <HeroColorComposition />
           </div>
         </div>
