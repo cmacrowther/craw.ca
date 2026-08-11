@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
 import { FaLinkedin } from "react-icons/fa"
@@ -60,7 +61,13 @@ export function HeaderMobileMenu() {
           <div className="relative flex flex-1 flex-col">
             <div className="relative z-10 flex items-center justify-between">
               <Link href="/#home" className="site-link text-lg font-heading font-[650]" onClick={() => setIsMenuOpen(false)}>
-                CRAW
+                <span className="header-text-only flex items-center gap-1">
+                <Badge
+                  variant="outline"
+                  className="text-sm px-5 py-1.5 rounded-full shadow-md bg-white/80 border-white/30 text-white/90 backdrop-blur-sm tracking-wide"
+                >
+                </Badge>
+              </span>
               </Link>
               <Button variant="ghost" size="icon" aria-label="Close menu" autoFocus onClick={() => setIsMenuOpen(false)}>
                 <X className="h-5 w-5" />

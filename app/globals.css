@@ -28,7 +28,7 @@
   /* Keep every pixel present, but soften alternating cells. Smaller headings
      retain more opacity; the larger display sizes can carry a stronger texture. */
   --pixel-text-floor: 0.78;
-  --pixel-text-cell: clamp(2px, 0.055em, 4px);
+  --pixel-text-cell: clamp(1px, 0.055em, 2px);
   -webkit-mask-image: repeating-conic-gradient(
     #000 0 25%,
     rgb(0 0 0 / var(--pixel-text-floor)) 0 50%
@@ -631,17 +631,6 @@
   background: #60a5fa;
   transform: rotate(-10deg);
   animation: hero-art-blue-float 11s ease-in-out infinite;
-}
-
-.hero-art-shape-blue::after {
-  position: absolute;
-  top: 26%;
-  left: 26%;
-  width: 48%;
-  aspect-ratio: 1;
-  content: "";
-  background: #111111;
-  border-radius: 50%;
 }
 
 .hero-art-shape-pink {

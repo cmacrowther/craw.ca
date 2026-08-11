@@ -28,7 +28,7 @@ export function Header() {
               <span className="header-text-only flex items-center gap-1">
                 <Badge
                   variant="outline"
-                  className="text-sm px-5 py-1.5 rounded-full shadow-md animate-gradient-badge border-white/30 text-white/90 backdrop-blur-sm tracking-wide"
+                  className="text-sm px-5 py-1.5 rounded-full shadow-md bg-white/80 border-white/30 text-white/90 backdrop-blur-sm tracking-wide"
                 >
                 </Badge>
               </span>
