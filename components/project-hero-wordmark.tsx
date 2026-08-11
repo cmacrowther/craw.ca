@@ -12,7 +12,7 @@ const wordmarkFrame =
 export function ProjectHeroWordmark({ project }: ProjectHeroWordmarkProps) {
   if (project.slug === "aurea" && project.logo) {
     return (
-      <span className={`${wordmarkFrame} gap-3 sm:gap-4`}>
+      <span className={`${wordmarkFrame} pixel-mask-text gap-3 sm:gap-4`}>
         <img
           src={project.logo}
           alt=""
@@ -28,7 +28,7 @@ export function ProjectHeroWordmark({ project }: ProjectHeroWordmarkProps) {
 
   if (project.slug === "tuneiq") {
     return (
-      <span className={`${wordmarkFrame} gap-3 sm:gap-4`}>
+      <span className={`${wordmarkFrame} gap-3 pixel-mask-text sm:gap-4`}>
         <span className="font-sans text-[2rem] font-semibold leading-none tracking-[-0.04em] text-white sm:text-6xl lg:text-7xl">
           Tune<span className="px-0.5 text-sky-300 font-bold">IQ</span>
         </span>
@@ -38,7 +38,7 @@ export function ProjectHeroWordmark({ project }: ProjectHeroWordmarkProps) {
 
   if (project.slug === "waxtrax") {
     return (
-      <span className={`${wordmarkFrame} font-[family-name:var(--font-bungee)] text-[2rem] font-normal leading-none tracking-[-0.04em] text-white sm:text-6xl lg:text-7xl`}>
+      <span className={`${wordmarkFrame} pixel-mask-text font-[family-name:var(--font-bungee)] text-[2rem] font-normal leading-none tracking-[-0.04em] text-white sm:text-6xl lg:text-7xl`}>
         <span className="bg-gradient-to-r from-pink-400 via-orange-400 to-amber-300 bg-clip-text text-transparent">wax</span>
         trax.
       </span>
@@ -47,7 +47,7 @@ export function ProjectHeroWordmark({ project }: ProjectHeroWordmarkProps) {
 
   if (project.slug === "songwriterjs" && project.logo) {
     return (
-      <span className={`${wordmarkFrame} gap-3 sm:gap-4`}>
+      <span className={`${wordmarkFrame} gap-3 pixel-mask-text sm:gap-4`}>
         <span className="font-sans text-[2rem] font-light leading-none tracking-[-0.04em] text-white sm:text-6xl lg:text-7xl">
           Songwriter
         </span>
@@ -62,7 +62,7 @@ export function ProjectHeroWordmark({ project }: ProjectHeroWordmarkProps) {
 
   if ((project.slug === "referee" || project.slug === "referee-docs") && project.logo) {
     return (
-      <span className={`${wordmarkFrame} gap-3 sm:gap-4`}>
+      <span className={`${wordmarkFrame} gap-3 pixel-mask-text sm:gap-4`}>
         <img
           src={project.logo}
           alt=""
@@ -85,7 +85,7 @@ export function ProjectHeroWordmark({ project }: ProjectHeroWordmarkProps) {
 
   if (project.slug === "wayfarer" && project.logo) {
     return (
-      <span className={`${wordmarkFrame} gap-3 sm:gap-4`}>
+      <span className={`${wordmarkFrame} gap-3 pixel-mask-text sm:gap-4`}>
         <img
           src={project.logo}
           alt=""
@@ -101,7 +101,7 @@ export function ProjectHeroWordmark({ project }: ProjectHeroWordmarkProps) {
 
   if (project.slug === "gobert-ui" && project.logo) {
     return (
-      <span className={`${wordmarkFrame} gap-3 sm:gap-4`}>
+      <span className={`${wordmarkFrame} gap-3 pixel-mask-text sm:gap-4`}>
         <img
           src={project.logo}
           alt=""

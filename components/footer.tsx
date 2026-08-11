@@ -5,7 +5,7 @@ import { SiDocker, SiGithub, SiGitlab } from "react-icons/si"
 
 export function Footer() {
   return (
-    <footer className="border-t border-border/40 bg-muted/30 dark:bg-background">
+    <footer className="border-t border-border/40 bg-card dark:bg-neutral-900">
       <div className="container mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand */}
