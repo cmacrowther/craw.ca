@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { FaLinkedin } from "react-icons/fa"
-import { HiOutlineMail } from "react-icons/hi"
+import { HiMail } from "react-icons/hi"
 import { SiDocker, SiGithub, SiGitlab } from "react-icons/si"
 
 export function Footer() {
@@ -85,7 +85,7 @@ export function Footer() {
                 href="mailto:hello@cmacrowther.com"
                 className="site-link-muted"
               >
-                <HiOutlineMail className="size-5" />
+                <HiMail className="size-5" />
                 <span className="sr-only">Email</span>
               </a>
             </div>

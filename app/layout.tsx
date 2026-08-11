@@ -49,14 +49,13 @@ const jetBrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://cmacrowther.com'),
-  title: "Colin Crowther - Developer Portfolio",
+  metadataBase: new URL('https://craw.ca'),
+  title: "Colin Crowther - Where design meets code.",
   description:
-    "Full-stack developer and software engineer portfolio showcasing modern web applications and innovative projects.",
+    "A Canadian full-stack developer and software engineer portfolio showcasing modern web applications and innovative projects.",
   alternates: {
     canonical: "/",
   },
-  generator: "v0.app",
   icons: {
     icon: [
       { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
@@ -72,7 +71,7 @@ export const metadata: Metadata = {
   },
   manifest: '/site.webmanifest',
   openGraph: {
-    title: 'Colin Crowther - Developer Portfolio',
+    title: 'Colin Crowther - A software developer from Prince Edward Island, Canada.',
     description: 'Full-stack developer and software engineer portfolio showcasing modern web applications and innovative projects.',
     url: 'https://cmacrowther.com', // Update this with your actual domain
     siteName: 'Colin Crowther Portfolio',

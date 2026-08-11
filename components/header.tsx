@@ -2,7 +2,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { FaLinkedin } from "react-icons/fa"
-import { HiOutlineMail } from "react-icons/hi"
+import { HiMail } from "react-icons/hi"
 import { SiDocker, SiGithub, SiGitlab } from "react-icons/si"
 import { HeaderMobileMenu } from "./header-mobile-menu"
 
@@ -75,7 +75,7 @@ export function Header() {
               </a>
               <a href="mailto:hello@cmacrowther.com">
                 <Button variant="ghost" size="sm">
-                  <HiOutlineMail className="size-4" />
+                  <HiMail className="size-4" />
                 </Button>
               </a>
             </div>

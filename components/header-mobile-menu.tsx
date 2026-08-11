@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
 import { FaLinkedin } from "react-icons/fa"
-import { HiOutlineMail } from "react-icons/hi"
+import { HiMail } from "react-icons/hi"
 import { SiDocker, SiGithub, SiGitlab } from "react-icons/si"
 
 const navigation = [
@@ -104,7 +104,7 @@ export function HeaderMobileMenu() {
                 <Button variant="ghost" size="sm"><SiDocker className="size-4" /></Button>
               </a>
               <a href="mailto:hello@cmacrowther.com" aria-label="Email" className="mobile-action-icon">
-                <Button variant="ghost" size="sm"><HiOutlineMail className="size-4" /></Button>
+                <Button variant="ghost" size="sm"><HiMail className="size-4" /></Button>
               </a>
             </div>
           </div>
