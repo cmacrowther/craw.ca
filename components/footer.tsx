@@ -24,7 +24,7 @@ export function Footer() {
                 Home
               </Link>
               <Link
-                href="/#projects"
+                href="/projects"
                 className="font-body text-sm site-link-muted"
               >
                 Projects

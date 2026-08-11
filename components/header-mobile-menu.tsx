@@ -11,7 +11,7 @@ import { SiDocker, SiGithub, SiGitlab } from "react-icons/si"
 
 const navigation = [
   { name: "Home", href: "/#home" },
-  { name: "Projects", href: "/#projects" },
+  { name: "Projects", href: "/projects" },
   { name: "About", href: "/#about" },
   { name: "Contact", href: "/#contact" },
 ]

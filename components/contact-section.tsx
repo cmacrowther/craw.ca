@@ -90,44 +90,19 @@ export function ContactSection() {
           </p>
         </div>
 
-        <div ref={contentRef} className="grid grid-cols-1 items-start gap-14 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:gap-20 xl:gap-28">
-          <aside data-animate className="max-w-md py-3 lg:py-8">
-            <h3 className="mb-4 max-w-xs text-2xl font-heading font-[650] leading-tight tracking-[-0.035em] text-white sm:text-3xl">
+        <div ref={contentRef} className="w-full">
+          <div data-animate className="mb-10 max-w-2xl">
+            <h3 className="mb-3 text-2xl font-heading font-[650] leading-tight tracking-[-0.035em] text-white sm:text-3xl">
               Start with a simple hello.
             </h3>
-            <p className="max-w-sm text-base leading-relaxed text-muted-foreground">
-              Whether it&apos;s a new product, a collaboration, or a question about something I&apos;ve made, I&apos;m always glad to connect.
+            <p className="text-base leading-relaxed text-muted-foreground">
+              Whether it&apos;s a new product, a collaboration, or a question about something I&apos;ve made, I&apos;m always glad to connect. A few details are all I need to start the conversation.
             </p>
+          </div>
 
-            <a
-              href="mailto:colin@craw.ca"
-              className="group mt-10 inline-flex w-fit items-center gap-3 pb-3 font-heading text-xl font-[600] tracking-[-0.025em] text-white transition-colors hover:border-white sm:text-2xl"
-            >
-              colin@craw.ca
-              <ArrowUpRight className="size-5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </a>
-
-            <div className="mt-10 grid gap-6 pt-8 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-              <a href="tel:+19023930928" className="group flex items-start gap-3">
-                <Phone className="mt-0.5 size-4 shrink-0 text-white/65" />
-                <span>
-                  <span className="mb-1 block text-xs font-semibold uppercase tracking-[0.13em] text-white/45">Phone</span>
-                  <span className="text-sm text-white/90 transition-colors group-hover:text-white">+1 (902) 393-0928</span>
-                </span>
-              </a>
-              <div className="flex items-start gap-3">
-                <MapPin className="mt-0.5 size-4 shrink-0 text-white/65" />
-                <span>
-                  <span className="mb-1 block text-xs font-semibold uppercase tracking-[0.13em] text-white/45">Based in</span>
-                  <span className="text-sm text-white/90">Charlottetown, PEI</span>
-                </span>
-              </div>
-            </div>
-          </aside>
-
-          <div data-animate className="w-full max-w-2xl lg:justify-self-end">
+          <div data-animate className="w-full">
             {showSuccess ? (
-              <div className="flex min-h-[570px] flex-col items-center justify-center border-t border-white/15 px-6 py-16 text-center animate-in fade-in-0 zoom-in-95 duration-500 sm:px-10">
+              <div className="flex min-h-[430px] flex-col items-center justify-center border-t border-white/15 px-6 py-16 text-center animate-in fade-in-0 zoom-in-95 duration-500 sm:px-10">
                 <div className="mb-6 flex size-16 items-center justify-center rounded-full bg-white text-black shadow-xl shadow-white/10">
                   <svg className="size-8" fill="none" stroke="currentColor" strokeWidth="2.25" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" d="m5 13 4 4L19 7" />
@@ -138,12 +113,7 @@ export function ContactSection() {
                 <p className="max-w-sm leading-relaxed text-muted-foreground">Your note is on its way. I&apos;ll be in touch soon.</p>
               </div>
             ) : (
-              <div className="pt-8">
-                  <div className="mb-8 max-w-lg">
-                    <h3 className="mb-3 text-2xl font-heading font-[650] leading-tight tracking-[-0.035em] text-white sm:text-3xl">Tell me what&apos;s on your mind.</h3>
-                    <p className="max-w-lg text-sm leading-relaxed text-muted-foreground">A few details are all I need to start the conversation.</p>
-                  </div>
-
+              <div className="border-t border-white/15 pt-8">
                   <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <div className="space-y-2">
@@ -211,6 +181,30 @@ export function ContactSection() {
                   </form>
               </div>
             )}
+          </div>
+
+          <div data-animate className="mt-12 flex flex-col gap-7 border-t border-white/15 pt-8 sm:flex-row sm:flex-wrap sm:items-start sm:gap-x-12">
+            <a
+              href="mailto:colin@craw.ca"
+              className="group inline-flex w-fit items-center gap-3 font-heading text-xl font-[600] tracking-[-0.025em] text-white transition-colors sm:text-2xl"
+            >
+              colin@craw.ca
+              <ArrowUpRight className="size-5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
+            <a href="tel:+19023930928" className="group flex items-start gap-3">
+              <Phone className="mt-0.5 size-4 shrink-0 text-white/65" />
+              <span>
+                <span className="mb-1 block text-xs font-semibold uppercase tracking-[0.13em] text-white/45">Phone</span>
+                <span className="text-sm text-white/90 transition-colors group-hover:text-white">+1 (902) 393-0928</span>
+              </span>
+            </a>
+            <div className="flex items-start gap-3">
+              <MapPin className="mt-0.5 size-4 shrink-0 text-white/65" />
+              <span>
+                <span className="mb-1 block text-xs font-semibold uppercase tracking-[0.13em] text-white/45">Based in</span>
+                <span className="text-sm text-white/90">Charlottetown, PEI</span>
+              </span>
+            </div>
           </div>
         </div>
       </div>

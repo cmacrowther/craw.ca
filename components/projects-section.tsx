@@ -18,9 +18,10 @@ import { ProjectShowcaseCard } from "./project-showcase-card";
 
 type ProjectsSectionProps = {
   projects: ProjectCardData[];
+  showAllProjects?: boolean;
 };
 
-export function ProjectsSection({ projects }: ProjectsSectionProps) {
+export function ProjectsSection({ projects, showAllProjects = false }: ProjectsSectionProps) {
   const [showMoreProjects, setShowMoreProjects] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<ProjectFilter>("all");
   const { isLowEnd } = useLowEndDevice();
@@ -52,6 +53,11 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
             Number(b.highlightCategories?.includes(selectedCategory) ?? false) -
             Number(a.highlightCategories?.includes(selectedCategory) ?? false),
         );
+  const shouldShowArchive = showAllProjects || showMoreProjects;
+  const eyebrow = showAllProjects ? "All projects" : "Selected work";
+  const description = showAllProjects
+    ? "A complete collection of products, experiments, games, and open-source tools."
+    : "Three ambitious products spanning real-time AI video, social media, and local-first software.";
 
   return (
     <LazyLoadWrapper minHeight="400px">
@@ -60,14 +66,14 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
           <div ref={headerRef} className="mb-14 max-w-3xl sm:mb-20">
             <span className="animate-fade-down mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white/80 shadow-lg shadow-black/20 backdrop-blur-sm">
               <Sparkles className="size-3.5" />
-              Selected work
+              {eyebrow}
             </span>
 
             <h2 data-animate className="mb-5 pixel-mask-text text-4xl font-heading font-[650] tracking-[-0.04em] sm:text-5xl lg:text-7xl">
               Projects<br className="hidden sm:block" /> built to be used.
             </h2>
             <p data-animate className="max-w-xl font-body text-lg leading-relaxed text-muted-foreground sm:text-xl">
-              Three ambitious products spanning real-time AI video, social media, and local-first software.
+              {description}
             </p>
           </div>
 
@@ -90,7 +96,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
           </div>
 
           <div className="mt-10 border-t border-white/10 pt-8 sm:mt-14 sm:pt-10">
-            {!showMoreProjects ? (
+            {!shouldShowArchive ? (
               <div className="flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
                 <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
                   More experiments, games, and open-source tools are waiting in the complete project archive.
@@ -147,19 +153,21 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                   <p className="py-12 text-center text-muted-foreground">No archived projects match that category yet.</p>
                 )}
 
-                <div className="mt-10 flex justify-center">
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    aria-expanded
-                    aria-controls="more-projects"
-                    onClick={() => setShowMoreProjects(false)}
-                    className="rounded-full px-5 text-white/75 hover:text-white"
-                  >
-                    Show featured projects only
-                    <ChevronUp className="size-4" />
-                  </Button>
-                </div>
+                {!showAllProjects && (
+                  <div className="mt-10 flex justify-center">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      aria-expanded
+                      aria-controls="more-projects"
+                      onClick={() => setShowMoreProjects(false)}
+                      className="rounded-full px-5 text-white/75 hover:text-white"
+                    >
+                      Show featured projects only
+                      <ChevronUp className="size-4" />
+                    </Button>
+                  </div>
+                )}
               </div>
             )}
           </div>

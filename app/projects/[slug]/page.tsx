@@ -173,7 +173,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <section className="relative px-4 pb-16 pt-8 sm:px-6 lg:px-8 lg:pb-24 lg:pt-16">
           <div className="container mx-auto max-w-7xl">
             <Link
-              href="/#projects"
+              href="/projects"
               className="site-link-muted mb-8 project-difference inline-flex items-center gap-2 rounded-full border border-border/60 bg-background/70 px-4 py-2 font-body text-sm font-medium tracking-[0.01em] backdrop-blur-xl dark:border-white/10 dark:bg-white/5"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -367,7 +367,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 <h2 className="mt-3 font-heading text-3xl font-[700] tracking-[-0.035em] text-foreground">Keep exploring</h2>
               </div>
               <Button asChild variant="link" className="justify-start gap-1.5 px-0 text-base font-medium tracking-[0.01em] sm:justify-center">
-                <Link href="/#projects">Browse all featured projects <ArrowUpRight className="size-4" /></Link>
+                <Link href="/projects">Browse all projects <ArrowUpRight className="size-4" /></Link>
               </Button>
             </div>
 
