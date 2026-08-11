@@ -10,10 +10,10 @@ import { HiMail } from "react-icons/hi"
 import { SiDocker, SiGithub, SiGitlab } from "react-icons/si"
 
 const navigation = [
-  { name: "Home", href: "/#home" },
+  { name: "Home", href: "/" },
   { name: "Projects", href: "/projects" },
   { name: "About", href: "/#about" },
-  { name: "Contact", href: "/#contact" },
+  { name: "Contact", href: "/contacts" },
 ]
 
 export function HeaderMobileMenu() {
@@ -60,7 +60,7 @@ export function HeaderMobileMenu() {
           <div className="pixel-overlay" aria-hidden="true" style={{ zIndex: 20 }} />
           <div className="relative flex flex-1 flex-col">
             <div className="relative z-10 flex items-center justify-between">
-              <Link href="/#home" className="site-link text-lg font-heading font-[650]" onClick={() => setIsMenuOpen(false)}>
+              <Link href="/" className="site-link text-lg font-heading font-[650]" onClick={() => setIsMenuOpen(false)}>
                 <span className="header-text-only flex items-center gap-1">
                 <Badge
                   variant="outline"

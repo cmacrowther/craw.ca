@@ -103,7 +103,7 @@ export function AboutSection() {
               </div>
 
               <Link
-                href="/#contact"
+                href="/contacts"
                 className="group mt-9 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/[0.04] px-5 py-3 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-black"
               >
                 Start a conversation

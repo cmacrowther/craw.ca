@@ -10,7 +10,7 @@ const navigation = [
   { name: "Home", href: "/#home" },
   { name: "Projects", href: "/projects" },
   { name: "About", href: "/#about" },
-  { name: "Contact", href: "/#contact" },
+  { name: "Contact", href: "/contacts" },
 ]
 
 export function Header() {
@@ -21,7 +21,7 @@ export function Header() {
           {/* Logo */}
           <div className="flex justify-start">
             <Link
-              href="/#home"
+              href="/"
               className="site-link text-xl font-heading font-[650] flex items-center gap-2"
               style={{ position: "relative" }}
             >

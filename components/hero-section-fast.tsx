@@ -164,7 +164,7 @@ export function HeroSection() {
                 View selected work
                 <ArrowDown className="size-4" strokeWidth={1.8} aria-hidden="true" />
               </a>
-              <a className="hero-secondary-action" href="#contact">
+              <a className="hero-secondary-action" href="/contacts">
                 Start a conversation
                 <ArrowUpRight className="size-4" strokeWidth={1.8} aria-hidden="true" />
               </a>

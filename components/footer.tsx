@@ -20,7 +20,7 @@ export function Footer() {
           <div className="space-y-4">
             <h4 className="text-sm font-heading font-[600] uppercase tracking-wider">Quick Links</h4>
             <nav className="flex flex-col space-y-2">
-              <Link href="/#home" className="font-body text-sm site-link-muted">
+              <Link href="/" className="font-body text-sm site-link-muted">
                 Home
               </Link>
               <Link
@@ -33,7 +33,7 @@ export function Footer() {
                 About
               </Link>
               <Link
-                href="/#contact"
+                href="/contacts"
                 className="font-body text-sm site-link-muted"
               >
                 Contact
