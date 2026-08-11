@@ -131,6 +131,14 @@
   text-shadow: 0 1px 12px rgb(0 0 0 / 0.38);
 }
 
+/* The typewriter's phrases wrap differently on narrow screens. Reserve enough
+   room for their mobile two-line layout so the actions below never move. */
+@media (max-width: 639px) {
+  .hero-terminal {
+    min-height: 5.5rem;
+  }
+}
+
 .hero-primary-action,
 .hero-secondary-action {
   --button-pixel-alpha: 0.045;
@@ -606,8 +614,11 @@
   position: absolute;
   top: 13%;
   left: 8%;
-  width: 72%;
-  height: 66%;
+  /* Overscan the pattern before rotating it. Without this extra painted area,
+     the grid's own rectangular background edge shows through at the right and
+     bottom of the composition. */
+  width: 84%;
+  height: 78%;
   opacity: 0.36;
   background-image:
     linear-gradient(rgb(255 255 255 / 0.34) 1px, transparent 1px),
@@ -744,8 +755,8 @@
   .hero-art-grid {
     top: 14%;
     left: 10%;
-    width: 76%;
-    height: 64%;
+    width: 88%;
+    height: 76%;
     background-size: 1.35rem 1.35rem;
   }
 

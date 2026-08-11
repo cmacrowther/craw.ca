@@ -295,7 +295,7 @@ export function GLBViewer({ modelUrl, className = "" }: GLBViewerProps) {
   const { theme } = useTheme()
   
   return (
-    <div className={`glb-viewer relative h-full w-full ${className}`}>
+    <div className={`glb-viewer relative pixel-mask-text h-full w-full ${className}`}>
       <Canvas
         camera={{ position: [0, 0, 10], fov: 65 }}
         gl={{ alpha: true, antialias: true }}

@@ -136,13 +136,13 @@ export function HeroSection() {
 
             <p className="mt-8 max-w-2xl text-lg leading-relaxed text-white/70 sm:text-xl">
               I&apos;m a full-stack developer who turns ambitious ideas into clear,
-              useful products—where considered design and solid engineering meet.
+              useful products; Where considered design and solid engineering meet.
             </p>
 
             <div className="hero-terminal mt-8 flex min-h-12 max-w-2xl items-center gap-3 border-y border-white/12 py-3 font-mono text-sm text-white/70 sm:text-base">
               <span className="shrink-0 text-white/35">///</span>
               <span className="shrink-0 text-white/45">now:</span>
-              <span className="text-white/90" aria-live="polite">
+              <span className="min-w-0 flex-1 text-white/90" aria-live="polite">
                 {showTyped && (
                   <TypewriterEffect
                     strings={[
