@@ -1,22 +1,22 @@
-import { ContactSection } from "@/components/contact-section"
+import { AboutSection } from "@/components/about-section"
 import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
 import { createPageMetadata } from "@/lib/site-metadata"
 
 export const metadata = createPageMetadata({
-  title: "Get in Touch",
+  title: "About Colin Crowther",
   description:
-    "Have a product, collaboration, or ambitious idea in mind? Get in touch with Colin Crowther to start a conversation.",
-  path: "/contacts",
-  imageAlt: "Contact Colin Crowther",
+    "Learn about Colin Crowther, a full-stack developer who combines technical depth with a thoughtful eye for design.",
+  path: "/about",
+  imageAlt: "About Colin Crowther",
 })
 
-export default function ContactsPage() {
+export default function AboutPage() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <main>
-        <ContactSection />
+        <AboutSection />
       </main>
       <Footer />
     </div>

@@ -7,9 +7,9 @@ import { SiDocker, SiGithub, SiGitlab } from "react-icons/si"
 import { HeaderMobileMenu } from "./header-mobile-menu"
 
 const navigation = [
-  { name: "Home", href: "/#home" },
+  { name: "Home", href: "/" },
   { name: "Projects", href: "/projects" },
-  { name: "About", href: "/#about" },
+  { name: "About", href: "/about" },
   { name: "Contact", href: "/contacts" },
 ]
 

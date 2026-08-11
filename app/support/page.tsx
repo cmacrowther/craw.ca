@@ -1,15 +1,17 @@
-import type { Metadata } from "next"
 import { Mail, Sparkles } from "lucide-react"
 
 import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
 import { SupportContactForm } from "@/components/support-contact-form"
+import { createPageMetadata } from "@/lib/site-metadata"
 
-export const metadata: Metadata = {
-  title: "Support | Colin Crowther",
-  description: "Get support for Colin Crowther's applications.",
-  alternates: { canonical: "/support" },
-}
+export const metadata = createPageMetadata({
+  title: "Application Support",
+  description:
+    "Need help with one of Colin Crowther's applications? Share the details and get support by email.",
+  path: "/support",
+  imageAlt: "Application support from Colin Crowther",
+})
 
 export default function SupportPage() {
   return (

@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, Github, Globe, Sparkles } from "lucide-react";
@@ -20,10 +19,9 @@ import {
   type ProjectCopyLink,
   type Project,
 } from "@/lib/projects";
+import { createPageMetadata } from "@/lib/site-metadata";
 import { ProjectPixelBackground } from "@/components/project-pixel-background";
 import { ProjectHeroWordmark } from "@/components/project-hero-wordmark";
-
-const siteUrl = "https://cmacrowther.com";
 
 type ProjectPageProps = {
   params: Promise<{ slug: string }>;
@@ -33,49 +31,25 @@ export async function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
 }
 
-export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: ProjectPageProps) {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
 
   if (!project) {
-    return {
-      title: "Project Not Found | Colin Crowther",
-      alternates: { canonical: "/projects" },
-    };
+    return createPageMetadata({
+      title: "Project Not Found",
+      description:
+        "The project you're looking for isn't available. Browse Colin Crowther's selected work instead.",
+      path: "/projects",
+    });
   }
 
-  const title = `${project.title} | Colin Crowther`;
-  const description = project.longDescription;
-
-  return {
-    title,
-    description,
-    alternates: {
-      canonical: `/projects/${project.slug}`,
-    },
-    openGraph: {
-      title,
-      description,
-      url: `${siteUrl}/projects/${project.slug}`,
-      siteName: "Colin Crowther Portfolio",
-      images: [
-        {
-          url: "/og-image.png",
-          width: 1200,
-          height: 630,
-          alt: `${project.title} - Colin Crowther`,
-        },
-      ],
-      locale: "en_US",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: ["/og-image.png"],
-    },
-  };
+  return createPageMetadata({
+    title: project.title,
+    description: project.metadataDescription,
+    path: `/projects/${project.slug}`,
+    imageAlt: `${project.title} — a project by Colin Crowther`,
+  });
 }
 
 function renderProjectCopy(text: string, copyLinks?: ProjectCopyLink[]) {

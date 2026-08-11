@@ -29,7 +29,7 @@ export function Footer() {
               >
                 Projects
               </Link>
-              <Link href="/#about" className="font-body text-sm site-link-muted">
+              <Link href="/about" className="font-body text-sm site-link-muted">
                 About
               </Link>
               <Link

@@ -17,6 +17,7 @@ export interface Project {
   id: number;
   slug: string;
   title: string;
+  metadataDescription: string;
   logo?: string;
   logoCardClassName?: string;
   shortDescription: string;
@@ -94,6 +95,7 @@ export const projects: Project[] = [
     id: 13,
     slug: "aurea",
     title: "Aurea",
+    metadataDescription: "Aurea is a visually composed social platform for sharing and discovering short-form video and live photos in a continuous golden-ratio feed.",
     logo: "/aurea.svg",
     shortDescription: "A golden-ratio social gallery for short-form video and live photos, designed as an endless media loop.",
     longDescription:
@@ -120,6 +122,7 @@ export const projects: Project[] = [
     id: 12,
     slug: "wayfarer",
     title: "Wayfarer",
+    metadataDescription: "Wayfarer is a private, offline-first browser start page for bookmarks and Read Later items, with user-owned sync and built-in search.",
     logo: "/wayfarer.svg",
     logoCardClassName: "h-11 md:h-12",
     shortDescription: "An offline-first personal start page with synced bookmarks, protected editing, and built-in search bangs.",
@@ -147,6 +150,7 @@ export const projects: Project[] = [
     id: 1,
     slug: "tuneiq",
     title: "TuneIQ",
+    metadataDescription: "TuneIQ is a real-time multiplayer music trivia game with shared rooms, live scoring, chat, and friendly leaderboard competition.",
     shortDescription: "Real-time multiplayer music quiz with live rooms and leaderboard drama.",
     longDescription:
       "TuneIQ is a browser-based multiplayer music quiz built to capture the energy of a living-room party game. Players join shared rooms, answer rounds together in real time, and see scores, chat, and momentum shift instantly as the session unfolds.",
@@ -172,6 +176,7 @@ export const projects: Project[] = [
     id: 2,
     slug: "songwriterjs",
     title: "SongwriterJS",
+    metadataDescription: "SongwriterJS is an open-source Gatsby template that gives artists a polished home for their songs, credits, collaborators, and releases.",
     logo: "/javascript-logo.png",
     shortDescription: "Artist-focused Gatsby template inspired by Spotify's songwriter presentation.",
     longDescription:
@@ -199,6 +204,7 @@ export const projects: Project[] = [
     id: 3,
     slug: "heather-band-website",
     title: "Heather",
+    metadataDescription: "A fast, atmospheric website for Heather that translates the band's identity into an editorial experience built around the music.",
     logo: "/heather.png",
     logoCardClassName: "h-7 md:h-8",
     shortDescription: "Editorial-style band website designed to feel atmospheric and human, with a touch of rock n' roll edge.",
@@ -225,6 +231,7 @@ export const projects: Project[] = [
     id: 4,
     slug: "basket-case",
     title: "Basket Case",
+    metadataDescription: "Basket Case is an immersive Unity VR game that turns the classic paper-toss loop into a tactile, hand-tracked arcade experience.",
     logo: "/basketcase.png",
     logoCardClassName: "h-7 md:h-8",
     shortDescription: "VR paper toss game that turns a simple idea into something physical and playful.",
@@ -251,6 +258,7 @@ export const projects: Project[] = [
     id: 5,
     slug: "forestry-mapper",
     title: "Forestry Mapper",
+    metadataDescription: "Forestry Mapper is a responsive web map for exploring drone-photography tiles, built as an experiment in open-source geospatial tooling.",
     shortDescription: "Interactive mapping app built around custom drone-photography tile layers.",
     longDescription:
       "Forestry Mapper is an interactive mapping app created as a hands-on exploration of open-source geospatial tooling. It uses custom map tiles generated from drone photography and presents them through a responsive interface built for easy exploration.",
@@ -275,6 +283,7 @@ export const projects: Project[] = [
     id: 6,
     slug: "jelly-jammers",
     title: "Jelly Jammers",
+    metadataDescription: "Jelly Jammers is a browser party game where players steer jelly cars from their phones and collide in fast multiplayer rounds.",
     logo: "/jelly-jammers.png",
     shortDescription: "Chaotic browser party game with mobile tilt controls and jelly-car collisions.",
     longDescription:
@@ -301,6 +310,7 @@ export const projects: Project[] = [
     id: 7,
     slug: "waxtrax",
     title: "WaxTrax",
+    metadataDescription: "WaxTrax turns a room's music into a living now-playing display, identifying tracks in real time as records spin.",
     shortDescription: "Now-playing display that listens to a room and identifies records in real time.",
     longDescription:
       "WaxTrax listens to the music playing in a room, identifies the track in real time, and turns a television into a living now-playing display. Album art, artist details, and song information update live to make a listening session feel more like an installation than a utility.",
@@ -326,6 +336,7 @@ export const projects: Project[] = [
     id: 11,
     slug: "referee",
     title: "REFEREE",
+    metadataDescription: "REFEREE uses local GPU power to upscale, denoise, and enhance web streams in real time—with a simple API for developer integration.",
     logo: "/referee.svg",
     shortDescription: "A desktop app that uses your NVIDIA or AMD GPU to silently upscale, denoise, and enhance any web stream in real time — and a single API call is all developers need to unlock it for their users.",
     longDescription:
@@ -353,6 +364,7 @@ export const projects: Project[] = [
     id: 10,
     slug: "referee-docs",
     title: "REFEREE Docs",
+    metadataDescription: "REFEREE Docs pairs a live before-and-after upscaling demo with integration guides for adding AI video enhancement to web streams.",
     logo: "/referee.svg",
     shortDescription: "The Next.js marketing and documentation site for REFEREE — featuring a live 480p-to-upscaled before/after demo and API integration docs for developers.",
     longDescription:
@@ -381,6 +393,7 @@ export const projects: Project[] = [
     id: 9,
     slug: "puckdrop",
     title: "PuckDrop",
+    metadataDescription: "PuckDrop brings NHL live scores, stats, and predictions together in one fast, friendly home for hockey fans.",
     logo: "/puckdrop.svg",
     logoCardClassName: "h-10 md:h-11",
     shortDescription: "NHL livescores, statistics, and a game predictions leaderboard for hockey fans.",
@@ -407,6 +420,7 @@ export const projects: Project[] = [
     id: 8,
     slug: "gobert-ui",
     title: "Gobert",
+    metadataDescription: "Gobert is an open-source, polished web interface for OpenClaw that brings modern AI-chat ergonomics to local and remote instances.",
     logo: "/gobert-ui.png",
     shortDescription: "Open-source OpenClaw web interface built to give AI chat a more modern, polished feel.",
     longDescription:

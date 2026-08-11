@@ -1,15 +1,16 @@
-import type { Metadata } from "next";
-
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { ProjectsSection } from "@/components/projects-section";
 import { projectsByReleaseDate, type ProjectCardData } from "@/lib/projects";
+import { createPageMetadata } from "@/lib/site-metadata";
 
-export const metadata: Metadata = {
-  title: "Projects | Colin Crowther",
-  description: "Browse Colin Crowther's complete collection of web applications, tools, games, and creative projects.",
-  alternates: { canonical: "/projects" },
-};
+export const metadata = createPageMetadata({
+  title: "Selected Work",
+  description:
+    "Explore Colin Crowther's web apps, developer tools, games, and digital experiments—built with equal care for the code and the experience.",
+  path: "/projects",
+  imageAlt: "Selected work by Colin Crowther",
+});
 
 const projectCards: ProjectCardData[] = projectsByReleaseDate.map((project) => ({
   id: project.id,

@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Bitter, Bungee, Geist, Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google"
 import "./globals.css"
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { homepageDescription, homepageTitle, siteName, siteUrl } from "@/lib/site-metadata"
 
 const geistSans = Geist({
   subsets: ["latin"],
@@ -49,10 +50,12 @@ const jetBrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://craw.ca'),
-  title: "Colin Crowther - Where design meets code.",
-  description:
-    "A Canadian full-stack developer and software engineer portfolio showcasing modern web applications and innovative projects.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: homepageTitle,
+    template: "%s | Colin Crowther",
+  },
+  description: homepageDescription,
   alternates: {
     canonical: "/",
   },
@@ -71,25 +74,25 @@ export const metadata: Metadata = {
   },
   manifest: '/site.webmanifest',
   openGraph: {
-    title: 'Colin Crowther - A software developer from Prince Edward Island, Canada.',
-    description: 'Full-stack developer and software engineer portfolio showcasing modern web applications and innovative projects.',
-    url: 'https://cmacrowther.com', // Update this with your actual domain
-    siteName: 'Colin Crowther Portfolio',
+    title: homepageTitle,
+    description: homepageDescription,
+    url: siteUrl,
+    siteName,
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Colin Crowther - Developer Portfolio',
+        alt: homepageTitle,
       },
     ],
-    locale: 'en_US',
+    locale: 'en_CA',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Colin Crowther - Developer Portfolio',
-    description: 'Full-stack developer and software engineer portfolio showcasing modern web applications and innovative projects.',
+    title: homepageTitle,
+    description: homepageDescription,
     images: ['/og-image.png'],
   },
   other: {
@@ -114,7 +117,7 @@ export default function RootLayout({
             '@context': 'https://schema.org',
             '@type': 'Person',
             name: 'Colin Crowther',
-            url: 'https://cmacrowther.com/',
+            url: `${siteUrl}/`,
             sameAs: [
               'https://github.com/cmacrowther',
               'https://gitlab.com/cmacrowther',
@@ -122,8 +125,8 @@ export default function RootLayout({
               'https://hub.docker.com/u/cmacrowther'
             ],
             jobTitle: 'Full-stack Developer',
-            image: 'https://cmacrowther.com/og-image.png',
-            description: 'Full-stack developer and software engineer portfolio showcasing modern web applications and innovative projects.'
+            image: `${siteUrl}/og-image.png`,
+            description: homepageDescription
           })
         }} />
       </head>
