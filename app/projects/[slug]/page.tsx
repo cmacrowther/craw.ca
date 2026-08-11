@@ -339,19 +339,15 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   </Button>
                 </div>
 
-                <div className="bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.12),transparent_38%),linear-gradient(135deg,rgba(0,0,0,0.12),transparent)] p-4 sm:p-8">
-                  <div className="relative mx-auto aspect-[390/844] w-full max-w-[24.375rem] rounded-[2.75rem] bg-neutral-950 p-2 shadow-2xl shadow-black/35 ring-1 ring-white/20">
-                    <div className="absolute left-1/2 top-3 z-10 h-6 w-24 -translate-x-1/2 rounded-full bg-neutral-950" aria-hidden="true" />
-                    <div className="relative h-full overflow-hidden rounded-[2.2rem] bg-white">
-                      <iframe
-                        src={project.liveUrl}
-                        className="h-full w-full border-0"
-                        title={`Mobile preview of ${project.title}`}
-                        loading="lazy"
-                        sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-                      />
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-white/5" />
-                    </div>
+                <div className="bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.12),transparent_38%),linear-gradient(135deg,rgba(0,0,0,0.12),transparent)]">
+                  <div className="aspect-[9/16] sm:aspect-auto sm:h-[42rem] lg:h-[48rem]">
+                    <iframe
+                      src={project.liveUrl}
+                      className="block h-full w-full border-0 bg-white"
+                      title={`Live preview of ${project.title}`}
+                      loading="lazy"
+                      sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                    />
                   </div>
                 </div>
               </div>
