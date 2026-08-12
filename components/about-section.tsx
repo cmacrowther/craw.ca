@@ -66,13 +66,13 @@ export function AboutSection() {
   })
 
   return (
-    <section ref={sectionRef} className="deferred-rendering relative overflow-hidden bg-[#111111] px-4 py-24 sm:px-6 lg:px-8 lg:py-32">
+    <section ref={sectionRef} className="deferred-rendering relative overflow-hidden bg-[#111111] py-24 lg:py-32">
       {/* Keep the moving particle field as a living layer behind the content. */}
       {isNearViewport && <ParticleBackground />}
       {/* The pixel texture is intentionally retained, now scoped to the section. */}
       <div aria-hidden="true" className="pixel-overlay absolute inset-0 z-[1] opacity-25" />
 
-      <div className="container relative z-10 mx-auto max-w-7xl">
+      <div className="site-container relative z-10">
         <div ref={headerRef} className="mb-14 max-w-4xl sm:mb-20">
           <span className="animate-fade-down mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white/80 shadow-lg shadow-black/20 backdrop-blur-sm">
             <Sparkles className="size-3.5" />

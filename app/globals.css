@@ -978,6 +978,26 @@
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 }
 
+/* Keep every primary page section on the same horizontal grid. */
+.site-container {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+@media (min-width: 40rem) {
+  .site-container {
+    padding-inline: 2rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .site-container {
+    padding-inline: 3rem;
+  }
+}
+
 .deferred-rendering {
   content-visibility: auto;
   contain-intrinsic-size: auto 1000px;

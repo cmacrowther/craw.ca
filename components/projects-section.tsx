@@ -61,8 +61,8 @@ export function ProjectsSection({ projects, showAllProjects = false }: ProjectsS
 
   return (
     <LazyLoadWrapper minHeight="400px">
-      <section id="projects" className="px-4 py-24 sm:px-6 lg:px-8 lg:py-32">
-        <div className="container mx-auto max-w-7xl">
+      <section id="projects" className="py-24 lg:py-32">
+        <div className="site-container">
           <div ref={headerRef} className="mb-14 max-w-3xl sm:mb-20">
             <span className="animate-fade-down mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white/80 shadow-lg shadow-black/20 backdrop-blur-sm">
               <Sparkles className="size-3.5" />

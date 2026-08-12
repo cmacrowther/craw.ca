@@ -25,7 +25,7 @@ export function HeroSection() {
       <div className="hero-grid absolute inset-0 z-[1]" aria-hidden="true" />
       <div className="hero-glow absolute inset-0 z-[1]" aria-hidden="true" />
 
-      <div className="relative z-[2] mx-auto flex min-h-[calc(100svh-4rem)] max-w-7xl items-center px-4 py-16 sm:px-6 lg:px-8">
+      <div className="site-container relative z-[2] flex min-h-[calc(100svh-4rem)] items-center py-16">
         <div className="grid w-full items-center gap-12 lg:grid-cols-[minmax(0,1.16fr)_minmax(24rem,0.84fr)] lg:gap-16">
           <div className="hero-copy max-w-4xl">
             <h1 className="max-w-4xl font-heading text-5xl font-[650] leading-[0.94] tracking-[-0.055em] text-white/80 sm:text-6xl md:text-7xl lg:text-[5.35rem]">
