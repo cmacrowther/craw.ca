@@ -1,263 +1,346 @@
-"use client";
+"use client"
 
 import { useEffect, useRef, useState } from "react"
 import { useTheme } from "next-themes"
-import * as THREE from "three"
 
 import { detectLowEndDevice } from "@/hooks/use-low-end-device"
 
-export function ThreeWaveBackground({ wave = true, transparent = false }: { wave?: boolean; transparent?: boolean }) {
-  const threeRef = useRef<HTMLDivElement>(null)
+type ThreeWaveBackgroundProps = {
+  wave?: boolean
+  transparent?: boolean
+}
+
+const VERTEX_SHADER = `
+  precision highp float;
+
+  attribute vec2 aGrid;
+  attribute vec3 aColor;
+
+  uniform float uAmountX;
+  uniform float uAmountY;
+  uniform float uSeparation;
+  uniform float uCount;
+  uniform float uFov;
+  uniform float uAspect;
+  uniform float uViewportHeight;
+  uniform float uWave;
+
+  varying vec3 vColor;
+
+  void main() {
+    float ix = aGrid.x;
+    float iy = aGrid.y;
+    float x = ix * uSeparation - (uAmountX * uSeparation) * 0.5;
+    float zBase = iy * uSeparation - (uAmountY * uSeparation - 10.0);
+    float y = uWave * (
+      sin((ix + uCount) * 0.32) * 7.0 +
+      cos((iy + uCount) * 0.24) * 5.0
+    );
+    float z = zBase + uWave * (
+      sin((ix + uCount) * 0.14) +
+      cos((iy + uCount) * 0.16)
+    ) * 3.0;
+    float scale = 0.8 + 0.16 * sin(
+      (ix + uCount) * 0.18 + (iy + uCount) * 0.14
+    );
+
+    // Match the previous Three.js camera: position (0, 400, 50), Y rotation 0.1.
+    vec3 relative = vec3(x, y - 400.0, z - 50.0);
+    float cameraCos = cos(0.1);
+    float cameraSin = sin(0.1);
+    vec3 viewPosition = vec3(
+      cameraCos * relative.x - cameraSin * relative.z,
+      relative.y,
+      cameraSin * relative.x + cameraCos * relative.z
+    );
+
+    float nearPlane = 1.0;
+    float farPlane = 10000.0;
+    float tanHalfFov = tan(radians(uFov) * 0.5);
+    float depth = max(-viewPosition.z, 1.0);
+
+    gl_Position = vec4(
+      viewPosition.x / (tanHalfFov * uAspect),
+      viewPosition.y / tanHalfFov,
+      -((farPlane + nearPlane) / (farPlane - nearPlane)) * viewPosition.z
+        - (2.0 * farPlane * nearPlane) / (farPlane - nearPlane),
+      -viewPosition.z
+    );
+    gl_PointSize = max(
+      1.0,
+      scale * 0.9 * uViewportHeight / (tanHalfFov * depth)
+    );
+    vColor = aColor;
+  }
+`
+
+const FRAGMENT_SHADER = `
+  precision mediump float;
+  varying vec3 vColor;
+
+  void main() {
+    vec2 point = gl_PointCoord - vec2(0.5);
+    if (dot(point, point) > 0.25) discard;
+    gl_FragColor = vec4(vColor, 1.0);
+  }
+`
+
+function compileShader(
+  gl: WebGLRenderingContext,
+  type: number,
+  source: string
+) {
+  const shader = gl.createShader(type)
+  if (!shader) return null
+
+  gl.shaderSource(shader, source)
+  gl.compileShader(shader)
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    gl.deleteShader(shader)
+    return null
+  }
+  return shader
+}
+
+function createProgram(gl: WebGLRenderingContext) {
+  const vertexShader = compileShader(gl, gl.VERTEX_SHADER, VERTEX_SHADER)
+  const fragmentShader = compileShader(gl, gl.FRAGMENT_SHADER, FRAGMENT_SHADER)
+  if (!vertexShader || !fragmentShader) return null
+
+  const program = gl.createProgram()
+  if (!program) return null
+
+  gl.attachShader(program, vertexShader)
+  gl.attachShader(program, fragmentShader)
+  gl.linkProgram(program)
+  gl.deleteShader(vertexShader)
+  gl.deleteShader(fragmentShader)
+
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    gl.deleteProgram(program)
+    return null
+  }
+  return program
+}
+
+function hslToRgb(hue: number, saturation: number, lightness: number) {
+  if (saturation === 0) return [lightness, lightness, lightness] as const
+
+  const hueToRgb = (p: number, q: number, value: number) => {
+    let t = value
+    if (t < 0) t += 1
+    if (t > 1) t -= 1
+    if (t < 1 / 6) return p + (q - p) * 6 * t
+    if (t < 1 / 2) return q
+    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6
+    return p
+  }
+
+  const q = lightness < 0.5
+    ? lightness * (1 + saturation)
+    : lightness + saturation - lightness * saturation
+  const p = 2 * lightness - q
+
+  return [
+    hueToRgb(p, q, hue + 1 / 3),
+    hueToRgb(p, q, hue),
+    hueToRgb(p, q, hue - 1 / 3),
+  ] as const
+}
+
+export function ThreeWaveBackground({
+  wave = true,
+  transparent = false,
+}: ThreeWaveBackgroundProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean | null>(null)
-  const { theme } = useTheme()
+  const { resolvedTheme } = useTheme()
 
   useEffect(() => {
-    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
     const updateMotionPreference = () => setPrefersReducedMotion(motionQuery.matches)
 
     updateMotionPreference()
-    motionQuery.addEventListener('change', updateMotionPreference)
-
-    return () => motionQuery.removeEventListener('change', updateMotionPreference)
+    motionQuery.addEventListener("change", updateMotionPreference)
+    return () => motionQuery.removeEventListener("change", updateMotionPreference)
   }, [])
 
   useEffect(() => {
-    // Do not initialize the animated dot matrix or its WebGL renderer when
-    // motion is reduced. Waiting until the preference is known also avoids a
-    // flash of the grid during hydration.
-    if (prefersReducedMotion !== false) return;
+    if (prefersReducedMotion !== false) return
 
-    const { isLowEnd } = detectLowEndDevice();
+    const container = containerRef.current
+    if (!container) return
 
-    let renderer: THREE.WebGLRenderer | null = null;
-    let animationId = 0;
-    let camera: THREE.PerspectiveCamera;
-    let scene: THREE.Scene;
-    let mesh: THREE.InstancedMesh;
-    let count = 0;
-    let lastFrameTime = 0;
-    let isVisible = true;
-    let isPageVisible = typeof document !== 'undefined' ? !document.hidden : true;
+    const { isLowEnd } = detectLowEndDevice()
+    const isMobile = window.innerWidth < 768
+    const separation = isMobile || isLowEnd ? 90 : 45
+    const amountX = isLowEnd ? 35 : isMobile ? 50 : 100
+    const amountY = isLowEnd ? 14 : isMobile ? 20 : 35
+    const totalParticles = amountX * amountY
+    const targetFps = isLowEnd ? 24 : isMobile ? 30 : 60
+    const isLightTheme = resolvedTheme === "light"
+    const background = isLightTheme ? [1, 1, 1] : [17 / 255, 17 / 255, 17 / 255]
 
-    const isMobile = window.innerWidth < 768;
-    // Low-end devices get fewer particles (cuts per-frame instance updates
-    // roughly in half) and a tighter framerate cap.
-    const SEPARATION = isMobile || isLowEnd ? 90 : 45;
-    const AMOUNTX = isLowEnd ? 35 : isMobile ? 50 : 100;
-    const AMOUNTY = isLowEnd ? 14 : isMobile ? 20 : 35;
-    const TOTAL_PARTICLES = AMOUNTX * AMOUNTY;
-    const targetFPS = isLowEnd ? 24 : isMobile ? 30 : 60;
+    const canvas = document.createElement("canvas")
+    canvas.style.width = "100%"
+    canvas.style.height = "100%"
+    container.appendChild(canvas)
 
-    // Scroll state
-    let scrollY = 0, targetFov = wave ? 100 : 90;
-
-    // Store original colors (baked with opacity)
-    const originalColors = new Float32Array(TOTAL_PARTICLES * 3);
-
-    // Determine theme-based colors
-    const isLightTheme = theme === 'light';
-    const bgColorHex = isLightTheme ? 0xffffff : 0x111111;
-    const bgR = ((bgColorHex >> 16) & 255) / 255;
-    const bgG = ((bgColorHex >> 8) & 255) / 255;
-    const bgB = (bgColorHex & 255) / 255;
-
-    // Keep the grid deliberately close to the page palette: cool slate in
-    // dark mode and a soft charcoal in light mode.
-    const baseHue = isLightTheme ? 0 : 0.56;
-    const baseSaturation = isLightTheme ? 0 : 0.22;
-    const baseLightness = isLightTheme ? 0.24 : 0.5;
-
-    if (threeRef.current) {
-      const container = threeRef.current;
-      const getDimensions = () => ({
-        width: wave ? window.innerWidth : container.clientWidth || window.innerWidth,
-        height: wave ? window.innerHeight : container.clientHeight || window.innerHeight,
-      });
-      const { width, height } = getDimensions();
-
-      camera = new THREE.PerspectiveCamera(wave ? 100 : 90, width / height, 1, 10000);
-      camera.position.y = 400;
-      camera.position.z = 50;
-      camera.rotation.y = 0.1;
-
-      scene = new THREE.Scene();
-
-      // Optimized Geometry: Reduced segments
-      const geometry = new THREE.SphereGeometry(0.9, 8, 8);
-      // Material: Opaque, using vertex colors
-      const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
-      mesh = new THREE.InstancedMesh(geometry, material, TOTAL_PARTICLES);
-
-      // Initialize colors
-      const tempColor = new THREE.Color();
-      let i = 0;
-      for (let ix = 0; ix < AMOUNTX; ix++) {
-        for (let iy = 0; iy < AMOUNTY; iy++) {
-          // Calculate base color
-          if (isLightTheme) {
-            const lightness = baseLightness + 0.05 * Math.sin(iy / AMOUNTY * Math.PI);
-            tempColor.setHSL(0, 0, Math.max(0.12, lightness));
-          } else {
-            const t = ix / AMOUNTX;
-            tempColor.setHSL(baseHue - 0.06 * t, baseSaturation, baseLightness + 0.08 * Math.sin(iy / AMOUNTY * Math.PI));
-          }
-
-          // Calculate opacity
-          const opacity = isLightTheme
-            ? 0.28 + 0.14 * Math.sin(iy / AMOUNTY * Math.PI)
-            : 0.2 + 0.14 * Math.sin(iy / AMOUNTY * Math.PI);
-
-          // Bake opacity: Color = Color * Alpha + Bg * (1 - Alpha)
-          const finalR = transparent ? tempColor.r * opacity : tempColor.r * opacity + bgR * (1 - opacity);
-          const finalG = transparent ? tempColor.g * opacity : tempColor.g * opacity + bgG * (1 - opacity);
-          const finalB = transparent ? tempColor.b * opacity : tempColor.b * opacity + bgB * (1 - opacity);
-
-          originalColors[i * 3] = finalR;
-          originalColors[i * 3 + 1] = finalG;
-          originalColors[i * 3 + 2] = finalB;
-
-          mesh.setColorAt(i, new THREE.Color(finalR, finalG, finalB));
-          i++;
-        }
-      }
-
-      scene.add(mesh);
-
-      const localRenderer = new THREE.WebGLRenderer({ alpha: transparent, antialias: false });
-      localRenderer.setSize(width, height, false);
-      localRenderer.setClearColor(bgColorHex, transparent ? 0 : 1);
-      // The compact project-page strip needs its own native-resolution canvas
-      // so the dots stay crisp instead of being scaled up from a low-density
-      // viewport renderer.
-      localRenderer.setPixelRatio(wave ? 1 : Math.min(window.devicePixelRatio || 1, 2));
-      container.appendChild(localRenderer.domElement);
-      localRenderer.domElement.style.width = '100%';
-      localRenderer.domElement.style.height = '100%';
-      renderer = localRenderer;
-
-      const handleScroll = () => {
-        scrollY = window.scrollY || window.pageYOffset;
-        targetFov = 100 + Math.min(16, scrollY * 0.032);
-      };
-      if (wave) {
-        window.addEventListener('scroll', handleScroll, { passive: true });
-      }
-
-      // Reusable objects
-      const dummy = new THREE.Object3D();
-      function animate() {
-        // Skip work entirely while the canvas is offscreen or the tab is
-        // hidden — keep the rAF loop alive (cheap) so we resume instantly.
-        if (!isVisible || !isPageVisible) {
-          animationId = requestAnimationFrame(animate);
-          return;
-        }
-
-        // Throttle to the resolved target FPS to reduce CPU/GPU load.
-        const now = performance.now();
-        const frameInterval = 1000 / targetFPS;
-        if (lastFrameTime !== 0 && now - lastFrameTime < frameInterval) {
-          animationId = requestAnimationFrame(animate);
-          return;
-        }
-        lastFrameTime = now;
-
-        let i = 0;
-
-        for (let ix = 0; ix < AMOUNTX; ix++) {
-          for (let iy = 0; iy < AMOUNTY; iy++) {
-
-            const xPos = ix * SEPARATION - (AMOUNTX * SEPARATION) / 2;
-            const zPosBase = iy * SEPARATION - (AMOUNTY * SEPARATION - 10);
-
-            const yPos = wave
-              ? Math.sin((ix + count) * 0.32) * 7 +
-                Math.cos((iy + count) * 0.24) * 5
-              : 0;
-
-            const zPos = wave
-              ? (Math.sin((ix + count) * 0.14) + Math.cos((iy + count) * 0.16)) * 3 +
-                zPosBase
-              : zPosBase;
-
-            const scale = 0.8 + 0.16 * Math.sin((ix + count) * 0.18 + (iy + count) * 0.14);
-
-            dummy.position.set(xPos, yPos, zPos);
-            dummy.scale.set(scale, scale, scale);
-            dummy.updateMatrix();
-            mesh.setMatrixAt(i, dummy.matrix);
-
-            i++;
-          }
-        }
-
-        mesh.instanceMatrix.needsUpdate = true;
-
-        camera.fov += (targetFov - camera.fov) * 0.04;
-        camera.updateProjectionMatrix();
-
-        if (renderer) {
-          renderer.render(scene, camera);
-        }
-        count += 0.018;
-        animationId = requestAnimationFrame(animate);
-      }
-      animate();
-
-      // Pause the wave update when the canvas scrolls out of view so the
-      // expensive instance-matrix loop only runs when the user can actually
-      // see it.
-      let visibilityObserver: IntersectionObserver | null = null;
-      if (typeof IntersectionObserver !== 'undefined') {
-        visibilityObserver = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              isVisible = entry.isIntersecting;
-            });
-          },
-          { threshold: 0 }
-        );
-        visibilityObserver.observe(container);
-      }
-
-      const handleVisibilityChange = () => {
-        isPageVisible = !document.hidden;
-      };
-      document.addEventListener('visibilitychange', handleVisibilityChange);
-
-      const handleResize = () => {
-        const { width, height } = getDimensions();
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-        if (renderer) {
-          renderer.setSize(width, height, false);
-          renderer.render(scene, camera);
-        }
-      };
-      window.addEventListener('resize', handleResize);
-
-      return () => {
-        window.removeEventListener('resize', handleResize);
-        if (wave) {
-          window.removeEventListener('scroll', handleScroll);
-        }
-        document.removeEventListener('visibilitychange', handleVisibilityChange);
-        if (visibilityObserver) visibilityObserver.disconnect();
-        if (renderer) {
-          renderer.dispose();
-          if (renderer.domElement && renderer.domElement.parentNode) {
-            renderer.domElement.parentNode.removeChild(renderer.domElement);
-          }
-        }
-        cancelAnimationFrame(animationId);
-      };
+    const gl = canvas.getContext("webgl", {
+      alpha: transparent,
+      antialias: false,
+      depth: false,
+      powerPreference: "low-power",
+    })
+    if (!gl) {
+      canvas.remove()
+      return
     }
-  }, [prefersReducedMotion, theme, transparent, wave]);
 
-  return (
-    <div
-      ref={threeRef}
-      className="absolute inset-0 z-0"
-    ></div>
-  )
+    const program = createProgram(gl)
+    if (!program) {
+      canvas.remove()
+      return
+    }
+
+    const gridData = new Float32Array(totalParticles * 2)
+    const colorData = new Float32Array(totalParticles * 3)
+    let particle = 0
+
+    for (let ix = 0; ix < amountX; ix += 1) {
+      for (let iy = 0; iy < amountY; iy += 1) {
+        gridData[particle * 2] = ix
+        gridData[particle * 2 + 1] = iy
+
+        const verticalCurve = Math.sin((iy / amountY) * Math.PI)
+        const color = isLightTheme
+          ? hslToRgb(0, 0, Math.max(0.12, 0.24 + 0.05 * verticalCurve))
+          : hslToRgb(0.56 - 0.06 * (ix / amountX), 0.22, 0.5 + 0.08 * verticalCurve)
+        const opacity = isLightTheme
+          ? 0.28 + 0.14 * verticalCurve
+          : 0.2 + 0.14 * verticalCurve
+
+        colorData[particle * 3] = transparent
+          ? color[0] * opacity
+          : color[0] * opacity + background[0] * (1 - opacity)
+        colorData[particle * 3 + 1] = transparent
+          ? color[1] * opacity
+          : color[1] * opacity + background[1] * (1 - opacity)
+        colorData[particle * 3 + 2] = transparent
+          ? color[2] * opacity
+          : color[2] * opacity + background[2] * (1 - opacity)
+        particle += 1
+      }
+    }
+
+    const bindAttribute = (name: string, size: number, data: Float32Array) => {
+      const location = gl.getAttribLocation(program, name)
+      const buffer = gl.createBuffer()
+      if (location < 0 || !buffer) return null
+
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+      gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW)
+      gl.enableVertexAttribArray(location)
+      gl.vertexAttribPointer(location, size, gl.FLOAT, false, 0, 0)
+      return buffer
+    }
+
+    gl.useProgram(program)
+    const gridBuffer = bindAttribute("aGrid", 2, gridData)
+    const colorBuffer = bindAttribute("aColor", 3, colorData)
+    if (!gridBuffer || !colorBuffer) {
+      gl.deleteProgram(program)
+      canvas.remove()
+      return
+    }
+
+    const uniforms = {
+      amountX: gl.getUniformLocation(program, "uAmountX"),
+      amountY: gl.getUniformLocation(program, "uAmountY"),
+      separation: gl.getUniformLocation(program, "uSeparation"),
+      count: gl.getUniformLocation(program, "uCount"),
+      fov: gl.getUniformLocation(program, "uFov"),
+      aspect: gl.getUniformLocation(program, "uAspect"),
+      viewportHeight: gl.getUniformLocation(program, "uViewportHeight"),
+      wave: gl.getUniformLocation(program, "uWave"),
+    }
+
+    gl.uniform1f(uniforms.amountX, amountX)
+    gl.uniform1f(uniforms.amountY, amountY)
+    gl.uniform1f(uniforms.separation, separation)
+    gl.uniform1f(uniforms.wave, wave ? 1 : 0)
+    gl.clearColor(background[0], background[1], background[2], transparent ? 0 : 1)
+
+    let cssWidth = 1
+    let cssHeight = 1
+    let targetFov = wave ? 100 : 90
+    let currentFov = targetFov
+    let count = 0
+    let lastFrameTime = 0
+    let animationFrame = 0
+    let isVisible = true
+    let isPageVisible = !document.hidden
+
+    const resize = () => {
+      cssWidth = wave ? window.innerWidth : container.clientWidth || window.innerWidth
+      cssHeight = wave ? window.innerHeight : container.clientHeight || window.innerHeight
+      const pixelRatio = wave ? 1 : Math.min(window.devicePixelRatio || 1, 2)
+      canvas.width = Math.max(1, Math.round(cssWidth * pixelRatio))
+      canvas.height = Math.max(1, Math.round(cssHeight * pixelRatio))
+      gl.viewport(0, 0, canvas.width, canvas.height)
+      gl.uniform1f(uniforms.aspect, cssWidth / cssHeight)
+      gl.uniform1f(uniforms.viewportHeight, canvas.height)
+    }
+
+    const render = (now: number) => {
+      animationFrame = window.requestAnimationFrame(render)
+      if (!isVisible || !isPageVisible) return
+
+      const frameInterval = 1000 / targetFps
+      if (lastFrameTime !== 0 && now - lastFrameTime < frameInterval) return
+      lastFrameTime = now
+
+      currentFov += (targetFov - currentFov) * 0.04
+      gl.uniform1f(uniforms.count, count)
+      gl.uniform1f(uniforms.fov, currentFov)
+      gl.clear(gl.COLOR_BUFFER_BIT)
+      gl.drawArrays(gl.POINTS, 0, totalParticles)
+      count += 0.018
+    }
+
+    const handleScroll = () => {
+      targetFov = 100 + Math.min(16, window.scrollY * 0.032)
+    }
+    const handleVisibilityChange = () => {
+      isPageVisible = !document.hidden
+    }
+
+    const observer = typeof IntersectionObserver === "undefined"
+      ? null
+      : new IntersectionObserver(([entry]) => {
+          isVisible = entry?.isIntersecting ?? false
+        })
+
+    observer?.observe(container)
+    window.addEventListener("resize", resize)
+    if (wave) window.addEventListener("scroll", handleScroll, { passive: true })
+    document.addEventListener("visibilitychange", handleVisibilityChange)
+
+    resize()
+    animationFrame = window.requestAnimationFrame(render)
+
+    return () => {
+      window.cancelAnimationFrame(animationFrame)
+      observer?.disconnect()
+      window.removeEventListener("resize", resize)
+      if (wave) window.removeEventListener("scroll", handleScroll)
+      document.removeEventListener("visibilitychange", handleVisibilityChange)
+      gl.deleteBuffer(gridBuffer)
+      gl.deleteBuffer(colorBuffer)
+      gl.deleteProgram(program)
+      canvas.remove()
+    }
+  }, [prefersReducedMotion, resolvedTheme, transparent, wave])
+
+  return <div ref={containerRef} className="absolute inset-0 z-0" />
 }

@@ -94,6 +94,28 @@
   mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
 }
 
+.hero-entrance {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: hero-entrance 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero-overlay-entrance {
+  opacity: 0;
+  animation: hero-overlay-entrance 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes hero-entrance {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-overlay-entrance {
+  to { opacity: 1; }
+}
+
 .hero-glow {
   background:
     radial-gradient(ellipse at 79% 50%, rgb(255 255 255 / 0.08), transparent 31%),
@@ -976,6 +998,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hero-entrance,
+  .hero-overlay-entrance,
   .hero-status-dot,
   .hero-design-frame,
   .hero-design-frame-shadow,
@@ -987,6 +1011,12 @@
   .hero-art-shape,
   .hero-art-pixel {
     animation: none;
+  }
+
+  .hero-entrance,
+  .hero-overlay-entrance {
+    opacity: 1;
+    transform: none;
   }
 }
 
