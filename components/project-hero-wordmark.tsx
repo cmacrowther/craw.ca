@@ -70,7 +70,7 @@ export function ProjectHeroWordmark({ project }: ProjectHeroWordmarkProps) {
           className="h-12 w-auto shrink-0 object-contain sm:h-16 lg:h-20"
         />
         <span className="inline-flex min-w-0 items-baseline gap-2 sm:gap-3">
-          <span className="font-[family-name:var(--font-inter)] text-[1.625rem] font-extrabold leading-none tracking-[-0.05em] text-white sm:text-5xl lg:text-6xl">
+          <span className="font-[family-name:var(--font-geist-sans)] text-[1.625rem] font-extrabold leading-none tracking-[-0.05em] text-white sm:text-5xl lg:text-6xl">
             RE<span className="text-[rgba(255,137,24,1)]">F</span>EREE
           </span>
           {project.slug === "referee-docs" && (

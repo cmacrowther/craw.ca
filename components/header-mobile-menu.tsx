@@ -60,11 +60,16 @@ export function HeaderMobileMenu() {
           <div className="pixel-overlay" aria-hidden="true" style={{ zIndex: 20 }} />
           <div className="relative flex flex-1 flex-col">
             <div className="relative z-10 flex items-center justify-between">
-              <Link href="/" className="site-link text-lg font-heading font-[650]" onClick={() => setIsMenuOpen(false)}>
+              <Link
+                href="/"
+                aria-label="craw.ca home"
+                className="site-link text-lg font-heading font-[650]"
+                onClick={() => setIsMenuOpen(false)}
+              >
                 <span className="header-text-only flex items-center gap-1">
                 <Badge
                   variant="outline"
-                  className="text-sm px-5 py-1.5 rounded-full shadow-md bg-white/80 border-white/30 text-white/90 backdrop-blur-sm tracking-wide"
+                  className="rounded-full border-white bg-white px-5 py-1.5 text-sm tracking-wide shadow-md"
                 >
                 </Badge>
               </span>
@@ -91,21 +96,21 @@ export function HeaderMobileMenu() {
             </nav>
 
             <div className="relative z-10 flex items-center gap-2 border-t border-white/15 pt-5 mobile-actions">
-              <a href="https://github.com/cmacrowther" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="mobile-action-icon">
-                <Button variant="ghost" size="sm"><SiGithub className="size-4" /></Button>
-              </a>
-              <a href="https://gitlab.com/cmacrowther" target="_blank" rel="noopener noreferrer" aria-label="GitLab" className="mobile-action-icon">
-                <Button variant="ghost" size="sm"><SiGitlab className="size-4" /></Button>
-              </a>
-              <a href="https://www.linkedin.com/in/colincrowther/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="mobile-action-icon">
-                <Button variant="ghost" size="sm"><FaLinkedin className="size-4" /></Button>
-              </a>
-              <a href="https://hub.docker.com/u/cmacrowther" target="_blank" rel="noopener noreferrer" aria-label="Docker Hub" className="mobile-action-icon">
-                <Button variant="ghost" size="sm"><SiDocker className="size-4" /></Button>
-              </a>
-              <a href="mailto:hello@cmacrowther.com" aria-label="Email" className="mobile-action-icon">
-                <Button variant="ghost" size="sm"><HiMail className="size-4" /></Button>
-              </a>
+              <Button variant="ghost" size="sm" asChild>
+                <a href="https://github.com/cmacrowther" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="mobile-action-icon"><SiGithub className="size-4" aria-hidden="true" /></a>
+              </Button>
+              <Button variant="ghost" size="sm" asChild>
+                <a href="https://gitlab.com/cmacrowther" target="_blank" rel="noopener noreferrer" aria-label="GitLab" className="mobile-action-icon"><SiGitlab className="size-4" aria-hidden="true" /></a>
+              </Button>
+              <Button variant="ghost" size="sm" asChild>
+                <a href="https://www.linkedin.com/in/colincrowther/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="mobile-action-icon"><FaLinkedin className="size-4" aria-hidden="true" /></a>
+              </Button>
+              <Button variant="ghost" size="sm" asChild>
+                <a href="https://hub.docker.com/u/cmacrowther" target="_blank" rel="noopener noreferrer" aria-label="Docker Hub" className="mobile-action-icon"><SiDocker className="size-4" aria-hidden="true" /></a>
+              </Button>
+              <Button variant="ghost" size="sm" asChild>
+                <a href="mailto:hello@cmacrowther.com" aria-label="Email" className="mobile-action-icon"><HiMail className="size-4" aria-hidden="true" /></a>
+              </Button>
             </div>
           </div>
         </div>

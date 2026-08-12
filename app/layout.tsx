@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Bitter, Bungee, Geist, Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google"
+import { Bitter, Bungee, Geist } from "next/font/google"
 import "./globals.css"
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { homepageDescription, homepageTitle, siteName, siteUrl } from "@/lib/site-metadata"
@@ -12,19 +12,12 @@ const geistSans = Geist({
   preload: true,
 })
 
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-  preload: true,
-})
-
 const bungee = Bungee({
   subsets: ["latin"],
   weight: "400",
   display: "swap",
   variable: "--font-bungee",
-  preload: true,
+  preload: false,
 })
 
 const bitter = Bitter({
@@ -32,20 +25,6 @@ const bitter = Bitter({
   weight: "600",
   display: "swap",
   variable: "--font-bitter",
-  preload: true,
-})
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-space-grotesk",
-  preload: true,
-})
-
-const jetBrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-jetbrains-mono",
   preload: false,
 })
 
@@ -106,7 +85,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`dark ${geistSans.variable} ${inter.variable} ${bungee.variable} ${bitter.variable} ${spaceGrotesk.variable} ${jetBrainsMono.variable}`}>
+    <html
+      lang="en"
+      className={`dark ${geistSans.variable} ${bungee.variable} ${bitter.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         {/* Default theme-color meta for dynamic update */}
         <meta name="theme-color" content="#09090b" />

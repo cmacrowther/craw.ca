@@ -55,7 +55,6 @@ export function ProjectShowcaseCard({
     <Link
       href={`/projects/${project.slug}`}
       data-stagger={stagger ? true : undefined}
-      aria-label={`Open ${project.title} project page`}
       className={`group relative isolate block overflow-hidden border border-white/10 bg-[#080808] transition-all duration-500 hover:-translate-y-1 hover:border-white/30 hover:shadow-2xl hover:shadow-black/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-4 ${featured ? "h-[510px] rounded-[2rem] sm:h-[590px] lg:h-[640px]" : "h-[400px] rounded-3xl"} ${className}`.trim()}
     >
       <div
@@ -134,6 +133,10 @@ export function ProjectShowcaseCard({
                     src={project.logo}
                     alt=""
                     aria-hidden="true"
+                    width={396}
+                    height={419}
+                    loading="lazy"
+                    decoding="async"
                     className={`${featuredLogoClass} w-auto shrink-0 object-contain`}
                   />
                   <span className={`font-[family-name:var(--font-bitter)] font-[600] leading-none tracking-[-0.035em] text-white ${featured ? "text-[2.6rem] sm:text-5xl" : "text-[1.65rem]"}`}>
@@ -156,6 +159,8 @@ export function ProjectShowcaseCard({
                   <img
                     src={project.logo}
                     alt={project.title}
+                    loading="lazy"
+                    decoding="async"
                     className="h-full w-full"
                   />
                 </span>
@@ -167,6 +172,8 @@ export function ProjectShowcaseCard({
                   <img
                     src={project.logo}
                     alt="JavaScript"
+                    loading="lazy"
+                    decoding="async"
                     className={`${featured ? "size-11" : "size-7"} shrink-0 object-contain`}
                   />
                 </span>
@@ -176,10 +183,14 @@ export function ProjectShowcaseCard({
                     src={project.logo}
                     alt=""
                     aria-hidden="true"
+                    width={532}
+                    height={418}
+                    loading="lazy"
+                    decoding="async"
                     className={`${featuredLogoClass} w-auto shrink-0 object-contain`}
                   />
                   <span className="inline-flex min-w-0 items-baseline gap-2">
-                    <span className={`font-[family-name:var(--font-inter)] font-extrabold leading-none tracking-[-0.045em] text-white ${featured ? "text-[2.5rem] sm:text-5xl" : "text-[1.6rem]"}`}>
+                    <span className={`font-[family-name:var(--font-geist-sans)] font-extrabold leading-none tracking-[-0.045em] text-white ${featured ? "text-[2.5rem] sm:text-5xl" : "text-[1.6rem]"}`}>
                       RE<span className="text-[rgba(255,137,24,1)]">F</span>EREE
                     </span>
                     <span className={`font-sans font-bold leading-none tracking-[-0.035em] text-white ${featured ? "text-[2.25rem] sm:text-4xl" : "text-[1.5rem]"}`}>
@@ -193,9 +204,13 @@ export function ProjectShowcaseCard({
                     src={project.logo}
                     alt=""
                     aria-hidden="true"
+                    width={532}
+                    height={418}
+                    loading="lazy"
+                    decoding="async"
                     className={`${featuredLogoClass} w-auto shrink-0 object-contain`}
                   />
-                  <span className={`font-[family-name:var(--font-inter)] font-extrabold leading-none tracking-[-0.045em] text-white ${featured ? "text-[2.6rem] sm:text-5xl" : "text-[1.65rem]"}`}>
+                  <span className={`font-[family-name:var(--font-geist-sans)] font-extrabold leading-none tracking-[-0.045em] text-white ${featured ? "text-[2.6rem] sm:text-5xl" : "text-[1.65rem]"}`}>
                     RE<span className="text-[rgba(255,137,24,1)]">F</span>EREE
                   </span>
                 </span>
@@ -205,6 +220,10 @@ export function ProjectShowcaseCard({
                     src={project.logo}
                     alt=""
                     aria-hidden="true"
+                    width={85}
+                    height={83}
+                    loading="lazy"
+                    decoding="async"
                     className={`${featuredLogoClass} w-auto shrink-0 object-contain`}
                   />
                   <span className={`font-mono font-bold leading-none tracking-[-0.045em] text-white ${featured ? "text-[2.5rem] sm:text-5xl" : "text-[1.6rem]"}`}>
@@ -217,6 +236,8 @@ export function ProjectShowcaseCard({
                     src={project.logo}
                     alt=""
                     aria-hidden="true"
+                    loading="lazy"
+                    decoding="async"
                     className={`${featured ? "size-14" : "size-10"} shrink-0 object-contain`}
                   />
                   <span className={`font-sans font-bold leading-none tracking-[-0.035em] text-white ${featured ? "text-[2.6rem] sm:text-5xl" : "text-[1.65rem]"}`}>
@@ -227,6 +248,8 @@ export function ProjectShowcaseCard({
                 <img
                   src={project.logo}
                   alt={project.title}
+                  loading="lazy"
+                  decoding="async"
                   className={`${featured ? "h-12 sm:h-14" : project.logoCardClassName ?? "h-8 md:h-9"} w-auto max-w-full object-contain object-left`}
                 />
               ) : (

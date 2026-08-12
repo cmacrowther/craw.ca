@@ -51,7 +51,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="site-link-muted"
               >
-                <SiGithub className="size-5" />
+                <SiGithub className="size-5" aria-hidden="true" />
                 <span className="sr-only">GitHub</span>
               </a>
               <a
@@ -60,7 +60,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="site-link-muted"
               >
-                <SiGitlab className="size-5" />
+                <SiGitlab className="size-5" aria-hidden="true" />
                 <span className="sr-only">GitLab</span>
               </a>
               <a
@@ -69,7 +69,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="site-link-muted"
               >
-                <FaLinkedin className="size-5" />
+                <FaLinkedin className="size-5" aria-hidden="true" />
                 <span className="sr-only">LinkedIn</span>
               </a>
               <a
@@ -78,14 +78,14 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="site-link-muted"
               >
-                <SiDocker className="size-5" />
+                <SiDocker className="size-5" aria-hidden="true" />
                 <span className="sr-only">Docker Hub</span>
               </a>
               <a
                 href="mailto:hello@cmacrowther.com"
                 className="site-link-muted"
               >
-                <HiMail className="size-5" />
+                <HiMail className="size-5" aria-hidden="true" />
                 <span className="sr-only">Email</span>
               </a>
             </div>
