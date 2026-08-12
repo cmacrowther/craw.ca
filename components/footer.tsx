@@ -2,12 +2,13 @@ import Link from "next/link"
 import { FaLinkedin } from "react-icons/fa"
 import { HiMail } from "react-icons/hi"
 import { SiDocker, SiGithub, SiGitlab } from "react-icons/si"
+import { ShapeComposition } from "@/components/shape-composition"
 
 export function Footer() {
   return (
     <footer className="border-t border-border/40 bg-card dark:bg-neutral-900">
       <div className="site-container py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="footer-content-grid grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-[1.35fr_0.7fr_0.7fr_1fr] lg:gap-10">
           {/* Brand */}
           <div className="space-y-4">
             <h3 className="text-lg font-heading font-[600]">Colin Crowther</h3>
@@ -90,10 +91,15 @@ export function Footer() {
               </a>
             </div>
           </div>
+
+          {/* A static, grayscale echo of the hero composition. */}
+          <div className="footer-art-container md:col-span-3 lg:col-span-1">
+            <ShapeComposition grayscale />
+          </div>
         </div>
 
         <div className="mt-8 pt-8 border-t border-border/40">
-          <div className="flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
+          <div className="flex flex-col sm:flex-row justify-between space-y-2 sm:space-y-0">
             <p className="font-body text-sm text-muted-foreground">
               © {new Date().getFullYear()} Colin Crowther. All rights reserved.
             </p>

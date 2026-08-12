@@ -1,32 +1,106 @@
-import { ArrowDown, ArrowUpRight } from "lucide-react"
+"use client"
 
-function HeroColorComposition() {
-  return (
-    <div className="hero-art-stage" aria-hidden="true">
-      <span className="hero-art-grid" />
-      <span className="hero-art-shape hero-art-shape-blue" />
-      <span className="hero-art-shape hero-art-shape-pink" />
-      <span className="hero-art-shape hero-art-shape-yellow" />
-      <span className="hero-art-shape hero-art-shape-purple" />
-      <span className="hero-art-pixel hero-art-pixel-one" />
-      <span className="hero-art-pixel hero-art-pixel-two" />
-      <span className="hero-art-pixel hero-art-pixel-three" />
-      <span className="hero-art-pixel hero-art-pixel-four" />
-    </div>
-  )
-}
+import { useEffect, useRef, useState } from "react"
+import dynamic from "next/dynamic"
+import { ArrowDown, ArrowUpRight } from "lucide-react"
+import { ShapeComposition } from "@/components/shape-composition"
+
+const ThreeWaveBackground = dynamic(
+  () => import("./three-wave-background").then((module) => module.ThreeWaveBackground),
+  { ssr: false }
+)
+
+const TypewriterEffect = dynamic(
+  () => import("./ui/typewriter-effect").then((module) => module.TypewriterEffect),
+  { ssr: false }
+)
 
 export function HeroSection() {
+  const [isVisible, setIsVisible] = useState(false)
+  const [showTyped, setShowTyped] = useState(false)
+  const [showBackground, setShowBackground] = useState(false)
+  const heroRef = useRef<HTMLElement>(null)
+  const pointerFrame = useRef<number | null>(null)
+  const pointerPosition = useRef({ x: 50, y: 50 })
+
+  useEffect(() => {
+    const entranceFrame = window.requestAnimationFrame(() => setIsVisible(true))
+    const backgroundTimer = window.setTimeout(() => setShowBackground(true), 250)
+    const typewriterTimer = window.setTimeout(() => setShowTyped(true), 780)
+
+    return () => {
+      window.cancelAnimationFrame(entranceFrame)
+      window.clearTimeout(backgroundTimer)
+      window.clearTimeout(typewriterTimer)
+      if (pointerFrame.current !== null) {
+        window.cancelAnimationFrame(pointerFrame.current)
+      }
+    }
+  }, [])
+
+  const updatePointerPosition = (clientX: number, clientY: number) => {
+    const hero = heroRef.current
+    if (!hero) return
+
+    const bounds = hero.getBoundingClientRect()
+    pointerPosition.current = {
+      x: ((clientX - bounds.left) / bounds.width) * 100,
+      y: ((clientY - bounds.top) / bounds.height) * 100,
+    }
+
+    if (pointerFrame.current !== null) return
+
+    pointerFrame.current = window.requestAnimationFrame(() => {
+      const section = heroRef.current
+      if (section) {
+        section.style.setProperty("--hero-pointer-x", `${pointerPosition.current.x}%`)
+        section.style.setProperty("--hero-pointer-y", `${pointerPosition.current.y}%`)
+      }
+      pointerFrame.current = null
+    })
+  }
+
   return (
     <section
       id="home"
+      ref={heroRef}
       className="hero-section relative isolate min-h-[calc(100svh-4rem)] overflow-hidden"
+      onPointerEnter={(event) => {
+        if (event.pointerType !== "mouse") return
+        event.currentTarget.style.setProperty("--hero-pointer-active", "1")
+        updatePointerPosition(event.clientX, event.clientY)
+      }}
+      onPointerMove={(event) => {
+        if (event.pointerType === "mouse") {
+          updatePointerPosition(event.clientX, event.clientY)
+        }
+      }}
+      onPointerLeave={(event) => {
+        if (event.pointerType === "mouse") {
+          event.currentTarget.style.setProperty("--hero-pointer-active", "0")
+        }
+      }}
     >
+      <div
+        className="absolute inset-0 z-0 transition-opacity duration-[1400ms] ease-out motion-reduce:transition-none"
+        style={{ opacity: isVisible && showBackground ? 1 : 0 }}
+        aria-hidden="true"
+      >
+        {showBackground && <ThreeWaveBackground />}
+      </div>
+
       <div className="hero-grid absolute inset-0 z-[1]" aria-hidden="true" />
       <div className="hero-glow absolute inset-0 z-[1]" aria-hidden="true" />
+      <div className="hero-cursor-light absolute inset-0 z-[1]" aria-hidden="true" />
 
       <div className="site-container relative z-[2] flex min-h-[calc(100svh-4rem)] items-center py-16">
-        <div className="grid w-full items-center gap-12 lg:grid-cols-[minmax(0,1.16fr)_minmax(24rem,0.84fr)] lg:gap-16">
+        <div
+          className="grid w-full items-center gap-12 transition-[opacity,transform] duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transform-none motion-reduce:transition-none lg:grid-cols-[minmax(0,1.16fr)_minmax(24rem,0.84fr)] lg:gap-16"
+          style={{
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? "translateY(0)" : "translateY(20px)",
+          }}
+        >
           <div className="hero-copy max-w-4xl">
             <h1 className="max-w-4xl font-heading text-5xl font-[650] leading-[0.94] tracking-[-0.055em] text-white/80 sm:text-6xl md:text-7xl lg:text-[5.35rem]">
               Digital work
@@ -42,9 +116,20 @@ export function HeroSection() {
             <div className="hero-terminal mt-8 flex min-h-12 max-w-2xl items-center gap-3 border-y border-white/12 py-3 font-mono text-sm text-white/70 sm:text-base">
               <span className="shrink-0 text-white/35">///</span>
               <span className="shrink-0 text-white/45">now:</span>
-              <span className="min-w-0 flex-1 text-white/90">
-                Building thoughtful web experiences.
-                <span className="ml-1 animate-pulse" aria-hidden="true">_</span>
+              <span className="min-w-0 flex-1 text-white/90" aria-live="polite">
+                {showTyped && (
+                  <TypewriterEffect
+                    strings={[
+                      "Building thoughtful web experiences.",
+                      "Bridging design and engineering.",
+                      "Exploring the next useful idea.",
+                    ]}
+                    typeSpeed={44}
+                    backSpeed={18}
+                    backDelay={3000}
+                    cursorChar="_"
+                  />
+                )}
               </span>
             </div>
 
@@ -61,13 +146,17 @@ export function HeroSection() {
           </div>
 
           <div className="hero-art-container w-full max-w-xl justify-self-end">
-            <HeroColorComposition />
+            <ShapeComposition />
           </div>
         </div>
       </div>
 
       {/* Keep the site-wide pixel texture over the whole hero, including its copy. */}
-      <div className="pixel-overlay absolute inset-0" aria-hidden="true" />
+      <div
+        className="pixel-overlay absolute inset-0 transition-opacity duration-[1400ms] ease-out motion-reduce:transition-none"
+        style={{ opacity: isVisible ? 1 : 0 }}
+        aria-hidden="true"
+      />
     </section>
   )
 }

@@ -100,6 +100,19 @@
     linear-gradient(90deg, rgb(17 17 17 / 0.18), transparent 62%, rgb(17 17 17 / 0.34));
 }
 
+.hero-cursor-light {
+  opacity: var(--hero-pointer-active, 0);
+  background: radial-gradient(circle 17rem at var(--hero-pointer-x, 50%) var(--hero-pointer-y, 50%), rgb(255 255 255 / 0.1), transparent 68%);
+  transition: opacity 500ms ease;
+  will-change: background-position, opacity;
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .hero-cursor-light {
+    display: none;
+  }
+}
+
 .hero-status-dot {
   width: 0.45rem;
   height: 0.45rem;
@@ -640,6 +653,7 @@
   aspect-ratio: 1;
   background: #60a5fa;
   transform: rotate(-10deg);
+  animation: hero-art-blue-float 11s ease-in-out infinite;
 }
 
 .hero-art-shape-pink {
@@ -650,6 +664,7 @@
   aspect-ratio: 1;
   border-radius: 50%;
   background: #fb7185;
+  animation: hero-art-pink-bob 7s ease-in-out infinite;
 }
 
 .hero-art-shape-yellow {
@@ -660,6 +675,7 @@
   aspect-ratio: 1;
   background: #fbbf24;
   clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  animation: hero-art-yellow-turn 9s ease-in-out infinite;
 }
 
 .hero-art-shape-purple {
@@ -671,6 +687,7 @@
   border-radius: 999px;
   background: #a78bfa;
   transform: rotate(18deg);
+  animation: hero-art-purple-slide 8s ease-in-out infinite;
 }
 
 .hero-art-pixel {
@@ -683,6 +700,7 @@
 .hero-art-pixel-one {
   top: 18%;
   left: 12%;
+  animation: hero-art-pixel-bob 5.5s ease-in-out infinite;
 }
 
 .hero-art-pixel-two {
@@ -691,6 +709,7 @@
   width: 0.55rem;
   height: 0.55rem;
   background: #fb7185;
+  animation: hero-art-pixel-bob 6.5s ease-in-out -2s infinite;
 }
 
 .hero-art-pixel-three {
@@ -699,6 +718,7 @@
   width: 0.55rem;
   height: 0.55rem;
   background: #fbbf24;
+  animation: hero-art-pixel-bob 5.8s ease-in-out -1s infinite;
 }
 
 .hero-art-pixel-four {
@@ -707,6 +727,32 @@
   width: 0.42rem;
   height: 0.42rem;
   background: #a78bfa;
+  animation: hero-art-pixel-bob 7.2s ease-in-out -3.5s infinite;
+}
+
+@keyframes hero-art-blue-float {
+  0%, 100% { transform: translate(0, 0) rotate(-10deg); }
+  50% { transform: translate(-0.7rem, -0.9rem) rotate(-5deg); }
+}
+
+@keyframes hero-art-pink-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(1.1rem); }
+}
+
+@keyframes hero-art-yellow-turn {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-0.5rem, -0.5rem) rotate(8deg); }
+}
+
+@keyframes hero-art-purple-slide {
+  0%, 100% { transform: translateX(0) rotate(18deg); }
+  50% { transform: translateX(1rem) rotate(13deg); }
+}
+
+@keyframes hero-art-pixel-bob {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(0.45rem, -0.55rem); }
 }
 
 /* On phones, the colour composition becomes a quiet backdrop behind the copy
@@ -782,6 +828,122 @@
 @media (min-width: 1024px) {
   .hero-art-stage {
     min-height: 29rem;
+  }
+}
+
+/* The footer repeats the hero composition at a smaller scale. Its neutral
+   palette works in both themes and is intentionally motion-free. */
+.footer-art-container {
+  width: 11.5rem;
+  max-width: 100%;
+  align-self: center;
+  justify-self: start;
+}
+
+.footer-content-grid {
+  position: relative;
+  isolation: isolate;
+}
+
+.footer-art-stage {
+  position: relative;
+  top: auto;
+  left: auto;
+  width: 100%;
+  min-height: 0;
+  aspect-ratio: 1;
+  overflow: hidden;
+  transform: none;
+}
+
+.footer-art-stage .hero-art-shape,
+.footer-art-stage .hero-art-pixel {
+  animation: none;
+}
+
+.footer-art-stage .hero-art-shape-blue {
+  top: 20%;
+  left: 18%;
+  width: 5rem;
+  background: #737373;
+}
+
+.footer-art-stage .hero-art-shape-pink {
+  top: 9%;
+  right: 10%;
+  width: 3.1rem;
+  background: #d4d4d4;
+}
+
+.footer-art-stage .hero-art-shape-yellow {
+  right: 11%;
+  bottom: 17%;
+  width: 2.7rem;
+  background: #a3a3a3;
+}
+
+.footer-art-stage .hero-art-shape-purple {
+  bottom: 15%;
+  left: 10%;
+  width: 4rem;
+  height: 1.5rem;
+  background: #525252;
+}
+
+.footer-art-stage .hero-art-pixel {
+  width: 0.38rem;
+  height: 0.38rem;
+  background: #a3a3a3;
+}
+
+.footer-art-stage .hero-art-pixel-two,
+.footer-art-stage .hero-art-pixel-three {
+  width: 0.26rem;
+  height: 0.26rem;
+}
+
+.footer-art-stage .hero-art-pixel-four {
+  width: 0.2rem;
+  height: 0.2rem;
+}
+
+.footer-art-stage .hero-art-pixel-one { top: 19%; left: 11%; }
+.footer-art-stage .hero-art-pixel-two { top: 48%; right: 8%; }
+.footer-art-stage .hero-art-pixel-three { bottom: 12%; left: 44%; }
+.footer-art-stage .hero-art-pixel-four { top: 14%; left: 57%; }
+
+@media (max-width: 767px) {
+  .footer-content-grid > :not(.footer-art-container) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-art-container {
+    position: absolute;
+    top: 0.5rem;
+    right: -1rem;
+    z-index: 0;
+    justify-self: auto;
+    opacity: 0.12;
+    pointer-events: none;
+    transform: scale(1.18);
+    transform-origin: top right;
+  }
+
+  .dark .footer-art-container {
+    opacity: 0.16;
+  }
+}
+
+@media (min-width: 768px) {
+  .footer-art-container {
+    justify-self: center;
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer-art-container {
+    transform: translateX(clamp(-3rem, -3vw, -2rem));
   }
 }
 
