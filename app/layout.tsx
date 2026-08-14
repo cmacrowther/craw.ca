@@ -2,7 +2,6 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Bitter, Bungee, Geist } from "next/font/google"
 import "./globals.css"
-import { SpeedInsights } from '@vercel/speed-insights/next'
 import { homepageDescription, homepageTitle, siteName, siteUrl } from "@/lib/site-metadata"
 
 const geistSans = Geist({
@@ -115,7 +114,6 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         {children}
-        <SpeedInsights />
       </body>
     </html>
   )

@@ -1,6 +1,6 @@
 # Colin Crowther — Developer Portfolio
 
-![Vercel Deployment](https://img.shields.io/badge/Deployed-Vercel-000000?style=for-the-badge&logo=vercel)
+![Cloudflare Workers](https://img.shields.io/badge/Deployed-Cloudflare_Workers-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)
 ![Next.js](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js)
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
@@ -13,7 +13,7 @@
 
 ## Overview
 
-Source code for [cmacrowther.com](https://cmacrowther.com) — my personal portfolio and project hub. Built with a focus on performance, accessibility, and visual polish.
+Source code for [craw.ca](https://craw.ca) — my personal portfolio and project hub. The Next.js frontend is exported at build time and served through Cloudflare Workers Static Assets. A small native Worker handles the contact endpoint.
 
 ## Tech Stack
 
@@ -24,21 +24,21 @@ Source code for [cmacrowther.com](https://cmacrowther.com) — my personal portf
 | Styling | [Tailwind CSS v4](https://tailwindcss.com/) |
 | Components | [shadcn/ui](https://ui.shadcn.com/) / [Radix UI](https://www.radix-ui.com/) |
 | 3D / Animation | [Three.js](https://threejs.org/) / [@react-three/fiber](https://docs.pmnd.rs/react-three-fiber) |
-| Forms | [React Hook Form](https://react-hook-form.com/) / [Zod](https://zod.dev/) |
-| Email | [Resend](https://resend.com/) |
+| Hosting | [Cloudflare Workers Static Assets](https://developers.cloudflare.com/workers/static-assets/) |
+| Email | [Resend API](https://resend.com/) via Cloudflare Worker |
 | Icons | [Lucide React](https://lucide.dev/) |
-| Analytics | [Vercel Speed Insights](https://vercel.com/docs/speed-insights) |
 
 ## Project Structure
 
 ```
-app/                  # Next.js app router pages and API routes
+app/                  # Statically exported Next.js App Router pages
 components/           # React components (sections, UI, backgrounds)
   ui/                 # Reusable low-level UI primitives
 hooks/                # Custom React hooks
 lib/                  # Shared utilities and project data
 public/               # Static assets, fonts, and web manifest
-styles/               # Global CSS
+worker/               # Cloudflare Worker API handler
+wrangler.jsonc        # Workers, assets, rate limits, and runtime config
 ```
 
 ## Getting Started
@@ -53,9 +53,11 @@ Open [http://localhost:3000](http://localhost:3000) to view the site locally.
 | Command | Description |
 |---|---|
 | `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint |
+| `npm run build` | Export the production site to `out/` |
+| `npm run check` | Run TypeScript validation |
+| `npm run preview` | Build and preview with the Workers runtime |
+| `npm run deploy` | Build and deploy the Worker and static assets |
+| `npm run types:cloudflare` | Regenerate Cloudflare binding types |
 
 ## License
 

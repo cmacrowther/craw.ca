@@ -19,6 +19,7 @@ export function ContactSection() {
     email: "",
     subject: "",
     message: "",
+    website: "",
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -38,11 +39,11 @@ export function ContactSection() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       })
-      const data = await response.json()
+      const data = (await response.json()) as { error?: string }
 
       if (response.ok) {
         setShowSuccess(true)
-        setFormData({ name: "", email: "", subject: "", message: "" })
+        setFormData({ name: "", email: "", subject: "", message: "", website: "" })
         setTimeout(() => setShowSuccess(false), 3500)
       } else {
         setError(data.error || "Something went wrong. Please try again later.")
@@ -115,6 +116,17 @@ export function ContactSection() {
             ) : (
               <div className="border-t border-white/15 pt-8">
                   <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="absolute -left-[10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+                    <Label htmlFor="contact-website">Website</Label>
+                    <Input
+                      id="contact-website"
+                      name="website"
+                      value={formData.website}
+                      onChange={handleChange}
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
+                  </div>
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <div className="space-y-2">
                       <Label htmlFor="name" className="text-sm font-medium text-white/85">Name</Label>
