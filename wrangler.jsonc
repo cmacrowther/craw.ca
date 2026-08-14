@@ -12,7 +12,7 @@
   },
   "vars": {
     "CONTACT_FROM_EMAIL": "Contact Form <onboarding@resend.dev>",
-    "CONTACT_TO_EMAIL": "colin@craw.ca"
+    "CONTACT_TO_EMAIL": "cmacrowther@gmail.com"
   },
   "secrets": {
     "required": ["RESEND_API_KEY"]
