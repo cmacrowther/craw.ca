@@ -14,6 +14,7 @@ const initialFormData = {
   application: "",
   subject: "",
   message: "",
+  website: "",
 }
 
 export function SupportContactForm() {
@@ -39,10 +40,11 @@ export function SupportContactForm() {
             : formData.subject,
           message: formData.message,
           source: "support",
+          website: formData.website,
         }),
       })
 
-      const data = await response.json()
+      const data = (await response.json()) as { error?: string }
       if (!response.ok) {
         setError(data.error || "Something went wrong. Please try again later.")
         return
@@ -78,6 +80,17 @@ export function SupportContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+      <div className="absolute -left-[10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+        <Label htmlFor="support-website">Website</Label>
+        <Input
+          id="support-website"
+          name="website"
+          value={formData.website}
+          onChange={handleChange}
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="name" className="text-white/90">Name</Label>
